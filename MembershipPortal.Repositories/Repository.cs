@@ -1,5 +1,6 @@
 ﻿using MembershipPortal.Data;
 using MembershipPortal.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace MembershipPortal.Repositories
 {
@@ -10,29 +11,35 @@ namespace MembershipPortal.Repositories
         {
             this._dbContext = dbContext;
         }
-        public Task<T> CreateAsync(T entity)
+        public async Task<T> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<bool> DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+           _dbContext.Set<T>().Remove(entity);
+            int row = await _dbContext.SaveChangesAsync();  
+           return row > 0;
         }
 
-        public Task<IEnumerable<T>> GetAsyncAll()
+        public async Task<IEnumerable<T>> GetAsyncAll()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public Task<T> GetAsyncById(int id)
+        public async Task<T> GetAsyncById(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<T>().Update(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }
