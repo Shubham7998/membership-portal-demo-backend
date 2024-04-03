@@ -1,0 +1,37 @@
+﻿@MembershipPortal.API_HostAddress = http://localhost:5224
+
+GET {{MembershipPortal.API_HostAddress}}/api/tax
+
+
+
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/tax
+Content-Type: application/json
+
+{
+  "SGST" : 1,
+  "CGST" : 2
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/tax/2
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/tax/1
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/tax/1
+Content-Type: application/json
+
+{
+  "Id" : 1,
+  "SGST" : 2,
+  "CGST" : 3
+}
+
+###

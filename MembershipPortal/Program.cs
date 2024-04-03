@@ -1,4 +1,8 @@
 using MembershipPortal.Data;
+using MembershipPortal.IRepositories;
+using MembershipPortal.IServices;
+using MembershipPortal.Repositories;
+using MembershipPortal.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,9 @@ var connectionString = configuration.GetConnectionString("connectionStringHemant
 
 builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));    
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ITaxRepository, TaxRepository>();
+builder.Services.AddScoped<ITaxService, TaxService>(); 
 
 var app = builder.Build();
 

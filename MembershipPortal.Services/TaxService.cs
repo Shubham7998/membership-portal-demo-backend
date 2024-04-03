@@ -14,6 +14,10 @@ namespace MembershipPortal.Services
     public class TaxService : ITaxService
     {
         private readonly ITaxRepository _taxRepository;
+        public TaxService(ITaxRepository taxRepository)
+        {
+            _taxRepository = taxRepository;
+        }
         public async Task<GetTaxDTO> CreateTaxAsync(CreateTaxDTO taxDTO)
         {
             try
@@ -39,9 +43,9 @@ namespace MembershipPortal.Services
         {
             try
             {
+                if (Id < 0) throw new ArgumentOutOfRangeException(nameof(Id));
                 var tax = await _taxRepository.GetAsyncById(Id);
-                var result = await _taxRepository.DeleteAsync(tax);
-                return result;
+                return await _taxRepository.DeleteAsync(tax);
             }
             catch (Exception)
             {
@@ -89,15 +93,23 @@ namespace MembershipPortal.Services
 
         public async Task<GetTaxDTO> UpdateTaxAsync(long Id, UpdateTaxDTO taxDTO)
         {
-            var oldTax = await _taxRepository.GetAsyncById(Id);
-            if (oldTax != null)
+            try
             {
-                oldTax.SGST = taxDTO.SGST;
-                oldTax.CGST = taxDTO.CGST;
-                await _taxRepository.UpdateAsync(oldTax);
-                return new GetTaxDTO(oldTax.Id, oldTax.SGST, oldTax.CGST);
+                var oldTax = await _taxRepository.GetAsyncById(Id);
+                if (oldTax != null)
+                {
+                    oldTax.SGST = taxDTO.SGST;
+                    oldTax.CGST = taxDTO.CGST;
+                    await _taxRepository.UpdateAsync(oldTax);
+                    return new GetTaxDTO(oldTax.Id, oldTax.SGST, oldTax.CGST);
+                }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
