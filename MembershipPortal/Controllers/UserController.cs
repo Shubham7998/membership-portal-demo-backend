@@ -26,7 +26,17 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var user = await _userService.GetUsersAsync();
-                return Ok(user);
+                if(user == null)
+                {
+                    return StatusCode(204, $"Table is Empty");
+
+                }
+                else
+                {
+                    return Ok(user);
+                }
+              
+                
             }
             catch (Exception ex)
             {
@@ -45,9 +55,10 @@ namespace MembershipPortal.API.Controllers
                 var user = await _userService.GetUserAsync(id);
                 if (user == null)
                 {
-                    return NotFound();
+                    return StatusCode(204, $"Id not present in the table");
                 }
                 return Ok(user);
+
             }
             catch (Exception ex)
             {
