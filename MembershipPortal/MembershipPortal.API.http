@@ -36,3 +36,37 @@ Content-Type: application/json
 GET {{MembershipPortal.API_HostAddress}}/api/product
 
 ###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/0
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/1
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "GenderName" : "Male"
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/gender/5
+Content-Type: application/json
+
+{
+  "genderName": "Malee"
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/0
+
+###

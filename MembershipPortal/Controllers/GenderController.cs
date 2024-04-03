@@ -3,6 +3,7 @@ using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,81 +23,116 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<GenderController>
         [HttpGet]
-        public async Task<IEnumerable<GetGenderDTO>> Get()
+        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get()
         {
             try{
                 var genders = await _genderService.GetGendersAsync();
 
-                return genders;
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                if(genders.Count() != 0)
+                {
+                  
+                     return Ok(genders);
+                }
+                else
+                {
+                    return NotFound("The resource to be disply was not found.Table is empty.");
+                }
 
             }
-            return null;
+            catch(Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+
+            }
         }
 
         // GET api/<GenderController>/5
         [HttpGet("{id}")]
-        public async Task<GetGenderDTO> Get(long id)
+        public async Task<ActionResult<GetGenderDTO>> Get(long id)
         {
             try
             {
                 var gender = await _genderService.GetGenderAsync(id);
-                return gender;
+                if (gender != null)
+                {
+                    return Ok(gender);
+                }
+                else
+                {
+                    return NotFound("The resource to be updated was not found.");
+                }
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
             }
             return null;
         }
 
         // POST api/<GenderController>
         [HttpPost]
-        public async Task<GetGenderDTO> Post([FromBody] CreateGenderDTO genderDTO)
+        public async Task<ActionResult<GetGenderDTO>> Post([FromBody] CreateGenderDTO genderDTO)
         {
             try
             {
                 var gender = await _genderService.CreateGenderAsync(genderDTO);
-
-                return gender;
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                return Ok(gender);
+                
             }
-            return null;
+            catch(Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+            }
         }
 
         // PUT api/<GenderController>/5
         [HttpPut("{id}")]
-        public async Task<GetGenderDTO> Put(long id, UpdateGenderDTO genderDTO)
+        public async Task<ActionResult<GetGenderDTO>> Put(long id, UpdateGenderDTO genderDTO)
         {
+            
+
             try
             {
                 var genders = await _genderService.UpdateGenderAsync(id, genderDTO);
 
-                return genders;
+                if (genders != null)
+                {
+                    return Ok(genders);
+                }
+                else
+                {
+                    return NotFound("The resource to be updated was not found.");
+                }
+
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
             }
-            return null;
         }
 
         // DELETE api/<GenderController>/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(int id)
+        public async Task<IActionResult> Delete(long id)
         {
             try
             {
-                var gender = await _genderService.DeleteGenderAsync(id);
+                var genderDeleted = await _genderService.DeleteGenderAsync(id);
 
-                return gender;
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                if (genderDeleted)
+                {
+                    return StatusCode(200, "Gender deleted successfully");
+                }
+                else
+                {
+                    return NotFound("The resource to be deleted was not found.");
+                }
             }
-            return false;
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." +ex.Message);
+            }
         }
+
+
+
     }
 }

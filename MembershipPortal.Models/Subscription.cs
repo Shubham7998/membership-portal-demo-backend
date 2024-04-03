@@ -22,20 +22,26 @@ namespace MembershipPortal.Models
         public long ProductId { get; set; }
 
         public string ProductName { get; set; }
+
         public decimal ProductPrice { get; set; }
 
         public decimal Discount { get; set; }
 
         public string CurrentDate { get; set; }
+
         public string ExpiryDate { get; set; }
+
         public decimal PriceAfterDiscount { get; set; }
+
         public decimal CGST { get; set; }
+
         public decimal SGST { get; set; }
+
         public decimal TotalTax { get; set; }
+
         public decimal TaxAmount { get; set; }
+
         public decimal FinalAmount { get; set; }
-
-
 
     }
 }
