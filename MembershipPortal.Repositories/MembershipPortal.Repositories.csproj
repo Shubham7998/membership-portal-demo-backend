@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MembershipPortal.Data\MembershipPortal.Data.csproj" />
+    <ProjectReference Include="..\MembershipPortal.IRepositories\MembershipPortal.IRepositories.csproj" />
+  </ItemGroup>
+
 </Project>
