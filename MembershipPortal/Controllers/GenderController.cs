@@ -38,11 +38,12 @@ namespace MembershipPortal.API.Controllers
 
         // GET api/<GenderController>/5
         [HttpGet("{id}")]
-        public async Task<Gender> Get(long id)
+        public async Task<GetGenderDTO> Get(long id)
         {
             try
             {
                 var gender = await _genderService.GetGenderAsync(id);
+                return gender;
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);

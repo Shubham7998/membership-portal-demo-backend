@@ -10,12 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("connectionStringHemant");
+var connectionString = configuration.GetConnectionString("connectionStringShubham2");
 
 builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IGenderRepository, GenderRepository>();
+builder.Services.AddScoped<ISubscriberService, SubscriberService>();
+builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
 builder.Services.AddControllers();
 

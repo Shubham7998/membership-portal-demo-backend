@@ -22,3 +22,75 @@ Content-Type: application/json
 
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "genderName" : "Other-OK"
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/3
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/gender/3
+Content-Type: application/json
+
+{
+  "genderName": "Others"
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/4
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber
+Content-Type: application/json
+
+{
+  "FirstName" : "First",
+  "LastName" : "First",
+  "ContactNumber" : "First",
+  "Email" : "First",
+  "GenderId" : 1
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/1
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/subscriber/1
+Content-Type: application/json
+
+{
+  "firstName": "FirstName",
+  "lastName": "First",
+  "contactNumber": "First",
+  "email": "First",
+  "genderId": 1
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscriber/1
+
+###
