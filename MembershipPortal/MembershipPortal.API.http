@@ -22,3 +22,17 @@ Content-Type: application/json
 
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+ "ProductName":"cardio",
+ "Price":34444
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product
+
+###

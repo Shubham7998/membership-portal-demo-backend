@@ -24,9 +24,9 @@ namespace MembershipPortal.Services
                     GenderName = genderDTO.GenderName
                 });
 
-                var getGender = new GetGenderDTO(gender.Id, gender.GenderName);
+                var genderDto = new GetGenderDTO(gender.Id, gender.GenderName);
 
-                return getGender;
+                return genderDto;
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -58,9 +58,9 @@ namespace MembershipPortal.Services
             {
                 var gender = await _genderRepository.GetAsyncById(id);
 
-                var getGender = new GetGenderDTO(gender.Id, gender.GenderName);
+                var genderDto = new GetGenderDTO(gender.Id, gender.GenderName);
 
-                return getGender;
+                return genderDto;
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
