@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MembershipPortal.Repositories\MembershipPortal.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
