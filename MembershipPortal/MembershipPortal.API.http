@@ -27,8 +27,8 @@ POST {{MembershipPortal.API_HostAddress}}/api/product
 Content-Type: application/json
 
 {
- "ProductName":"cardio",
- "Price":34444
+ "ProductName":"efg",
+ "Price":344
 }
 
 ###
@@ -37,36 +37,20 @@ GET {{MembershipPortal.API_HostAddress}}/api/product
 
 ###
 
-DELETE {{MembershipPortal.API_HostAddress}}/api/gender/0
+GET {{MembershipPortal.API_HostAddress}}/api/product/2
 
 ###
 
-DELETE {{MembershipPortal.API_HostAddress}}/api/gender/1
-
-###
-
-GET {{MembershipPortal.API_HostAddress}}/api/gender
-
-###
-
-POST {{MembershipPortal.API_HostAddress}}/api/gender
+PUT {{MembershipPortal.API_HostAddress}}/api/product/2
 Content-Type: application/json
 
 {
-  "GenderName" : "Male"
+ "Id":2,
+ "ProductName":"fat",
+ "Price":454
 }
-
 ###
 
-PUT {{MembershipPortal.API_HostAddress}}/api/gender/5
-Content-Type: application/json
-
-{
-  "genderName": "Malee"
-}
-
-###
-
-DELETE {{MembershipPortal.API_HostAddress}}/api/gender/0
+DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
 
 ###
