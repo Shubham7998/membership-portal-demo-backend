@@ -1,0 +1,39 @@
+﻿@MembershipPortal.API_HostAddress = http://localhost:5224
+
+GET {{MembershipPortal.API_HostAddress}}/api/user
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "FirstName":"Rushi",
+  "LastName":"Bhise",
+  "Email":"pooja@gmail.com",
+  "Password":"pooja@28",
+  "ContactNumber":"1212121212"
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/user/1
+Content-Type: application/json
+
+{
+   "FirstName":"Pooja",
+  "LastName":"Bhise",
+  "Email":"pooja@gmail.com",
+  "Password":"pooja@28",
+  "ContactNumber":"1212121212"
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/user/2
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/User/2
+
+###

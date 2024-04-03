@@ -17,6 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MembershipPortal.Data\MembershipPortal.Data.csproj" />
+    <ProjectReference Include="..\MembershipPortal.IRepositories\MembershipPortal.IRepositories.csproj" />
+    <ProjectReference Include="..\MembershipPortal.IServices\MembershipPortal.IServices.csproj" />
+    <ProjectReference Include="..\MembershipPortal.Repositories\MembershipPortal.Repositories.csproj" />
+    <ProjectReference Include="..\MembershipPortal.Services\MembershipPortal.Services.csproj" />
   </ItemGroup>
 
 </Project>

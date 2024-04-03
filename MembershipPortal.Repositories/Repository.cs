@@ -30,7 +30,7 @@ namespace MembershipPortal.Repositories
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetAsyncById(int id)
+        public async Task<T> GetAsyncById(long id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
