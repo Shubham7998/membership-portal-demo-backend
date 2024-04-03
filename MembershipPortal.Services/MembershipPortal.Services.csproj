@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MembershipPortal.IRepositories\MembershipPortal.IRepositories.csproj" />
+    <ProjectReference Include="..\MembershipPortal.IServices\MembershipPortal.IServices.csproj" />
+  </ItemGroup>
+
 </Project>
