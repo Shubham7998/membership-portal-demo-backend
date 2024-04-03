@@ -10,7 +10,7 @@ namespace MembershipPortal.IServices
     public interface IProductService
     {
 
-        public Task<IEnumerable<GetProductDTO>> GetProductAsync();
+        public Task<IEnumerable<GetProductDTO>> GetProductsAsync();
         public Task<GetProductDTO> GetProductAsync(long Id);
 
         public Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO);

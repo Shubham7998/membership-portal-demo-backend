@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.DTOs;
 using MembershipPortal.IRepositories;
 using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,36 +14,129 @@ namespace MembershipPortal.Services
     public  class ProductService : IProductService
     {
 
-        private readonly IProductRepository productRepository;
+        private readonly IProductRepository _productRepository;
 
         public ProductService (IProductRepository productRepository)
         {
-            this.productRepository = productRepository;
+           _productRepository = productRepository;
         }
 
-        public Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO)
+        public async Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = await _productRepository.CreateAsync(new Product()
+                {
+                    ProductName = createProductDTO.ProductName,
+                    Price = createProductDTO.Price,
+
+                });
+                return new GetProductDTO(
+                    product.Id,
+                    product.ProductName,
+                    product.Price
+                    );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
+                throw; ;
+            }
+
+
         }
 
-        public Task<bool> DeleteProductAsync(long Id)
+        public async Task<bool> DeleteProductAsync(long Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = await _productRepository.GetAsyncById(Id);
+                if (product != null)
+                {
+
+                    await _productRepository.DeleteAsync(product);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
+                throw;
+            }
+            return false;
         }
 
-        public Task<IEnumerable<GetProductDTO>> GetProductAsync()
+        public async Task<IEnumerable<GetProductDTO>> GetProductsAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var products = await _productRepository.GetAsyncAll();
+
+                var productDTO = products.Select(product => new GetProductDTO(
+
+                    product.Id,
+                    product.ProductName,
+                    product.Price
+                    ));
+                return productDTO;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
+                throw;
+            }
         }
 
-        public Task<GetProductDTO> GetProductAsync(long Id)
+        public async Task<GetProductDTO> GetProductAsync(long Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = await _productRepository.GetAsyncById(Id);
+
+                return new GetProductDTO(
+
+                        product.Id,
+                        product.ProductName,
+                        product.Price
+                        );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
+               
+                return null;
+            }
+           
         }
 
-        public Task<GetProductDTO> UpdateProductAsync(long id, UpdateProductDTO updateProductDTO)
+
+        public async Task<GetProductDTO> UpdateProductAsync(long id, UpdateProductDTO updateProductDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var oldProduct = await _productRepository.GetAsyncById(id);
+                if (oldProduct != null)
+                {
+                    oldProduct.ProductName = updateProductDTO.ProductName;
+                    oldProduct.Price = updateProductDTO.Price;
+
+                    return new GetProductDTO(
+
+                           oldProduct.Id,
+                           oldProduct.ProductName,
+                           oldProduct.Price
+                           );
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
+                throw;
+
+            }
         }
     }
 }
