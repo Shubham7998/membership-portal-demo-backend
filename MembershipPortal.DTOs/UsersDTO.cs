@@ -13,9 +13,9 @@ namespace MembershipPortal.DTOs
 
             string FirstName,
             string LastName,
-             [Required(ErrorMessage ="Email is Requried")]
+             [Required(ErrorMessage ="Email is Required")]
             string Email,
-            [Required(ErrorMessage = "Password is Requried")]
+            [Required(ErrorMessage = "Password is Required")]
             string Password,
             string ContactNumber
             );
@@ -25,9 +25,9 @@ namespace MembershipPortal.DTOs
             long Id,
             string FirstName,
             string LastName,
-            [Required(ErrorMessage ="Email is Requried")]
+            [Required(ErrorMessage ="Email is Required")]
             string Email,
-            [Required(ErrorMessage = "Password is Requried")]
+            [Required(ErrorMessage = "Password is Required")]
             string Password,
             string ContactNumber
             );
@@ -36,9 +36,9 @@ namespace MembershipPortal.DTOs
              long Id,
             string FirstName,
             string LastName,
-            [Required(ErrorMessage ="Email is Requried")]
+            [Required(ErrorMessage ="Email is Required")]
             string Email,
-            [Required(ErrorMessage = "Password is Requried")]
+            [Required(ErrorMessage = "Password is Required")]
             string Password,
             string ContactNumber
 
