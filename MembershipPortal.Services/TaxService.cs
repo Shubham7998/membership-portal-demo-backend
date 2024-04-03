@@ -100,8 +100,8 @@ namespace MembershipPortal.Services
                 {
                     oldTax.SGST = taxDTO.SGST;
                     oldTax.CGST = taxDTO.CGST;
-                    await _taxRepository.UpdateAsync(oldTax);
-                    return new GetTaxDTO(oldTax.Id, oldTax.SGST, oldTax.CGST);
+                    var tax = await _taxRepository.UpdateAsync(oldTax);
+                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST);
                 }
                 return null;
             }
