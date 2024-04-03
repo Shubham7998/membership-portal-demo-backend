@@ -1,4 +1,8 @@
 using MembershipPortal.Data;
+using MembershipPortal.IRepositories;
+using MembershipPortal.Repositories;
+using MembershipPortal.IServices;
+using MembershipPortal.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,15 +12,29 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("connectionStringHemant");
 
-builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));    
+builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IGenderService, GenderService>();
+builder.Services.AddScoped<IGenderRepository, GenderRepository>();
+
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("EnableCORS", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
 app.UseAuthorization();
-
+app.UseCors("EnableCORS");
 app.MapControllers();
 
 app.Run();

@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MembershipPortal.DTOs\MembershipPortal.DTOs.csproj" />
+  </ItemGroup>
+
 </Project>
