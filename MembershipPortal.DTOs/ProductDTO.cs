@@ -12,25 +12,24 @@ namespace MembershipPortal.DTOs
 
         public record CreateProductDTO(
             string ProductName,
-            [Required(ErrorMessage = "Price is Requried")]
+            [Required(ErrorMessage = "Price is Required")]
             decimal Price
 
             );
 
         public record UpdateProductDTO(
-            long Id,
+           long Id,
            string ProductName,
-           [Required(ErrorMessage = "Price is Requried")]
+           [Required(ErrorMessage = "Price is Required")]
             decimal Price
 
            );
 
 
         public record GetProductDTO(
-            long Id,
+           long Id,
           string ProductName,
-          [Required(ErrorMessage = "Price is Requried")]
-            decimal Price
+         decimal Price
 
           );
 

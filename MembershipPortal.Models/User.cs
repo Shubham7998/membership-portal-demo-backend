@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 namespace MembershipPortal.Models
 {
     [Table("Users")]
-    public class Users
+    public class User
     {
         [Key]
 
@@ -13,9 +13,11 @@ namespace MembershipPortal.Models
         public long Id { get; set; }
 
         [MaxLength(50)]
+        [Required(ErrorMessage = "FirstName is Requried")]
         public string FirstName { get; set; } = string.Empty;
 
         [MaxLength(50)]
+        [Required(ErrorMessage = "LastName is Requried")]
         public string LastName { get; set; } = string.Empty;
 
 
