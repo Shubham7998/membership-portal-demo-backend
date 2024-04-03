@@ -20,37 +20,96 @@ namespace MembershipPortal.API.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<IEnumerable<GetUserDTO>> Get()
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> Get()
         {
-            return await _userService.GetUsersAsync();
+
+            try
+            {
+                var user = await _userService.GetUsersAsync();
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving User infos: {ex.Message}");
+                throw;
+            }
+           
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<GetUserDTO> Get(long id)
+        public async Task<ActionResult<GetUserDTO>> Get(long id)
         {
-            return await _userService.GetUserAsync(id);
+            try
+            {
+                var user = await _userService.GetUserAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving User info: {ex.Message}");
+
+                throw;
+            }
+            //return await _userService.GetUserAsync(id);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public async Task<GetUserDTO> Post([FromBody] CreateUserDTO createUserDTO)
+        public async Task<ActionResult<GetUserDTO>> Post([FromBody] CreateUserDTO createUserDTO)
         {
-            return await _userService.CreateUserAsync(createUserDTO);
+            try
+            {
+                var createUser = await _userService.CreateUserAsync(createUserDTO);
+                return Ok(createUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while creating user info: {ex.Message}");
+
+                throw;
+            }
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task<GetUserDTO> Put(int id, [FromBody] UpdateUserDTO updateUserDTO)
+        public async Task<ActionResult<GetUserDTO>> Put(int id, [FromBody] UpdateUserDTO updateUserDTO)
         {
-            return await _userService.UpdateUserAsync(id, updateUserDTO);
+            if(id!= updateUserDTO.Id)
+            {
+                return BadRequest("ID in the URL does not match ID in the request body.");
+
+            }
+            try
+            {
+                var user = await _userService.UpdateUserAsync(id, updateUserDTO);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating user info: {ex.Message}");
+            }
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _userService.DeleteUserAsync(id);
+            try
+            {
+                var isDeleted = await _userService.DeleteUserAsync(id);
+                return Ok(isDeleted);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
+
+             
+            }
         }
     }
 }

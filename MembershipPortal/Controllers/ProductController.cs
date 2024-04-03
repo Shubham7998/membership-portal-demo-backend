@@ -21,16 +21,38 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<IEnumerable<GetProductDTO>> Get()
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> Get()
         {
-           return await _productService.GetProductsAsync();
+           try
+            {
+                var product = await _productService.GetProductsAsync();
+                return Ok(product);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"An error occurred while updating address info: {ex.Message}");
+            }
         }
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public async Task<GetProductDTO> Get(int id)
+        public async Task<ActionResult<GetProductDTO>> Get(int id)
         {
-            return await _productService.GetProductAsync(id);
+            try
+            {
+                var product = await _productService.GetProductAsync(id);
+                if (product == null)
+                {
+                    return StatusCode(500, "An error occurred while fetching the user info");
+
+                }
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
+
+                throw;
+            }
         }
 
         // POST api/<ProductController>
@@ -43,16 +65,41 @@ namespace MembershipPortal.API.Controllers
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]
-        public async Task<GetProductDTO> Put(int id, [FromBody] UpdateProductDTO updateProductDTO)
+        public async Task<ActionResult<GetProductDTO>> Put(int id, [FromBody] UpdateProductDTO updateProductDTO)
         {
-            return await _productService.UpdateProductAsync(id, updateProductDTO);
-        }
+
+            if (id != updateProductDTO.Id)
+            {
+                return BadRequest("ID in the URL does not match ID in the request body.");
+            }
+            try
+            {
+
+                var createuser = await _productService.UpdateProductAsync(id, updateProductDTO);
+                return Ok(createuser);
+            }
+            catch (Exception ex) 
+            {
+              return StatusCode(500, $"An error occurred while updating  user info: {ex.Message}");
+
+                throw;
+            } }
 
         // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _productService.DeleteProductAsync(id);
+            try
+            {
+                var isDeleted = await _productService.DeleteProductAsync(id);
+                return Ok(isDeleted);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
+
+                throw;
+            }
         }
     }
 }

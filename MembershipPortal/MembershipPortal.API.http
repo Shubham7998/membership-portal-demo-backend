@@ -27,12 +27,30 @@ POST {{MembershipPortal.API_HostAddress}}/api/product
 Content-Type: application/json
 
 {
- "ProductName":"cardio",
- "Price":34444
+ "ProductName":"efg",
+ "Price":344
 }
 
 ###
 
 GET {{MembershipPortal.API_HostAddress}}/api/product
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product/2
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/product/2
+Content-Type: application/json
+
+{
+ "Id":2,
+ "ProductName":"fat",
+ "Price":454
+}
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
 
 ###
