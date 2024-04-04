@@ -29,7 +29,7 @@ namespace MembershipPortal.Services
                     CGST = taxDTO.CGST,
                 };
                 var result = await _taxRepository.CreateAsync(tax);
-                var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST);
+                var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST, result.TotalTax);
                 return newTaxDTO;
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace MembershipPortal.Services
                 var tax = await _taxRepository.GetAsyncById(id);
                 if (tax != null)
                 {
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST);
+                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }
@@ -79,7 +79,7 @@ namespace MembershipPortal.Services
                 var taxList = await _taxRepository.GetAsyncAll();
                 if (taxList != null)
                 {
-                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.SGST, tax.CGST));
+                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax));
                     return taxDTOList;
                 }
                 return null;
@@ -101,7 +101,7 @@ namespace MembershipPortal.Services
                     oldTax.SGST = taxDTO.SGST;
                     oldTax.CGST = taxDTO.CGST;
                     var tax = await _taxRepository.UpdateAsync(oldTax);
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST);
+                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }

@@ -19,6 +19,7 @@ namespace MembershipPortal.DTOs
     public record GetTaxDTO(
             long Id,
             decimal SGST,
-            decimal CGST
+            decimal CGST,
+            decimal TotalTax
         );
 }

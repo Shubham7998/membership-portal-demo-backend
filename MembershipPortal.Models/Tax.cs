@@ -14,5 +14,6 @@ namespace MembershipPortal.Models
         public decimal SGST { get; set; }
         [Required(ErrorMessage = "CGST is required")]
         public decimal CGST { get; set; }
+        public decimal TotalTax { get; set; }
     }
 }
