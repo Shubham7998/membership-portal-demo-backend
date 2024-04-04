@@ -31,9 +31,9 @@ namespace MembershipPortal.Services
                 var newDiscoutModeDTO = new GetDiscountModeDTO(result.DiscountModeId ,result.DiscountModeType);
                 return newDiscoutModeDTO;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in CreateDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }
@@ -47,9 +47,9 @@ namespace MembershipPortal.Services
                 var discountMode = await _discountModeRepository.GetAsyncById(Id);
                 return await _discountModeRepository.DeleteAsync(discountMode);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in DeleteDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }
@@ -65,8 +65,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error occurred in GetDiscountModeByIdAsync: {ex.Message}");
                 throw;
             }
         }
@@ -83,9 +84,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in GetDiscountModesAsync: {ex.Message}");
                 throw;
             }
         }
@@ -104,9 +105,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in UpdateDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }

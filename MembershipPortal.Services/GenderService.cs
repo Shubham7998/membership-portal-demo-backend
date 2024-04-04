@@ -29,7 +29,7 @@ namespace MembershipPortal.Services
                 return genderDto;
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in CreateGenderAsync: {ex.Message}");
 
             }
             return null;
@@ -47,7 +47,7 @@ namespace MembershipPortal.Services
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in DeleteGenderAsync: {ex.Message}");
             }
             return false;
         }
@@ -67,7 +67,7 @@ namespace MembershipPortal.Services
                 
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in GetGenderAsync: {ex.Message}");
             }
             return null;
         }
@@ -88,7 +88,7 @@ namespace MembershipPortal.Services
                 
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);////
+                Console.WriteLine($"Error occurred in GetGendersAsync: {ex.Message}");
             }
             return null;
         }
@@ -109,7 +109,7 @@ namespace MembershipPortal.Services
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in UpdateGenderAsync: {ex.Message}");
             }
             return null;
         }

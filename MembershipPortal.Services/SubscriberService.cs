@@ -39,7 +39,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in CreateSubscriberAsync: {ex.Message}");
 
             }
             return null;
@@ -58,7 +58,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in DeleteSubscriberAsync: {ex.Message}");
             }
             return false;
         }
@@ -83,7 +83,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in GetSubscriberAsync: {ex.Message}");
             }
             return null;
         }
@@ -111,7 +111,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in GetSubscribersAsync: {ex.Message}");
             }
             return null;
         }
@@ -145,7 +145,7 @@ namespace MembershipPortal.Services
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error occurred in UpdateSubscriberAsync: {ex.Message}");
             }
             return null;
                     

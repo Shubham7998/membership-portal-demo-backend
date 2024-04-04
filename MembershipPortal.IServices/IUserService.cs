@@ -19,8 +19,5 @@ namespace MembershipPortal.IServices
         public Task<bool> DeleteUserAsync(long Id);
 
 
-       
-       
-
     }
 }

@@ -26,10 +26,16 @@ namespace MembershipPortal.API.Controllers
            try
             {
                 var product = await _productService.GetProductsAsync();
+
+                if(product == null) {
+
+                    return StatusCode(200, $"Table is Empty"+(product));
+
+                }
                 return Ok(product);
             }
             catch (Exception ex) {
-                return StatusCode(500, $"An error occurred while updating address info: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
             }
         }
 
@@ -37,6 +43,8 @@ namespace MembershipPortal.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProductDTO>> Get(long id)
         {
+
+
             try
             {
                 var product = await _productService.GetProductAsync(id);

@@ -24,6 +24,7 @@ namespace MembershipPortal.Services
         public async Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO)
         {
             try
+
             {
                 var product = await _productRepository.CreateAsync(new Product()
                 {

@@ -32,9 +32,9 @@ namespace MembershipPortal.Services
                 var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST);
                 return newTaxDTO;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in CreateTaxAsync: {ex.Message}");
                 throw;
             }
         }
@@ -47,9 +47,9 @@ namespace MembershipPortal.Services
                 var tax = await _taxRepository.GetAsyncById(Id);
                 return await _taxRepository.DeleteAsync(tax);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in DeleteTaxAsync: {ex.Message}");
                 throw;
             }
         }
@@ -65,9 +65,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in GetTaxByIdAsync: {ex.Message}");
                 throw;
             }
         }
@@ -84,9 +84,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in GetTaxesAsync: {ex.Message}");
                 throw;
             }
         }
@@ -105,9 +105,9 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error occurred in UpdateTaxAsync: {ex.Message}");
                 throw;
             }
         }
