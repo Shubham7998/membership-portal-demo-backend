@@ -91,3 +91,12 @@ GET {{MembershipPortal.API_HostAddress}}/api/subscription
 GET {{MembershipPortal.API_HostAddress}}/api/subscription/1
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  
+}
+
+###
