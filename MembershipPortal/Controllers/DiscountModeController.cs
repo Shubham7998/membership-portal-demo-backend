@@ -64,6 +64,8 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
+                    return StatusCode(500, "An error occurred while processing your request.");
+
                     throw;
                 }
             }
@@ -97,8 +99,10 @@ namespace MembershipPortal.API.Controllers
                 }
                 return Ok(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
 
                 throw;
             }
