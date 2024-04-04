@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("connectionStringHemant");
+var connectionString = configuration.GetConnectionString("connectionStringShubham");
 
 builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -23,17 +23,14 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
-builder.Services.AddScoped<ITaxRepository, TaxRepository>();
-builder.Services.AddScoped<ITaxService, TaxService>();
 
-builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
-builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
-builder.Services.AddScoped<IDiscountModeRepository, DiscountModeRepository>();
-builder.Services.AddScoped<IDiscountModeService, DiscountModeService>();
 
 builder.Services.AddControllers();
 
@@ -47,7 +44,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+builder.Services.AddScoped<ITaxRepository, TaxRepository>();
+builder.Services.AddScoped<ITaxService, TaxService>(); 
 
 var app = builder.Build();
 

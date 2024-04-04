@@ -27,10 +27,10 @@ namespace MembershipPortal.Services
                 {
                     DiscountCode = discountDTO.DiscountCode,
                     DiscountAmount = discountDTO.DiscountAmount,
-                    DiscountModeId = discountDTO.DiscountModeId
+                    IsDiscountInPercentage = discountDTO.IsDiscountInPercentage
                 };
                 var result = await _discountRepository.CreateAsync(discount);
-                var newDiscoutDTO = new GetDiscountDTO(result.Id, result.DiscountCode, result.DiscountAmount, result.DiscountModeId);
+                var newDiscoutDTO = new GetDiscountDTO(result.Id, result.DiscountCode, result.DiscountAmount, result.IsDiscountInPercentage);
                 return newDiscoutDTO;
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace MembershipPortal.Services
                 var discount = await _discountRepository.GetAsyncById(id);
                 if (discount != null)
                 {
-                    return new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.DiscountModeId);
+                    return new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.IsDiscountInPercentage);
                 }
                 return null;
             }
@@ -80,7 +80,7 @@ namespace MembershipPortal.Services
                 var discountList = await _discountRepository.GetAsyncAll();
                 if (discountList != null)
                 {
-                    var discountDTOList = discountList.Select(discount => new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.DiscountModeId));
+                    var discountDTOList = discountList.Select(discount => new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.IsDiscountInPercentage));
                     return discountDTOList;
                 }
                 return null;
@@ -102,9 +102,9 @@ namespace MembershipPortal.Services
                 {
                     oldDiscount.DiscountCode = discountDTO.DiscountCode;
                     oldDiscount.DiscountAmount = discountDTO.DiscountAmount;
-                    oldDiscount.DiscountModeId = discountDTO.DiscountModeId;
+                    oldDiscount.IsDiscountInPercentage = discountDTO.IsDiscountInPercentage;
                     var discount = await _discountRepository.UpdateAsync(oldDiscount);
-                    return new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.DiscountModeId);
+                    return new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.IsDiscountInPercentage);
                 }
                 return null;
             }

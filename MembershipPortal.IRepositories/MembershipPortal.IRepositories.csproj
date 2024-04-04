@@ -13,10 +13,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MembershipPortal.DTOs\MembershipPortal.DTOs.csproj" />
     <ProjectReference Include="..\MembershipPortal.Models\MembershipPortal.Models.csproj" />
   </ItemGroup>
 

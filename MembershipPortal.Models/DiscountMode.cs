@@ -15,7 +15,6 @@ namespace MembershipPortal.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long DiscountModeId { get; set; }
         [Required(ErrorMessage = "Discount Mode Type is Required")]
-        [MaxLength(100, ErrorMessage = "Max Length of Discount Type is 100 only")]
-        public string DiscountModeType { get; set; }
+        public bool IsDiscountInPercentage { get; set; }
     }
 }

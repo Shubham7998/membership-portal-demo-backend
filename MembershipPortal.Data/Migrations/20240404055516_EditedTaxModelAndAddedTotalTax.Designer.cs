@@ -4,6 +4,7 @@ using MembershipPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MembershipPortal.Data.Migrations
 {
     [DbContext(typeof(MembershipPortalDbContext))]
-    partial class MembershipPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240404055516_EditedTaxModelAndAddedTotalTax")]
+    partial class EditedTaxModelAndAddedTotalTax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,10 +41,12 @@ namespace MembershipPortal.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<bool>("IsDiscountInPercentage")
-                        .HasColumnType("bit");
+                    b.Property<long>("DiscountModeId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscountModeId");
 
                     b.ToTable("Discounts");
                 });
@@ -54,8 +59,10 @@ namespace MembershipPortal.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("DiscountModeId"));
 
-                    b.Property<bool>("IsDiscountInPercentage")
-                        .HasColumnType("bit");
+                    b.Property<string>("DiscountModeType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("DiscountModeId");
 
@@ -266,6 +273,17 @@ namespace MembershipPortal.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MembershipPortal.Models.Discount", b =>
+                {
+                    b.HasOne("MembershipPortal.Models.DiscountMode", "DiscountMode")
+                        .WithMany()
+                        .HasForeignKey("DiscountModeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DiscountMode");
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Subscriber", b =>

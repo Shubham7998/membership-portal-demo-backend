@@ -21,9 +21,10 @@ namespace MembershipPortal.Models
         
         public decimal DiscountAmount { get; set; }
         [Required(ErrorMessage = "DiscountModeId is required")]
-        [ForeignKey(nameof(DiscountMode))]
-        public long DiscountModeId { get; set; }
-        public virtual DiscountMode DiscountMode { get; set; }
+        //[ForeignKey(nameof(DiscountMode))]
+        //public long DiscountModeId { get; set; }
+        //public virtual DiscountMode DiscountMode { get; set; }
+        public bool IsDiscountInPercentage { get; set; } = false;
 
     }
 }
