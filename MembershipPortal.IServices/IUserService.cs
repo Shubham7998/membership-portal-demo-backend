@@ -14,7 +14,7 @@ namespace MembershipPortal.IServices
 
         public Task<GetUserDTO> CreateUserAsync(CreateUserDTO createUserDTO);
         
-        public Task<GetUserDTO> UpdateUserAsync(long id ,UpdateUserDTO updateUserDTO);   
+        public Task<GetUserDTO> UpdateUserAsync(long Id ,UpdateUserDTO updateUserDTO);   
     
         public Task<bool> DeleteUserAsync(long Id);
 

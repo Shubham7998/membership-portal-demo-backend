@@ -15,7 +15,7 @@ namespace MembershipPortal.Data
 
             var optionsBuilder = new DbContextOptionsBuilder<MembershipPortalDbContext>();
 
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-12SDQHF;Initial Catalog=MembershipPortalDB;Integrated Security=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-O5BA5JA;Initial Catalog=MembershipPortalDB;Integrated Security=True;Trust Server Certificate=True");
 
 
             return new MembershipPortalDbContext(optionsBuilder.Options);
