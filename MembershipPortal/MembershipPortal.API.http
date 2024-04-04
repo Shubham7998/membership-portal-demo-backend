@@ -54,3 +54,53 @@ Content-Type: application/json
 DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user/
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+   "FirstName": "rushi",
+    "LastName": "Bhise",
+    "Email": "rushi@gmail.com",
+    "Password": "1212121212",
+    "ContactNumber": "rushi@28"
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/user/3
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+  "ProductName":"3 month plan",
+  "Price":3000
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/product/2
+Content-Type: application/json
+
+{
+  "Id":2,
+  "ProductName": "6 month plan",
+    "Price": 3000.00
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/product/2
+
+###
