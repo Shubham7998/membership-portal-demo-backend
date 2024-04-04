@@ -21,83 +21,111 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriberController>
         [HttpGet]
-        public async Task<IEnumerable<GetSubscriberDTO>> Get()
+        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Get()
         {
             try
             {
                 var subscriberDto = await _subscriberService.GetSubscribersAsync();
 
-                return subscriberDto;
+                if (subscriberDto.Count() != 0)
+                {
+
+                    return Ok(subscriberDto);
+                }
+                else
+                {
+                    return NotFound("The resource to be display was not found.Table is empty.");
+                }
             }catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+
             }
-            return null;
         }
 
         // GET api/<SubscriberController>/5
         [HttpGet("{id}")]
-        public async Task<GetSubscriberDTO> Get(long id)
+        public async Task<ActionResult<GetSubscriberDTO>> Get(long id)
         {
             try
             {
                 var subscriberDto = await _subscriberService.GetSubscriberAsync(id);
+                if(subscriberDto != null)
+                {
+                    return subscriberDto;
 
-                return subscriberDto;
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                }
+                else
+                {
+                    return NotFound("The resource to be display was not found.");
+                }
             }
-            return null;
+            catch(Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+            }
         }
 
         // POST api/<SubscriberController>
         [HttpPost]
-        public async Task<GetSubscriberDTO> Post([FromBody] CreateSubscriberDTO subscriberDTO)
+        public async Task<ActionResult<GetSubscriberDTO>> Post([FromBody] CreateSubscriberDTO subscriberDTO)
         {
             try
             {
                 var subscriberDto = await _subscriberService.CreateSubscriberAsync(subscriberDTO);
 
-                return subscriberDto;
+                return Ok(subscriberDto);
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
             }
-            return null;
 
         }
 
         // PUT api/<SubscriberController>/5
         [HttpPut("{id}")]
-        public async Task<GetSubscriberDTO> Put(long id,[FromBody] UpdateSubscriberDTO subscriberDTO)
+        public async Task<ActionResult<GetSubscriberDTO>> Put(long id,[FromBody] UpdateSubscriberDTO subscriberDTO)
         {
             try
             {
                 var subscriberDto = await _subscriberService.UpdateSubscriberAsync(id, subscriberDTO);
 
-                return subscriberDto;
-            }catch( Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                if (subscriberDto != null)
+                {
+                    return Ok(subscriberDto);
+                }
+                else
+                {
+                    return NotFound("The resource to be update was not found.");
+                }
             }
-            return null;
+            catch( Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+            }
         }
 
         // DELETE api/<SubscriberController>/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(long id)
+        public async Task<ActionResult> Delete(long id)
         {
             try
             {
                 var subscriberDto = await _subscriberService.DeleteSubscriberAsync(id);
 
-                return subscriberDto;
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                if (subscriberDto)
+                {
+                    return StatusCode(200, "Subscriber deleted successfully");
+                }
+                else
+                {
+                    return NotFound("The resource to be deleted was not found.");
+                }
             }
-            return false;
+            catch(Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+            }
         }
     }
 }

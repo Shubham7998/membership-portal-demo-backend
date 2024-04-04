@@ -11,7 +11,6 @@ namespace MembershipPortal.Data
         }
 
         public DbSet<User> Users { get; set; }
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Gender> Genders { get; set; }

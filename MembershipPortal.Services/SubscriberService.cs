@@ -69,15 +69,17 @@ namespace MembershipPortal.Services
             {
                 var subscriber = await _subscriberRepository.GetAsyncById(id);
 
-                var getSubscriber = new GetSubscriberDTO
+                if(subscriber != null)
+                {
+                    var getSubscriber = new GetSubscriberDTO
                                                     (subscriber.Id,
                                                         subscriber.FirstName,
                                                         subscriber.LastName,
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
                                                         subscriber.GenderId);
+                }
 
-                return getSubscriber;
             }
             catch (Exception ex)
             {
@@ -92,7 +94,9 @@ namespace MembershipPortal.Services
             {
                 var subscribers = await _subscriberRepository.GetAsyncAll();
 
-                var subscribersDto = subscribers.Select(
+                if(subscribers != null)
+                {
+                    var subscribersDto = subscribers.Select(
                                                          subscriber =>
                                                          new GetSubscriberDTO
                                                                                 (subscriber.Id,
@@ -101,7 +105,8 @@ namespace MembershipPortal.Services
                                                                                 subscriber.ContactNumber,
                                                                                 subscriber.Email,
                                                                                 subscriber.GenderId));
-                return subscribersDto;
+                    return subscribersDto;
+                }
 
             }
             catch (Exception ex)

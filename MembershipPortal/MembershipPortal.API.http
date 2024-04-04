@@ -54,3 +54,93 @@ Content-Type: application/json
 DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/0
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "GenderName" : "DK"
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/discountmode/5
+Content-Type: application/json
+
+{
+  
+
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/gender/4
+Content-Type: application/json
+
+{
+  
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/4
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/0
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber
+Content-Type: application/json
+
+{
+  "FirstName" : "FirstName",
+  "LastName" : "LastName",
+  "ContactNumber" : "ContactNumber",
+  "Email" : "Email",
+  "GenderId" : 1
+}
+
+
+PUT {{MembershipPortal.API_HostAddress}}/api/subscriber/0
+Content-Type: application/json
+
+{
+  "FirstName" : "FirstName",
+  "LastName" : "LastName",
+  "ContactNumber" : "ContactNumber",
+  "Email" : "Email",
+  "GenderId" : 1
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/subscriber/1
+Content-Type: application/json
+
+{
+  "FirstName" : "First-Name",
+  "LastName" : "Last-Name",
+  "ContactNumber" : "ContactNumber",
+  "Email" : "Email",
+  "GenderId" : 1
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscriber/1
+
+###
