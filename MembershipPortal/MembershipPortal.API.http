@@ -54,3 +54,30 @@ Content-Type: application/json
 DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/discount
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/discount
+Content-Type: application/json
+
+{
+  //CreateDiscountDTO
+}
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/discountmode/1
+Content-Type: application/json
+
+{
+  "Id" : 1,
+  "DiscountModeType" : "Fixed"
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/discountmode
+
+###

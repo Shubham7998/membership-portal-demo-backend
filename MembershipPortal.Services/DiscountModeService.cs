@@ -59,7 +59,7 @@ namespace MembershipPortal.Services
             try
             {
                 var discountMode = await _discountModeRepository.GetAsyncById(id);
-                if (_discountModeRepository != null)
+                if (discountMode != null)
                 {
                     return new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.DiscountModeType);
                 }
