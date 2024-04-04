@@ -35,7 +35,7 @@ namespace MembershipPortal.API.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetProductDTO>> Get(int id)
+        public async Task<ActionResult<GetProductDTO>> Get(long id)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace MembershipPortal.API.Controllers
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetProductDTO>> Put(int id, [FromBody] UpdateProductDTO updateProductDTO)
+        public async Task<ActionResult<GetProductDTO>> Put(long id, [FromBody] UpdateProductDTO updateProductDTO)
         {
 
             if (id != updateProductDTO.Id)
@@ -87,7 +87,7 @@ namespace MembershipPortal.API.Controllers
 
         // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(long id)
         {
             try
             {

@@ -15,7 +15,7 @@ namespace MembershipPortal.IServices
 
         public Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO);
 
-        public Task<GetProductDTO> UpdateProductAsync(long id, UpdateProductDTO updateProductDTO);
+        public Task<GetProductDTO> UpdateProductAsync(long Id, UpdateProductDTO updateProductDTO);
 
         public Task<bool> DeleteProductAsync(long Id);
 

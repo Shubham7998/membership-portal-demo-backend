@@ -58,9 +58,13 @@ namespace MembershipPortal.Services
             {
                 var gender = await _genderRepository.GetAsyncById(id);
 
-                var genderDto = new GetGenderDTO(gender.Id, gender.GenderName);
+                if(gender != null)
+                {
+                    var genderDto = new GetGenderDTO(gender.Id, gender.GenderName);
+                }
+                
 
-                return genderDto;
+                
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);

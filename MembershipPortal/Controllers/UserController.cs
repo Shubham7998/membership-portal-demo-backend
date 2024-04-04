@@ -88,7 +88,7 @@ namespace MembershipPortal.API.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetUserDTO>> Put(int id, [FromBody] UpdateUserDTO updateUserDTO)
+        public async Task<ActionResult<GetUserDTO>> Put(long id, [FromBody] UpdateUserDTO updateUserDTO)
         {
             if(id!= updateUserDTO.Id)
             {
@@ -108,7 +108,7 @@ namespace MembershipPortal.API.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(long id)
         {
             try
             {

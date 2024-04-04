@@ -35,7 +35,7 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be disply was not found.Table is empty.");
+                    return NotFound("The resource to be display was not found.Table is empty.");
                 }
 
             }
@@ -59,13 +59,12 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be updated was not found.");
+                    return NotFound("No resource present with this id.");
                 }
             }catch(Exception ex)
             {
                 return StatusCode(500, "An error occurred while processing your request." + ex.Message);
             }
-            return null;
         }
 
         // POST api/<GenderController>
@@ -100,7 +99,7 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be updated was not found.");
+                    return NotFound("The resource to update was not found.");
                 }
 
             }catch(Exception ex)
@@ -123,7 +122,7 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be deleted was not found.");
+                    return NotFound("The resource to delete was not found.");
                 }
             }
             catch (Exception ex)
