@@ -25,10 +25,10 @@ namespace MembershipPortal.Services
                 if (discountModeDTO == null) throw new ArgumentNullException(nameof(discountModeDTO));
                 var discountMode = new DiscountMode()
                 {
-                    DiscountModeType = discountModeDTO.DiscountModeType,
+                    IsDiscountInPercentage = discountModeDTO.IsDiscountInPercentage,
                 };
                 var result = await _discountModeRepository.CreateAsync(discountMode);
-                var newDiscoutModeDTO = new GetDiscountModeDTO(result.DiscountModeId ,result.DiscountModeType);
+                var newDiscoutModeDTO = new GetDiscountModeDTO(result.DiscountModeId, result.IsDiscountInPercentage);
                 return newDiscoutModeDTO;
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace MembershipPortal.Services
                 var discountMode = await _discountModeRepository.GetAsyncById(id);
                 if (discountMode != null)
                 {
-                    return new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.DiscountModeType);
+                    return new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.IsDiscountInPercentage);
                 }
                 return null;
             }
@@ -78,7 +78,7 @@ namespace MembershipPortal.Services
                 var discountModeList = await _discountModeRepository.GetAsyncAll();
                 if (discountModeList != null)
                 {
-                    var discountModeDTOList = discountModeList.Select(discountMode => new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.DiscountModeType));
+                    var discountModeDTOList = discountModeList.Select(discountMode => new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.IsDiscountInPercentage));
                     return discountModeDTOList;
                 }
                 return null;
@@ -97,10 +97,10 @@ namespace MembershipPortal.Services
                 var oldDiscountMode = await _discountModeRepository.GetAsyncById(Id);
                 if (oldDiscountMode != null)
                 {
-                    oldDiscountMode.DiscountModeType = discountModeDTO.DiscountModeType;
+                    oldDiscountMode.IsDiscountInPercentage = discountModeDTO.IsDiscountInPercentage;
 
                     var discountMode = await _discountModeRepository.UpdateAsync(oldDiscountMode);
-                    return new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.DiscountModeType);
+                    return new GetDiscountModeDTO(discountMode.DiscountModeId, discountMode.IsDiscountInPercentage);
                 }
                 return null;
             }

@@ -11,5 +11,7 @@ namespace MembershipPortal.IServices
     public interface ISubscriptionService
     {
         public Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync();
+        public Task<GetSubscriptionDTO> GetSubscriptionByIdAsync(long id);
+        public Task<GetSubscriptionDTO> CreateSubscriptionAsync(CreateSubscriptionDTO createSubscriptionDTO);
     }
 }

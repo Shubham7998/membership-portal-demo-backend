@@ -27,6 +27,7 @@ namespace MembershipPortal.Services
                 {
                     SGST = taxDTO.SGST,
                     CGST = taxDTO.CGST,
+                    TotalTax = taxDTO.CGST + taxDTO.SGST,
                 };
                 var result = await _taxRepository.CreateAsync(tax);
                 var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST, result.TotalTax);
@@ -100,6 +101,7 @@ namespace MembershipPortal.Services
                 {
                     oldTax.SGST = taxDTO.SGST;
                     oldTax.CGST = taxDTO.CGST;
+                    oldTax.TotalTax = taxDTO.SGST + taxDTO.CGST;
                     var tax = await _taxRepository.UpdateAsync(oldTax);
                     return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
                 }
