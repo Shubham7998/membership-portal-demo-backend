@@ -4,6 +4,7 @@ using MembershipPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MembershipPortal.Data.Migrations
 {
     [DbContext(typeof(MembershipPortalDbContext))]
-    partial class MembershipPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240404053557_AddedSubscriptionTable")]
+    partial class AddedSubscriptionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,9 +228,6 @@ namespace MembershipPortal.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("SGST")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalTax")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
