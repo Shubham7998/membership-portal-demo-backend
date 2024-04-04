@@ -16,28 +16,41 @@ namespace MembershipPortal.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Required]
-        public long SubscriberId { get; set; }
+        [ForeignKey(nameof(Subscriber))]
+        [Required (ErrorMessage = "Please enter valid subscriber Id")]
+        public long SubscriberId { get; set; } 
+        public virtual Subscriber Subscriber { get; set; }
 
+        [ForeignKey(nameof(Product))]
+        [Required(ErrorMessage = "Please enter valid product Id")]
         public long ProductId { get; set; }
+        public virtual Product Product{ get; set; }
 
         public string ProductName { get; set; }
 
         public decimal ProductPrice { get; set; }
 
-        public decimal Discount { get; set; }
+        [ForeignKey(nameof(Discount))]
+        public long DiscountId { get; set; }
+        public virtual Discount Discount { get; set; }
+        public string DiscountCode { get; set; }
+        public decimal DiscountAmount { get; set; }
 
-        public string CurrentDate { get; set; }
+        [Required(ErrorMessage = "Please enter valid Start Date")]
+        public DateTime StartDate { get; set; }
 
-        public string ExpiryDate { get; set; }
+        [Required(ErrorMessage = "Please enter valid expiry Date")]
+        public DateTime ExpiryDate { get; set; }
 
         public decimal PriceAfterDiscount { get; set; }
 
+        [ForeignKey(nameof(Tax))]
+        public long TaxId { get; set; }
+        public virtual Tax Tax { get; set; }
         public decimal CGST { get; set; }
-
         public decimal SGST { get; set; }
 
-        public decimal TotalTax { get; set; }
+        public decimal TotalTaxPercentage { get; set; }
 
         public decimal TaxAmount { get; set; }
 
