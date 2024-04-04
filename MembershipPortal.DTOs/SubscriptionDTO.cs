@@ -14,13 +14,15 @@ namespace MembershipPortal.DTOs
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
             long TaxId,
-            [Required(ErrorMessage = "Please enter valid Start Date")] DateTime StartDate,
-            [Required(ErrorMessage = "Please enter valid Expiry Date")] DateTime ExpiryDate
+            DateTime StartDate,
+            DateTime ExpiryDate
 
         );
+    //[Required(ErrorMessage = "Please enter valid Start Date")] 
+    //[Required(ErrorMessage = "Please enter valid Expiry Date")]
     public record UpdateSubscriptionDTO(
             [Required(ErrorMessage ="Please enter subscriptionId")] long Id,
-            [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
+           // [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
             [Required(ErrorMessage = "Please enter valid Start Date")] DateTime StartDate,

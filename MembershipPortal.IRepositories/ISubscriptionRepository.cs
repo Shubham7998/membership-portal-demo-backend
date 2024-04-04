@@ -12,5 +12,7 @@ namespace MembershipPortal.IRepositories
     {
         Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync();
         Task<Subscription> CreateSubscriptionAsync(CreateSubscriptionDTO subscriptionDTO);
+
+        Task<Subscription> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);
     }
 }

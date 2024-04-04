@@ -73,7 +73,7 @@ namespace MembershipPortal.API.Controllers
         // POST: api/Discount
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<GetDiscountDTO>> PostDiscountAsyc(CreateDiscountDTO discountDTO)
+        public async Task<ActionResult<GetDiscountDTO>> PostDiscountAsync(CreateDiscountDTO discountDTO)
         {
             var result = await _discountService.CreateDiscountAsync(discountDTO);
             if (result == null)

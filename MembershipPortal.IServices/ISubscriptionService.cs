@@ -12,6 +12,9 @@ namespace MembershipPortal.IServices
     {
         public Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync();
         public Task<GetSubscriptionDTO> GetSubscriptionByIdAsync(long id);
+        public Task<bool> DeleteSubscriptionByIdAsync(long id);
         public Task<GetSubscriptionDTO> CreateSubscriptionAsync(CreateSubscriptionDTO createSubscriptionDTO);
+
+        public Task<GetSubscriptionDTO> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);
     }
 }

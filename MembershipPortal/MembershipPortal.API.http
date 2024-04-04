@@ -10,15 +10,8 @@ GET {{MembershipPortal.API_HostAddress}}/api/tax
 Content-Type: application/json
 
 {
+    
 }
-
-###
-
-
-###
-
-
-###
 
 
 ###
@@ -52,5 +45,28 @@ Content-Type: application/json
 ###
 
 DELETE {{MembershipPortal.API_HostAddress}}/api/product/3
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/subscription/2
+Content-Type: application/json
+
+{
+  "id": 2,
+    
+    "productId": 1,
+    "discountId": 2,
+    "startDate": "0001-01-01T00:00:00",
+    "expiryDate": "0001-01-01T00:00:00"
+  
+}
 
 ###

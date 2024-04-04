@@ -21,7 +21,7 @@ namespace MembershipPortal.Repositories
 
         public async Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync()
         {
-            var getSubscription =  await _dbContext.Subscriptions
+            var getSubscription = await _dbContext.Subscriptions
                 .Include(subscriber => subscriber.Subscriber)
                 .Include(product => product.Product)
                 .Include(discount => discount.Discount)
@@ -63,7 +63,7 @@ namespace MembershipPortal.Repositories
 
             if (discount.IsDiscountInPercentage)
             {
-                discountAmount = product.Price * discount.DiscountAmount/100;
+                discountAmount = product.Price * discount.DiscountAmount / 100;
             }
             else
             {
@@ -73,7 +73,7 @@ namespace MembershipPortal.Repositories
 
             var priceAfterDiscount = product.Price - discountAmount;
 
-            var taxAmount = priceAfterDiscount * tax.TotalTax/100;
+            var taxAmount = priceAfterDiscount * tax.TotalTax / 100;
 
             var finalAmount = priceAfterDiscount + taxAmount;
 
@@ -99,10 +99,102 @@ namespace MembershipPortal.Repositories
 
             await _dbContext.AddAsync(subscription);
             await _dbContext.SaveChangesAsync();
-            
+
             return subscription;
-           
+
         }
 
+
+
+        public async Task<Subscription> UpdateSubscriptionAsync(long Id ,UpdateSubscriptionDTO updateSubscriptionDTO)
+        {
+
+            var oldSubscription = await _dbContext.Subscriptions.FindAsync(Id);
+            var product = await _dbContext.Products.FindAsync(updateSubscriptionDTO.ProductId);
+            var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
+            decimal discountAmount = 0;
+            decimal priceAfterDiscount = 0;
+            decimal taxAmount = 0;
+            decimal finalAmount = 0;
+
+            if (oldSubscription != null)
+            {
+
+                if(oldSubscription.ProductId != updateSubscriptionDTO.ProductId)
+                {
+                    oldSubscription.ProductId = updateSubscriptionDTO.ProductId;
+                    oldSubscription.ProductName = product.ProductName;
+                    oldSubscription.ProductPrice = product.Price;
+                }
+
+
+                if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
+                {
+
+                    oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
+                    oldSubscription.DiscountCode = discount.DiscountCode;
+                    // oldSubscription.DiscountAmount = discount.DiscountAmount;
+                  
+
+                    if (discount.IsDiscountInPercentage)
+                    {
+                        discountAmount = product.Price * discount.DiscountAmount / 100;
+
+                    }
+                    else
+                    {
+                        discountAmount = discount.DiscountAmount;
+                    }
+
+                     oldSubscription.DiscountAmount = discountAmount;
+
+                     priceAfterDiscount = product.Price - discountAmount;
+
+                    oldSubscription.PriceAfterDiscount = priceAfterDiscount;
+
+                     taxAmount = priceAfterDiscount * oldSubscription.TotalTaxPercentage / 100;
+
+                    oldSubscription.TaxAmount = taxAmount;
+
+
+                     finalAmount = priceAfterDiscount + taxAmount;
+
+                    oldSubscription.FinalAmount = finalAmount;
+
+
+                }
+                var result =  _dbContext.Subscriptions.Update(oldSubscription);
+                await _dbContext.SaveChangesAsync();
+
+                var subscription = new Subscription()
+                {   
+                    Id = oldSubscription.Id,
+                    SubscriberId = oldSubscription.SubscriberId,
+                    ProductId = oldSubscription.ProductId,
+                    ProductName = oldSubscription.ProductName,
+                    ProductPrice = oldSubscription.ProductPrice,
+                    DiscountId = oldSubscription.DiscountId,
+                    DiscountCode = oldSubscription.DiscountCode,
+                    DiscountAmount = oldSubscription.DiscountAmount,
+                    StartDate = oldSubscription.StartDate,
+                    ExpiryDate = oldSubscription.ExpiryDate,
+                    PriceAfterDiscount = oldSubscription.PriceAfterDiscount,
+                    TaxId = oldSubscription.TaxId,
+                    SGST = oldSubscription.SGST,
+                    CGST = oldSubscription.CGST,
+                    TotalTaxPercentage = oldSubscription.TotalTaxPercentage,
+                    TaxAmount = oldSubscription.TaxAmount,
+                    FinalAmount = oldSubscription.FinalAmount
+                };
+                return subscription;
+
+            }
+
+            return null;
+         
+
+        }
+
+
     }
-} 
+}

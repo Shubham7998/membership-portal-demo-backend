@@ -42,6 +42,57 @@ namespace MembershipPortal.Services
             return null;
         }
 
+        public async Task<GetSubscriptionDTO> UpdateSubscriptionAsync( long Id ,UpdateSubscriptionDTO updateSubscriptionDTO)
+        {
+
+            try
+            {
+                var oldSubscription = await _subscriptionRepository.GetAsyncById(Id);
+
+                if (oldSubscription != null)
+                {
+
+                    var subscription = await _subscriptionRepository.UpdateSubscriptionAsync(Id, updateSubscriptionDTO);
+                    var subscriptionDTO = new GetSubscriptionDTO
+                        (
+
+                            subscription.Id, subscription.SubscriberId, subscription.ProductId, subscription.ProductName, subscription.ProductPrice,
+                            subscription.DiscountId, subscription.DiscountCode, subscription.DiscountAmount, subscription.StartDate, subscription.ExpiryDate,
+                            subscription.PriceAfterDiscount, subscription.TaxId, subscription.CGST, subscription.SGST, subscription.TotalTaxPercentage, subscription.TaxAmount,
+                            subscription.FinalAmount
+                        );
+                    return subscriptionDTO;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+               
+            }
+            return null;
+        }
+
+        public async Task<bool> DeleteSubscriptionByIdAsync(long id)
+        {
+            try
+            {
+                var subscription = await _subscriptionRepository.GetAsyncById(id);
+
+                if (subscription != null)
+                {
+                     var result = await _subscriptionRepository.DeleteAsync(subscription);
+                    return result;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+        }
+
         public async Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync()
         {
             try
