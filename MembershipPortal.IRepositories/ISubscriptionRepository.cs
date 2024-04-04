@@ -1,4 +1,5 @@
-﻿using MembershipPortal.Models;
+﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace MembershipPortal.IRepositories
 {
     public interface ISubscriptionRepository : IRepository<Subscription>
     {
+        Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync();
     }
 }
