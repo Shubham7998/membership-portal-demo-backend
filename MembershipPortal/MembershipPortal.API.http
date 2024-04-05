@@ -60,13 +60,27 @@ PUT {{MembershipPortal.API_HostAddress}}/api/subscription/2
 Content-Type: application/json
 
 {
-  "id": 2,
-    
+    "id": 2,
     "productId": 1,
     "discountId": 2,
     "startDate": "0001-01-01T00:00:00",
     "expiryDate": "0001-01-01T00:00:00"
-  
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  "SubscriberId" : 2,
+  "ProductId" : 1,
+  "DiscountId" : 2,
+  "TaxId" : 2
 }
 
 ###

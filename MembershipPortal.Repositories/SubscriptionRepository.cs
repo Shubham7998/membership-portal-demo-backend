@@ -112,6 +112,7 @@ namespace MembershipPortal.Repositories
             var oldSubscription = await _dbContext.Subscriptions.FindAsync(Id);
             var product = await _dbContext.Products.FindAsync(updateSubscriptionDTO.ProductId);
             var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
+
             decimal discountAmount = 0;
             decimal priceAfterDiscount = 0;
             decimal taxAmount = 0;

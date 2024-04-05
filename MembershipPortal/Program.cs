@@ -31,6 +31,12 @@ builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
+builder.Services.AddScoped<ITaxRepository, TaxRepository>();
+builder.Services.AddScoped<ITaxService, TaxService>();
+
+builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
+
 
 builder.Services.AddControllers();
 
@@ -44,8 +50,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<ITaxRepository, TaxRepository>();
-builder.Services.AddScoped<ITaxService, TaxService>(); 
 
 var app = builder.Build();
 
