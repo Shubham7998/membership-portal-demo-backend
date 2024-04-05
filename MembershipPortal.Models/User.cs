@@ -13,20 +13,20 @@ namespace MembershipPortal.Models
         public long Id { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "FirstName is Requried")]
+        [Required(ErrorMessage = "FirstName is Required")]
         public string FirstName { get; set; } = string.Empty;
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "LastName is Requried")]
+        [Required(ErrorMessage = "LastName is Required")]
         public string LastName { get; set; } = string.Empty;
 
 
-        [Required(ErrorMessage ="Email is Requried")]
+        [Required(ErrorMessage ="Email is Required")]
 
         [MaxLength(100)]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Password is Requried")]
+        [Required(ErrorMessage = "Password is Required")]
         [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
 

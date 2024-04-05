@@ -51,9 +51,7 @@ namespace MembershipPortal.API.Controllers
             {
 
                 return BadRequest(ex.Message);
-            }
-
-            
+            } 
         }
 
         // POST api/<SubscriptionController>
@@ -95,7 +93,6 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-                throw;
             }
 
         }
