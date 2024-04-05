@@ -84,3 +84,12 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  //CreateUserDTO
+}
+
+###

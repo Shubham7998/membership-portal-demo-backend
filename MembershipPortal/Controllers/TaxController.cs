@@ -45,7 +45,7 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/Tax/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tax>> GetTaxByIdAsync(long id)
+        public async Task<ActionResult<GetTaxDTO>> GetTaxByIdAsync(long id)
         {
             try
             {
@@ -96,10 +96,12 @@ namespace MembershipPortal.API.Controllers
         // POST: api/Tax
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Tax>> PostTaxAsync(CreateTaxDTO taxDTO)
+        public async Task<ActionResult<GetTaxDTO>> PostTaxAsync([FromBody] CreateTaxDTO taxDTO)
         {
             try
             {
+
+               // var test = new CreateTaxDTO()
                 var result = await _taxService.CreateTaxAsync(taxDTO);
                 if (result == null)
                 {

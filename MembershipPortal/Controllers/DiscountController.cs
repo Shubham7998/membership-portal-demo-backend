@@ -67,21 +67,25 @@ namespace MembershipPortal.API.Controllers
             {
                 return BadRequest("Id Mismatch");
             }
-
+            
             try
             {
-                return await _discountService.UpdateDiscountAsync(id, discountDTO);
+                var oldDiscount = await _discountService.GetDiscountByIdAsync(id);
+
+                if (oldDiscount == null)
+                {
+                    return NotFound("Data with id is not found");
+                }
+
+                var result =  await _discountService.UpdateDiscountAsync(id, discountDTO);
+
+                return Ok(result);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiscountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
+                
                     throw;
-                }
+                
             }
 
         }
@@ -127,14 +131,5 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-        private bool DiscountExists(long id)
-        {
-            var result = _discountService.GetDiscountByIdAsync(id);
-            if (result != null)
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

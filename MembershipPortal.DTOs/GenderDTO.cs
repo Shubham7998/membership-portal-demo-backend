@@ -8,7 +8,7 @@ namespace MembershipPortal.DTOs
             );
     //DbContext 
     public record UpdateGenderDTO(
-                            long Id,
+                            [Required(ErrorMessage = "Please enter Gender id")]  long Id,
                             [Required(ErrorMessage = "Please enter Gender")][MaxLength(10)] string GenderName
             );
 

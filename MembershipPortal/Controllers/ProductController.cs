@@ -50,7 +50,7 @@ namespace MembershipPortal.API.Controllers
                 var product = await _productService.GetProductAsync(id);
                 if (product == null)
                 {
-                    return StatusCode(500, "An error occurred while fetching the user info");
+                    return StatusCode(204, "An error occurred while fetching the user info");
 
                 }
                 return Ok(product);

@@ -13,6 +13,7 @@ namespace MembershipPortal.DTOs
         public record CreateProductDTO(
             string ProductName,
             [Required(ErrorMessage = "Price is Required")]
+            [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
             decimal Price
 
             );
@@ -20,6 +21,7 @@ namespace MembershipPortal.DTOs
         public record UpdateProductDTO(
            long Id,
            string ProductName,
+           [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
            [Required(ErrorMessage = "Price is Required")]
             decimal Price
 

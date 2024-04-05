@@ -52,6 +52,7 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
+
                 var gender = await _genderService.GetGenderAsync(id);
                 if (gender != null)
                 {
@@ -87,7 +88,10 @@ namespace MembershipPortal.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<GetGenderDTO>> Put(long id, UpdateGenderDTO genderDTO)
         {
-            
+            if(id != genderDTO.Id)
+            {
+                return BadRequest("Id mismatch error. Id's are not same.");
+            }
 
             try
             {
@@ -102,7 +106,8 @@ namespace MembershipPortal.API.Controllers
                     return NotFound("The resource to update was not found.");
                 }
 
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return StatusCode(500, "An error occurred while processing your request." + ex.Message);
             }

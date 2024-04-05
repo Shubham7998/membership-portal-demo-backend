@@ -80,6 +80,7 @@ namespace MembershipPortal.Services
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
                                                         subscriber.GenderId);
+                    return getSubscriber;
                 }
 
             }

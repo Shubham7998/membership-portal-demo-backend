@@ -62,8 +62,8 @@ namespace MembershipPortal.Services
                 if(gender != null)
                 {
                     var genderDto = new GetGenderDTO(gender.Id, gender.GenderName);
+                    return genderDto;
                 }
-                
 
                 
             }catch(Exception ex)
