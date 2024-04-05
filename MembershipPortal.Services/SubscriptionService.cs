@@ -37,7 +37,8 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.ToString());
+                throw;
             }
             return null;
         }
@@ -66,7 +67,8 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                // Console.WriteLine(ex.ToString());
+                throw;
                
             }
             return null;
@@ -87,7 +89,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.ToString());
                 throw;
             }
 
@@ -132,7 +134,8 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine(ex.ToString());
+                // Console.WriteLine(ex.ToString());
+                throw;
             }
             return null;
         }

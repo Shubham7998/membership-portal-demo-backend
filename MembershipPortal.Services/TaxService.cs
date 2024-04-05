@@ -35,7 +35,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in CreateTaxAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in CreateTaxAsync: {ex.Message}");
                 throw;
             }
         }
@@ -50,7 +50,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in DeleteTaxAsync: {ex.Message}");
+              //  Console.WriteLine($"Error occurred in DeleteTaxAsync: {ex.Message}");
                 throw;
             }
         }
@@ -68,7 +68,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetTaxByIdAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in GetTaxByIdAsync: {ex.Message}");
                 throw;
             }
         }
@@ -87,7 +87,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetTaxesAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in GetTaxesAsync: {ex.Message}");
                 throw;
             }
         }
@@ -109,7 +109,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in UpdateTaxAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in UpdateTaxAsync: {ex.Message}");
                 throw;
             }
         }

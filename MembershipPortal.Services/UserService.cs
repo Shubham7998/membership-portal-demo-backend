@@ -45,9 +45,9 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-            
-                Console.WriteLine(ex.Message);
-                return null;
+
+                //Console.WriteLine(ex.Message);
+                throw;
                 
             }
         }
@@ -68,7 +68,8 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                // Console.WriteLine(ex.Message);
+                throw;
                 
             }
             return false;
@@ -92,7 +93,8 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
+                throw;
             }
             return null;
         }
@@ -116,7 +118,7 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine(ex.Message);
+              //  Console.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -147,7 +149,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in UpdateUserAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in UpdateUserAsync: {ex.Message}");
                 throw;
             }
         }

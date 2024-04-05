@@ -35,7 +35,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in CreateDiscountAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in CreateDiscountAsync: {ex.Message}");
                 throw;
             }
         }
@@ -50,7 +50,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in DeleteDiscountAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in DeleteDiscountAsync: {ex.Message}");
                 throw;
             }
         }
@@ -68,7 +68,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetDiscountByIdAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in GetDiscountByIdAsync: {ex.Message}");
                 throw;
             }
         }
@@ -87,7 +87,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetDiscountsAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in GetDiscountsAsync: {ex.Message}");
 
                 throw;
             }
@@ -110,7 +110,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in UpdateDiscountAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in UpdateDiscountAsync: {ex.Message}");
 
                 throw;
             }

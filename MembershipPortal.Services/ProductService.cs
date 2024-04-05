@@ -40,7 +40,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
                 throw; ;
             }
 
@@ -61,7 +61,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
                 throw;
             }
             return false;
@@ -84,7 +84,7 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
                 throw;
             }
         }
@@ -104,9 +104,9 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
-               
-                return null;
+                // Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
+                throw;
+                
             }
            
         }
@@ -134,7 +134,7 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
                 throw;
 
             }
