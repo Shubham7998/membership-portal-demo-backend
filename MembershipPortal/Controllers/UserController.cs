@@ -41,7 +41,7 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while retrieving User infos: {ex.Message}");
-                throw;
+               
             }
            
         }
@@ -62,9 +62,9 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving User info: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving User info Id: {ex.Message}");
 
-                throw;
+               
             }
             //return await _userService.GetUserAsync(id);
         }
@@ -82,7 +82,7 @@ namespace MembershipPortal.API.Controllers
             {
                 return StatusCode(500, $"An error occurred while creating user info: {ex.Message}");
 
-                throw;
+                
             }
         }
 
@@ -103,6 +103,7 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while updating user info: {ex.Message}");
+                
             }
         }
 

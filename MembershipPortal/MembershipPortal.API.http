@@ -85,11 +85,6 @@ Content-Type: application/json
 
 ###
 
-POST {{MembershipPortal.API_HostAddress}}/api/user
-Content-Type: application/json
-
-{
-  //CreateUserDTO
-}
+GET {{MembershipPortal.API_HostAddress}}/api/Product/2
 
 ###
