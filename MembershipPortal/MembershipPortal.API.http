@@ -70,3 +70,7 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/Product/2
+
+###

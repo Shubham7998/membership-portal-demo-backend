@@ -31,11 +31,13 @@ namespace MembershipPortal.API.Controllers
 
                     return StatusCode(200, $"Table is Empty"+(product));
 
+
                 }
                 return Ok(product);
             }
             catch (Exception ex) {
-                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving Product info: {ex.Message}");
+                throw;
             }
         }
 
@@ -44,20 +46,20 @@ namespace MembershipPortal.API.Controllers
         public async Task<ActionResult<GetProductDTO>> Get(long id)
         {
 
-
             try
             {
                 var product = await _productService.GetProductAsync(id);
                 if (product == null)
                 {
-                    return StatusCode(500, "An error occurred while fetching the user info");
+                    return StatusCode(500, "An error occurred while fetching the Product info " +
+                        " not found");
 
                 }
                 return Ok(product);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving Product info: {ex.Message}");
 
                 throw;
             }
@@ -65,10 +67,25 @@ namespace MembershipPortal.API.Controllers
 
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<GetProductDTO> Post([FromBody] CreateProductDTO createProductDTO)
+        public async Task<ActionResult<GetProductDTO>> Post([FromBody] CreateProductDTO createProductDTO)
         {
-            return await _productService.CreateProductAsync(createProductDTO);
+            try
+            {
+                var product = await _productService.CreateProductAsync(createProductDTO);
+               if(product ==null)
+                {
+                return StatusCode(500, $"Product is null");
 
+                }
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while Creating Product info: {ex.Message}");
+
+
+            }
         }
 
         // PUT api/<ProductController>/5
@@ -88,7 +105,7 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex) 
             {
-              return StatusCode(500, $"An error occurred while updating  user info: {ex.Message}");
+              return StatusCode(500, $"An error occurred while updating  Product info: {ex.Message}");
 
                 throw;
             } }
@@ -104,7 +121,7 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
+                return StatusCode(500, $"An error occurred while deleting Product info: {ex.Message}");
 
                 throw;
             }
