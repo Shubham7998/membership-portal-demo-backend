@@ -27,26 +27,42 @@ namespace MembershipPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetTaxDTO>>> GetTaxesAsync()
         {
-            var taxDTOList = await _taxService.GetTaxesAsync();
-            if(taxDTOList != null)
+            try
             {
-                return Ok(taxDTOList);
+                var taxDTOList = await _taxService.GetTaxesAsync();
+                if (taxDTOList != null)
+                {
+                    return Ok(taxDTOList);
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: api/Tax/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tax>> GetTaxByIdAsync(long id)
         {
-            var taxDTO = await _taxService.GetTaxByIdAsync(id);
-
-            if (taxDTO == null)
+            try
             {
-                return NotFound(id);
-            }
+                var taxDTO = await _taxService.GetTaxByIdAsync(id);
 
-            return Ok(taxDTO);
+                if (taxDTO == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(taxDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // PUT: api/Tax/5
@@ -82,12 +98,20 @@ namespace MembershipPortal.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Tax>> PostTaxAsync(CreateTaxDTO taxDTO)
         {
-            var result = await _taxService.CreateTaxAsync(taxDTO);
-            if(result == null)
+            try
             {
-                return BadRequest();
+                var result = await _taxService.CreateTaxAsync(taxDTO);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(result);
             }
-            return Ok(result);
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // DELETE: api/Tax/5

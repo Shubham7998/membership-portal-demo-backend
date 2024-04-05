@@ -20,26 +20,42 @@ namespace MembershipPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetDiscountDTO>>> GetDiscountsAsyc()
         {
-            var discoutDTOList = await _discountService.GetDiscountsAsync();
-            if (discoutDTOList != null)
+            try
             {
-                return Ok(discoutDTOList);
+                var discoutDTOList = await _discountService.GetDiscountsAsync();
+                if (discoutDTOList != null)
+                {
+                    return Ok(discoutDTOList);
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: api/Discount/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetDiscountDTO>> GetDiscountByIdAsync(long id)
         {
-            var discountDTO = await _discountService.GetDiscountByIdAsync(id);
-
-            if (discountDTO == null)
+            try
             {
-                return NotFound(id);
-            }
+                var discountDTO = await _discountService.GetDiscountByIdAsync(id);
 
-            return Ok(discountDTO);
+                if (discountDTO == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(discountDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // PUT: api/Discount/5
@@ -64,8 +80,6 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                 return StatusCode(500, "An error occurred while processing PutDiscountAsync request." );
-
                     throw;
                 }
             }
@@ -77,12 +91,20 @@ namespace MembershipPortal.API.Controllers
         [HttpPost]
         public async Task<ActionResult<GetDiscountDTO>> PostDiscountAsync(CreateDiscountDTO discountDTO)
         {
-            var result = await _discountService.CreateDiscountAsync(discountDTO);
-            if (result == null)
+            try
             {
-                return BadRequest();
+                var result = await _discountService.CreateDiscountAsync(discountDTO);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(result);
             }
-            return Ok(result);
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // DELETE: api/Discount/5
@@ -99,10 +121,8 @@ namespace MembershipPortal.API.Controllers
                 }
                 return Ok(false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, "An error occurred while processing DeleteDiscountAsync request." + ex.Message);
-
                 throw;
             }
         }
