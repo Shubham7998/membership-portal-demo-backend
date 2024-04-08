@@ -125,12 +125,16 @@ namespace MembershipPortal.Services
                     oldProduct.ProductName = updateProductDTO.ProductName;
                     oldProduct.Price = updateProductDTO.Price;
 
-                    return new GetProductDTO(
-
-                           oldProduct.Id,
-                           oldProduct.ProductName,
-                           oldProduct.Price
+                    var result = await _productRepository.UpdateAsync(oldProduct);
+                    if (result != null)
+                    {
+                        return new GetProductDTO(
+                               oldProduct.Id,
+                               oldProduct.ProductName,
+                               oldProduct.Price
                            );
+                    }
+                    
                 }
                 return null;
             }
