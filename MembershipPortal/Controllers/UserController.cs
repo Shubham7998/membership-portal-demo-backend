@@ -141,7 +141,7 @@ namespace MembershipPortal.API.Controllers
 
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelSearchAsync(string find)
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetUserSearchAsync(string find)
         {
             try
             {
