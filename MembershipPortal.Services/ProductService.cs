@@ -38,7 +38,7 @@ namespace MembershipPortal.Services
                     product.Price
                     );
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 //Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
                 throw; ;
@@ -59,7 +59,7 @@ namespace MembershipPortal.Services
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                // Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
                 throw;
@@ -81,7 +81,7 @@ namespace MembershipPortal.Services
                     ));
                 return productDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 //Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
@@ -105,7 +105,7 @@ namespace MembershipPortal.Services
                 }
                 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 // Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
                 throw;
@@ -138,7 +138,7 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
                 //Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");

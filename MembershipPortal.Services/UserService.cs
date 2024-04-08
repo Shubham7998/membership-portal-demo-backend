@@ -48,7 +48,7 @@ namespace MembershipPortal.Services
 
                 //Console.WriteLine(ex.Message);
                 throw;
-                
+
             }
         }
 
@@ -64,16 +64,17 @@ namespace MembershipPortal.Services
                     return true;
 
                 }
-               
+
             }
             catch (Exception ex)
             {
                 // Console.WriteLine(ex.Message);
                 throw;
-                
+
             }
             return false;
         }
+
 
         public async Task<GetUserDTO> GetUserAsync(long Id)
         {
@@ -81,7 +82,7 @@ namespace MembershipPortal.Services
             {
 
                 var user = await userRepository.GetAsyncById(Id);
-                if(user != null)
+                if (user != null)
                 {
                     return new GetUserDTO(
                          user.Id,
@@ -121,10 +122,12 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-              //  Console.WriteLine(ex.Message);
+                //  Console.WriteLine(ex.Message);
                 throw;
             }
         }
+
+
 
         public async Task<GetUserDTO> UpdateUserAsync(long id, UpdateUserDTO updateUserDTO)
         {
@@ -159,5 +162,58 @@ namespace MembershipPortal.Services
                 throw;
             }
         }
+        public async Task<IEnumerable<GetUserDTO>> GetUserSearchAsync(string find)
+        {
+            var userList = await userRepository.GetUserSearchAsync(find);
+
+            var userDto = userList.Select(
+                user => new GetUserDTO(
+                    user.Id,
+                    user.FirstName,
+                    user.LastName,
+                    user.ContactNumber,
+                    user.Email,
+                    user.Password
+                ));
+
+            return userDto;
+        }
+
+
+        public async Task<IEnumerable<GetUserDTO>> GetUserAdvanceSearchAsync(GetUserDTO getUserDTO)
+        {
+            try
+            {
+                var userList = await userRepository.GetUserAdvanceSearchAsync(new User()
+                {
+                    Id = getUserDTO.Id,
+                    FirstName = getUserDTO.FirstName,
+                    LastName = getUserDTO.LastName,
+                    Email = getUserDTO.Email,
+                    Password = getUserDTO.Password,
+                    ContactNumber = getUserDTO.ContactNumber
+                });
+
+
+                var userDto = userList.Select(
+                    user => new GetUserDTO(
+                        user.Id,
+                        user.FirstName,
+                        user.LastName,
+                        user.ContactNumber,
+                        user.Email,
+                        user.Password
+                        ));
+                return userDto;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+
     }
 }

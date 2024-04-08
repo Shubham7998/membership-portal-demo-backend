@@ -67,6 +67,8 @@ namespace MembershipPortal.Repositories
             }
             else
             {
+                 // decimal CreateDiscount =  reCalculatingDiscount(createSubscriptionDTO, discount, product);
+
                 discountAmount = discount.DiscountAmount;
             }
 
@@ -186,7 +188,7 @@ namespace MembershipPortal.Repositories
             if (discount.IsDiscountInPercentage)
             {
                 discountAmount = product.Price * discount.DiscountAmount / 100;
-
+             
             }
             else
             {
