@@ -1,6 +1,8 @@
-﻿using MembershipPortal.DTOs;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +15,7 @@ namespace MembershipPortal.API.Controllers
     {
         private readonly ISubscriberService _subscriberService;
 
+        private readonly string tableName = "Subscriber";
         public SubscriberController(ISubscriberService subscriberService)
         {
             _subscriberService = subscriberService;
@@ -34,12 +37,11 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be display was not found.Table is empty.");
+                    return NotFound(MyException.DataNotFound( tableName));
                 }
             }catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
-
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -52,17 +54,17 @@ namespace MembershipPortal.API.Controllers
                 var subscriberDto = await _subscriberService.GetSubscriberAsync(id);
                 if(subscriberDto != null)
                 {
-                    return subscriberDto;
+                    return Ok(subscriberDto);
 
                 }
                 else
                 {
-                    return NotFound("The resource to be display was not found.");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
             }
             catch(Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -77,7 +79,7 @@ namespace MembershipPortal.API.Controllers
                 return Ok(subscriberDto);
             }catch(Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -96,12 +98,12 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be update was not found.");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
             }
             catch( Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -115,16 +117,16 @@ namespace MembershipPortal.API.Controllers
 
                 if (subscriberDto)
                 {
-                    return StatusCode(200, "Subscriber deleted successfully");
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
                 }
                 else
                 {
-                    return NotFound("The resource to be deleted was not found.");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
             }
             catch(Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MembershipPortal.DTOs;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -14,7 +15,7 @@ namespace MembershipPortal.API.Controllers
     public class GenderController : ControllerBase
     {
         private readonly IGenderService _genderService;
-
+        public string tableName = "Gender";
         public GenderController(IGenderService genderService)
         {
             _genderService = genderService;
@@ -35,14 +36,14 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to be display was not found.Table is empty.");
+                    return NotFound(MyException.DataNotFound(tableName));
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
 
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -58,13 +59,14 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(gender);
                 }
-                else
-                {
-                    return NotFound("No resource present with this id.");
-                }
-            }catch(Exception ex)
+                
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+             
+            }
+            catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -78,9 +80,10 @@ namespace MembershipPortal.API.Controllers
                 return Ok(gender);
                 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -90,7 +93,7 @@ namespace MembershipPortal.API.Controllers
         {
             if(id != genderDTO.Id)
             {
-                return BadRequest("Id mismatch error. Id's are not same.");
+               return BadRequest(MyException.IdMismatch());
             }
 
             try
@@ -103,13 +106,14 @@ namespace MembershipPortal.API.Controllers
                 }
                 else
                 {
-                    return NotFound("The resource to update was not found.");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." + ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -123,16 +127,17 @@ namespace MembershipPortal.API.Controllers
 
                 if (genderDeleted)
                 {
-                    return StatusCode(200, "Gender deleted successfully");
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
                 }
                 else
                 {
-                    return NotFound("The resource to delete was not found.");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request." +ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
