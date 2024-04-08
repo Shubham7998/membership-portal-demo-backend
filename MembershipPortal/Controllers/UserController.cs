@@ -28,7 +28,7 @@ namespace MembershipPortal.API.Controllers
                 var user = await _userService.GetUsersAsync();
                 if(user == null)
                 {
-                    return StatusCode(204, $"Table is Empty");
+                    return StatusCode(200, $"Table is Empty");
 
                 }
                 else

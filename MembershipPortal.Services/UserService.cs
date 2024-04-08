@@ -138,12 +138,14 @@ namespace MembershipPortal.Services
                     oldUser.Email = updateUserDTO.Email;
                     oldUser.Password = updateUserDTO.Password;
 
+                    
                     return new GetUserDTO(oldUser.Id,
                                  oldUser.FirstName,
                                  oldUser.LastName,
                                  oldUser.Email,
                                  oldUser.ContactNumber,
                                  oldUser.Password);
+
                 }
                 return null;
             }
