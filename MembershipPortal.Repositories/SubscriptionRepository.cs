@@ -137,7 +137,7 @@ namespace MembershipPortal.Repositories
                     taxAmount = reCalculatingTax(oldSubscription);
                 }
 
-                finalAmount = priceAfterDiscount + taxAmount;
+                finalAmount = oldSubscription.PriceAfterDiscount + oldSubscription.TaxAmount;
 
                 oldSubscription.FinalAmount = finalAmount;
 
@@ -175,7 +175,13 @@ namespace MembershipPortal.Repositories
 
         private decimal reCalculatingDiscount(Subscription oldSubscription, UpdateSubscriptionDTO updateSubscriptionDTO,Discount discount, Product product)
         {
-            
+            if (discount == null) {
+                oldSubscription.DiscountAmount = 0;
+                oldSubscription.DiscountCode = "";
+                oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
+                oldSubscription.PriceAfterDiscount = product.Price;
+                return product.Price;
+            }
             decimal discountAmount = 0;
             decimal priceAfterDiscount = 0;
             oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
