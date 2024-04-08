@@ -1,4 +1,6 @@
-﻿using MembershipPortal.IServices;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.ProductDTO;
 using static MembershipPortal.DTOs.UserDTO;
@@ -13,6 +15,8 @@ namespace MembershipPortal.API.Controllers
     {
 
         private readonly IProductService _productService;
+        private readonly string tableName = "Product";
+
 
         public ProductController (IProductService productService)
         {
@@ -27,17 +31,20 @@ namespace MembershipPortal.API.Controllers
             {
                 var product = await _productService.GetProductsAsync();
 
-                if(product == null) {
+                if (product.Count() != 0)
+                {
 
-                    return StatusCode(200, $"Table is Empty"+(product));
-
-
+                    return Ok(product);
                 }
-                return Ok(product);
+                else
+                {
+                    return NotFound(MyException.DataNotFound(tableName));
+                }
             }
-            catch (Exception ex) {
-                return StatusCode(500, $"An error occurred while retrieving Product info: {ex.Message}");
-                throw;
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -51,17 +58,14 @@ namespace MembershipPortal.API.Controllers
                 var product = await _productService.GetProductAsync(id);
                 if (product == null)
                 {
-                    return StatusCode(500, "An error occurred while fetching the Product info " +
-                        " not found");
-
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
                 return Ok(product);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving Product info: {ex.Message}");
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -82,9 +86,8 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while Creating Product info: {ex.Message}");
 
-
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -95,36 +98,48 @@ namespace MembershipPortal.API.Controllers
 
             if (id != updateProductDTO.Id)
             {
-                return BadRequest("ID in the URL does not match ID in the request body.");
+                return BadRequest(MyException.IdMismatch());
             }
             try
             {
+                var product = await _productService.UpdateProductAsync(id, updateProductDTO);
+                if (product != null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
 
-                var createuser = await _productService.UpdateProductAsync(id, updateProductDTO);
-                return Ok(createuser);
-                
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-              return StatusCode(500, $"An error occurred while updating  Product info: {ex.Message}");
 
-                throw;
-            } }
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
 
-        // DELETE api/<ProductController>/5
-        [HttpDelete("{id}")]
+            // DELETE api/<ProductController>/5
+            [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(long id)
         {
             try
             {
                 var isDeleted = await _productService.DeleteProductAsync(id);
-                return Ok(isDeleted);
+                if (isDeleted)
+                {
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while deleting Product info: {ex.Message}");
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
     }
