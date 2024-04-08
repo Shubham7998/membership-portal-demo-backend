@@ -3,6 +3,7 @@ using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
+using static MembershipPortal.DTOs.UserDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -127,6 +128,37 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> SubscriptionSearchAsync(string filter)
+        {
+            try
+            {
+                var subscriptionInfo = await _subscriptionService.GetAllSubscriptionSearchAsync(filter);
+                return Ok(subscriptionInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving Subscription info : {ex.Message}");
+
+            }
+
+        }
+
+        [HttpPost("advancesearch")]
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> SubscriptionAdvanceSearchAsync(GetSubscriptionDTO subscriptionDTO)
+        {
+            try
+            {
+                var filterData = await _subscriptionService.GetAllSubscriptionAdvanceSearchAsync(subscriptionDTO);
+                return Ok(filterData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving Advance search Subscription info : {ex.Message}");
+
+            }
         }
     }
 }
