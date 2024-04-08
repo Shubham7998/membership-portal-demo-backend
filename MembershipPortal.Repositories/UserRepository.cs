@@ -43,19 +43,19 @@ namespace MembershipPortal.Repositories
 
             if (!string.IsNullOrWhiteSpace(userobj.FirstName))
             {
-                query = query.Where(user => user.FirstName == user.FirstName);
+                query = query.Where(user => userobj.FirstName == user.FirstName);
             }
             if (!string.IsNullOrWhiteSpace(userobj.LastName))
             {
-                query = query.Where(user => user.LastName == user.LastName);
+                query = query.Where(user => userobj.LastName == user.LastName);
             }
             if (!string.IsNullOrWhiteSpace(userobj.ContactNumber))
             {
-                query = query.Where(user => user.ContactNumber == user.ContactNumber);
+                query = query.Where(user => userobj.ContactNumber == user.ContactNumber);
             }
             if (!string.IsNullOrWhiteSpace(userobj.Email))
             {
-                query = query.Where(user => user.Email == user.Email);
+                query = query.Where(user => userobj.Email == user.Email);
             }
 
             return await query.ToListAsync();

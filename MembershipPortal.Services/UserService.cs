@@ -189,9 +189,10 @@ namespace MembershipPortal.Services
                     Id = getUserDTO.Id,
                     FirstName = getUserDTO.FirstName,
                     LastName = getUserDTO.LastName,
+                    ContactNumber = getUserDTO.ContactNumber,
                     Email = getUserDTO.Email,
-                    Password = getUserDTO.Password,
-                    ContactNumber = getUserDTO.ContactNumber
+                    Password = getUserDTO.Password
+                  
                 });
 
 

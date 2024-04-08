@@ -175,13 +175,21 @@ GET {{MembershipPortal.API_HostAddress}}/api/Product/{id}
 GET {{MembershipPortal.API_HostAddress}}/api/user/search?find=1212121212
 
 ###
-GET {{MembershipPortal.API_HostAddress}}/api/user/
 
 POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
 Content-Type: application/json
 
-{
-  "contactNumber": "1212121212"
+{     "id": 0,
+    "firstName": "dikshaa",
+    "lastName": "Ingle",
+    "email": "",
+    "password": "1212121212",
+    "contactNumber": ""
 }
+###
+
+
+###
+
 
 ###
