@@ -39,7 +39,7 @@ namespace MembershipPortal.Repositories
         {
             var query = _dbContext.Users.AsQueryable();
 
-            await _dbContext.Users.ToListAsync();
+           
 
             if (!string.IsNullOrWhiteSpace(userobj.FirstName))
             {

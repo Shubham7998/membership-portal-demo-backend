@@ -268,7 +268,7 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/Product/
+GET {{MembershipPortal.API_HostAddress}}/api/user/
 
 ###
 
@@ -278,6 +278,19 @@ Content-Type: application/json
 {
    "productName": "8 month plan",
     "price": 120.00
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+Content-Type: application/json
+
+{
+   "firstName": "",
+    "lastName": "",
+    "email": "",
+    "password": "",
+    "contactNumber": "pooja@28"
 }
 
 ###

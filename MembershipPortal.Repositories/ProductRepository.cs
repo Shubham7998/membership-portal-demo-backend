@@ -38,7 +38,7 @@ namespace MembershipPortal.Repositories
         {
             var query = _dbContext.Products.AsQueryable();
 
-            await _dbContext.Products.ToListAsync();
+        
 
             if (!string.IsNullOrWhiteSpace(productobj.ProductName))
             {
