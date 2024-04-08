@@ -69,7 +69,6 @@ namespace MembershipPortal.API.Controllers
 
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
-            //return await _userService.GetUserAsync(id);
         }
 
         // POST api/<UserController>

@@ -3,6 +3,7 @@ using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static MembershipPortal.DTOs.ProductDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -90,6 +91,10 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
+                if (id != subscriberDTO.Id)
+                {
+                    return BadRequest(MyException.IdMismatch());
+                }
                 var subscriberDto = await _subscriberService.UpdateSubscriberAsync(id, subscriberDTO);
 
                 if (subscriberDto != null)
