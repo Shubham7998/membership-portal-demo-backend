@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.API.ErrorHandling;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -10,6 +11,7 @@ namespace MembershipPortal.API.Controllers
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountService _discountService;
+        public string tableName = "Discount";
 
         public DiscountController(IDiscountService discountService)
         {
@@ -27,12 +29,12 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(discoutDTOList);
                 }
-                return NoContent();
+                return NotFound(MyException.DataNotFound(tableName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -49,12 +51,12 @@ namespace MembershipPortal.API.Controllers
                     return NotFound(id);
                 }
 
-                return Ok(discountDTO);
+                return NotFound(MyException.DataWithIdNotPresent(id,tableName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -65,7 +67,7 @@ namespace MembershipPortal.API.Controllers
         {
             if (id != discountDTO.Id)
             {
-                return BadRequest("Id Mismatch");
+                return BadRequest(MyException.IdMismatch());
             }
             
             try
@@ -74,18 +76,17 @@ namespace MembershipPortal.API.Controllers
 
                 if (oldDiscount == null)
                 {
-                    return NotFound("Data with id is not found");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
 
                 var result =  await _discountService.UpdateDiscountAsync(id, discountDTO);
 
                 return Ok(result);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                
-                    throw;
-                
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -104,10 +105,10 @@ namespace MembershipPortal.API.Controllers
                 }
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -121,13 +122,14 @@ namespace MembershipPortal.API.Controllers
                 if (discountDTO != null)
                 {
                     var result = await _discountService.DeleteDiscountAsync(id);
-                    return Ok(result);
+                    return Ok(MyException.DataDeletedSuccessfully(tableName));
                 }
-                return Ok(false);
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 

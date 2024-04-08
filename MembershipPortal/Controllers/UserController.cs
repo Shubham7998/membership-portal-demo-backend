@@ -1,5 +1,8 @@
-﻿using MembershipPortal.IServices;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using static MembershipPortal.DTOs.UserDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +16,7 @@ namespace MembershipPortal.API.Controllers
 
         private readonly IUserService _userService;
 
+        private readonly string tableName = "User";
 
         public UserController (IUserService userService)
         {
@@ -25,25 +29,25 @@ namespace MembershipPortal.API.Controllers
 
             try
             {
-                var user = await _userService.GetUsersAsync();
-                if(user == null)
+                var users = await _userService.GetUsersAsync();
+                if (users.Count() != 0)
                 {
-                    return StatusCode(200, $"Table is Empty");
 
+                    return Ok(users);
                 }
                 else
                 {
-                    return Ok(user);
+                    return NotFound(MyException.DataNotFound(tableName));
                 }
-              
-                
+
+
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving User infos: {ex.Message}");
-               
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
-           
+
         }
 
         // GET api/<UserController>/5
@@ -55,18 +59,16 @@ namespace MembershipPortal.API.Controllers
                 var user = await _userService.GetUserAsync(id);
                 if (user == null)
                 {
-                    return BadRequest($"Id not present in the table");
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
                 return Ok(user);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving User info Id: {ex.Message}");
 
-               
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
-            //return await _userService.GetUserAsync(id);
         }
 
         // POST api/<UserController>
@@ -80,9 +82,8 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while creating user info: {ex.Message}");
-                throw;
-                
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -92,18 +93,25 @@ namespace MembershipPortal.API.Controllers
         {
             if(id!= updateUserDTO.Id)
             {
-                return BadRequest("ID in the URL does not match ID in the request body.");
+                return BadRequest(MyException.IdMismatch());
 
             }
             try
             {
                 var user = await _userService.UpdateUserAsync(id, updateUserDTO);
-                return Ok(user);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while updating user info: {ex.Message}");
-                throw;
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -113,14 +121,20 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var isDeleted = await _userService.DeleteUserAsync(id);
-                return Ok(isDeleted);
+                var userDeleted = await _userService.DeleteUserAsync(id);
+                if (userDeleted)
+                {
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
-                throw;
-             
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
     }

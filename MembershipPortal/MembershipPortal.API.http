@@ -1,6 +1,6 @@
 ﻿@MembershipPortal.API_HostAddress = http://localhost:5224
 
-GET {{MembershipPortal.API_HostAddress}}/api/tax
+GET {{MembershipPortal.API_HostAddress}}/api/tax/12345
 
 
 
@@ -78,8 +78,8 @@ Content-Type: application/json
 
 {
   "SubscriberId" : 2,
-  "ProductId" : 1,
-  "DiscountId" : 2,
+  "ProductId" : 6,
+  "DiscountId" : 1,
   "TaxId" : 2
 }
 
@@ -89,7 +89,7 @@ GET {{MembershipPortal.API_HostAddress}}/api/Product/2
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/discount
+GET {{MembershipPortal.API_HostAddress}}/api/subscription/1
 
 ###
 
@@ -97,13 +97,49 @@ POST {{MembershipPortal.API_HostAddress}}/api/subscription
 Content-Type: application/json
 
 {
-  
-    "id": 2,
-    "productId": 1,
-    "discountId": 2,
-    "startDate": "0001-01-01T00:00:00",
-    "expiryDate": "0001-01-01T00:00:00",
-    "TaxId":1
+  "SubscriberId" : 1,
+  "ProductId" : 6,
+  "DiscountId" : 3,
+  "TaxId" : 2
 }
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/5
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/discount
+Content-Type: application/json
+
+{
+  //CreateDiscountDTO
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/gender/12
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/tax/1
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/tax
+Content-Type: application/json
+
+{
+  "sgst": 10.00,
+  "cgst": 10.00
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/12
 
 ###

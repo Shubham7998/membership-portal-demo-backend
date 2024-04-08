@@ -1,5 +1,7 @@
-﻿using MembershipPortal.DTOs;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,7 +13,7 @@ namespace MembershipPortal.API.Controllers
     public class SubscriptionController : ControllerBase
     {
         private readonly ISubscriptionService _subscriptionService;
-
+        private readonly string tableName = "Subscription";
         public SubscriptionController(ISubscriptionService subscriptionService)
         {
             _subscriptionService = subscriptionService;
@@ -26,12 +28,17 @@ namespace MembershipPortal.API.Controllers
             {
                 var getSubscriptionDTOList = await _subscriptionService.GetAllSubscriptionForeignAsync();
 
-                
-                return Ok(getSubscriptionDTOList);
+                if(getSubscriptionDTOList.Count() != 0)
+                {
+                    return Ok(getSubscriptionDTOList);
+
+                }
+                return NotFound(MyException.DataNotFound(tableName));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -45,13 +52,13 @@ namespace MembershipPortal.API.Controllers
                 if(result != null) {
                     return Ok(result);
                 }
-                return BadRequest($"Data with {id} is not present in our table");
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
-            } 
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
         }
 
         // POST api/<SubscriptionController>
@@ -70,10 +77,10 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
-           
+
         }
 
         // PUT api/<SubscriptionController>/5
@@ -87,12 +94,13 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(result);
                 }
-                return BadRequest("Failed To Update entry to the database table");
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
-            
+
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -103,16 +111,22 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var result = await _subscriptionService.DeleteSubscriptionByIdAsync(id);
+                var result = await _subscriptionService.GetSubscriptionByIdAsync(id);
+                if (result != null)
+                {
+                    var subscription = await _subscriptionService.DeleteSubscriptionByIdAsync(id);
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                }
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
 
-                return Ok(result);
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-               
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
-            
+
         }
     }
 }

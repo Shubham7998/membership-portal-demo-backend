@@ -9,6 +9,8 @@ using MembershipPortal.Data;
 using MembershipPortal.Models;
 using MembershipPortal.IServices;
 using MembershipPortal.DTOs;
+using MembershipPortal.API.ErrorHandling;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -17,6 +19,8 @@ namespace MembershipPortal.API.Controllers
     public class TaxController : ControllerBase
     {
         private readonly ITaxService _taxService;
+        private readonly string tableName = "Tax";
+
 
         public TaxController(ITaxService taxService)
         {
@@ -30,16 +34,17 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var taxDTOList = await _taxService.GetTaxesAsync();
-                if (taxDTOList != null)
+                if (taxDTOList.Count() != 0)
                 {
                     return Ok(taxDTOList);
+
                 }
-                return NoContent();
+                return NotFound(MyException.DataNotFound(tableName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -51,17 +56,17 @@ namespace MembershipPortal.API.Controllers
             {
                 var taxDTO = await _taxService.GetTaxByIdAsync(id);
 
-                if (taxDTO == null)
+                if (taxDTO != null)
                 {
-                    return NotFound(id);
+                    return Ok(taxDTO);
                 }
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
 
-                return Ok(taxDTO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -77,18 +82,18 @@ namespace MembershipPortal.API.Controllers
 
             try
             {
-                return await _taxService.UpdateTaxAsync(id, taxDTO);
+                var result =  await _taxService.UpdateTaxAsync(id, taxDTO);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!TaxExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -109,10 +114,10 @@ namespace MembershipPortal.API.Controllers
                 }
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -128,12 +133,12 @@ namespace MembershipPortal.API.Controllers
                     var result = await _taxService.DeleteTaxAsync(id);
                     return Ok(result);
                 }
-                return Ok(false);
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 

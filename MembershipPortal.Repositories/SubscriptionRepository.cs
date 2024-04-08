@@ -97,7 +97,8 @@ namespace MembershipPortal.Repositories
                 FinalAmount = finalAmount
             };
 
-            await _dbContext.AddAsync(subscription);
+             await _dbContext.Subscriptions.AddAsync(subscription);
+            
             await _dbContext.SaveChangesAsync();
 
             return subscription;
@@ -129,7 +130,6 @@ namespace MembershipPortal.Repositories
 
                     priceAfterDiscount = reCalculatingDiscount(oldSubscription, updateSubscriptionDTO, discount, product);
                     taxAmount = reCalculatingTax(oldSubscription);
-
                 }
                 else if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
                 {
@@ -143,6 +143,7 @@ namespace MembershipPortal.Repositories
 
                 var result =  _dbContext.Subscriptions.Update(oldSubscription);
                 await _dbContext.SaveChangesAsync();
+
 
                 var subscription = new Subscription()
                 {   
@@ -165,12 +166,9 @@ namespace MembershipPortal.Repositories
                     FinalAmount = oldSubscription.FinalAmount
                 };
                 return subscription;
-
             }
 
             return null;
-         
-
         }
 
         private decimal reCalculatingDiscount(Subscription oldSubscription, UpdateSubscriptionDTO updateSubscriptionDTO,Discount discount, Product product)
