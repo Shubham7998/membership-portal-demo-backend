@@ -102,6 +102,7 @@ namespace MembershipPortal.API.Controllers
 
                 var createuser = await _productService.UpdateProductAsync(id, updateProductDTO);
                 return Ok(createuser);
+                
             }
             catch (Exception ex) 
             {

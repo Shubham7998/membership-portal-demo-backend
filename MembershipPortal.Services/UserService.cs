@@ -141,6 +141,8 @@ namespace MembershipPortal.Services
                     oldUser.Email = updateUserDTO.Email;
                     oldUser.Password = updateUserDTO.Password;
 
+                    var result = await userRepository.UpdateAsync(oldUser);
+
                     return new GetUserDTO(oldUser.Id,
                                  oldUser.FirstName,
                                  oldUser.LastName,
@@ -152,7 +154,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-               // Console.WriteLine($"Error occurred in UpdateUserAsync: {ex.Message}");
+                Console.WriteLine($"Error occurred in UpdateUserAsync: {ex.Message}");
                 throw;
             }
         }

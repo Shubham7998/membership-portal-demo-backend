@@ -81,7 +81,7 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while creating user info: {ex.Message}");
-
+                throw;
                 
             }
         }
@@ -103,7 +103,7 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while updating user info: {ex.Message}");
-                
+                throw;
             }
         }
 
@@ -119,7 +119,7 @@ namespace MembershipPortal.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
-
+                throw;
              
             }
         }
