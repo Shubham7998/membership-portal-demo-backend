@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MembershipPortal.DTOs.ProductDTO;
+using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.Services
 {
@@ -145,6 +146,56 @@ namespace MembershipPortal.Services
                 throw;
 
             }
+
         }
+
+
+
+        public async Task<IEnumerable<GetProductDTO>> GetProductSearchAsync(string find)
+        {
+            var productList = await _productRepository.GetProductSearchAsync(find);
+
+            var productdto = productList.Select(
+                product => new GetProductDTO(
+                    product.Id,
+                    product.ProductName,
+                    product.Price
+                   
+                ));
+
+            return productdto;
+        }
+
+        public async Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO)
+        {
+            try
+            {
+                var productList = await _productRepository.GetProductAdvanceSearchAsync(new Product()
+                {
+                    Id = getProductDTO.Id,
+                    ProductName = getProductDTO.ProductName,
+                    Price= getProductDTO.Price
+                  
+                });
+
+
+                var productdto = productList.Select(
+                    product => new GetProductDTO(
+                        product.Id,
+                        product.ProductName,
+                        product.Price
+                     
+                        ));
+                return productdto;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+
     }
 }

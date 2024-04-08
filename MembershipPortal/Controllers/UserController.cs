@@ -145,8 +145,8 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var mobileInfo = await _userService.GetUserSearchAsync(find);
-                return Ok(mobileInfo);
+                var userInfo = await _userService.GetUserSearchAsync(find);
+                return Ok(userInfo);
             }
             catch (Exception ex)
             {
@@ -168,7 +168,7 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving  advance search user info : {ex.Message}");
 
             }
         }

@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.API.ErrorHandling;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.ProductDTO;
 using static MembershipPortal.DTOs.UserDTO;
@@ -140,6 +141,39 @@ namespace MembershipPortal.API.Controllers
             {
 
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> GetProductSearchAsync(string find)
+        {
+            try
+            {
+                var productInfo = await _productService.GetProductSearchAsync(find);
+                return Ok(productInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while searching product info : {ex.Message}");
+
+
+            }
+
+        }
+
+
+        [HttpPost("advancesearch")]
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO)
+        {
+            try
+            {
+                var filterData = await _productService.GetProductAdvanceSearchAsync(getProductDTO);
+                return Ok(filterData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
+
             }
         }
     }
