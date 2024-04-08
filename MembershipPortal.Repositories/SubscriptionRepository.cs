@@ -60,6 +60,7 @@ namespace MembershipPortal.Repositories
             var tax = await _dbContext.Taxes.FindAsync(createSubscriptionDTO.TaxId);
 
             decimal discountAmount = 0;
+            decimal priceAfterDiscount = 0;
 
             if (discount.IsDiscountInPercentage)
             {
@@ -70,8 +71,11 @@ namespace MembershipPortal.Repositories
                 discountAmount = discount.DiscountAmount;
             }
 
+            if(discountAmount < product.Price)
+            {
+                priceAfterDiscount = product.Price - discountAmount;
+            }
 
-            var priceAfterDiscount = product.Price - discountAmount;
 
             var taxAmount = priceAfterDiscount * tax.TotalTax / 100;
 

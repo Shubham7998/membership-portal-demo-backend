@@ -143,3 +143,19 @@ Content-Type: application/json
 GET {{MembershipPortal.API_HostAddress}}/api/subscriber/12
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  "subscriberId": 1,
+  "productId": 6,
+  "discountId": 3,
+   "taxId": 2
+}
+
+###
