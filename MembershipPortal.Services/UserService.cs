@@ -149,6 +149,7 @@ namespace MembershipPortal.Services
                                  oldUser.Email,
                                  oldUser.ContactNumber,
                                  oldUser.Password);
+
                 }
                 return null;
             }

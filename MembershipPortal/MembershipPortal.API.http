@@ -88,3 +88,22 @@ Content-Type: application/json
 GET {{MembershipPortal.API_HostAddress}}/api/Product/2
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/discount
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  
+    "id": 2,
+    "productId": 1,
+    "discountId": 2,
+    "startDate": "0001-01-01T00:00:00",
+    "expiryDate": "0001-01-01T00:00:00",
+    "TaxId":1
+}
+
+###
