@@ -38,10 +38,8 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
 
-                //Console.WriteLine(ex.ToString());
                 throw;
             }
-            return null;
         }
 
         public async Task<GetSubscriptionDTO> UpdateSubscriptionAsync( long Id ,UpdateSubscriptionDTO updateSubscriptionDTO)

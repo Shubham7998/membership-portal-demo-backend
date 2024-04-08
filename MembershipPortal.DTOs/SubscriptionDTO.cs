@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace MembershipPortal.DTOs
 {
+    class InitialValueAccess()
+    {
+        long _DiscountId = 1;
+    }
     public record CreateSubscriptionDTO(
         
             [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,

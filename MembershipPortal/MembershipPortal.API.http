@@ -201,7 +201,6 @@ PUT {{MembershipPortal.API_HostAddress}}/api/tax/0
 Content-Type: application/json
 
 {
- 
 
 }
 
@@ -235,7 +234,7 @@ Content-Type: application/json
     "firstName": "dikshaa",
     "lastName": "Ingle",
     "email": "",
-    "password": "1212121212",
+    "password": "",
     "contactNumber": ""
 }
 ###
@@ -243,5 +242,55 @@ Content-Type: application/json
 
 ###
 
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product/search?find=100.00 
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/advancesearch
+Content-Type: application/json
+
+{
+  "productName": "8 month plan",
+    "price": 100.00
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user/
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+   "productName": "8 month plan",
+    "price": 120.00
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+Content-Type: application/json
+
+{
+   "firstName": "",
+    "lastName": "",
+    "email": "",
+    "password": "",
+    "contactNumber": "pooja@28"
+}
 
 ###

@@ -54,26 +54,28 @@ namespace MembershipPortal.Repositories
 
         public async Task<Subscription> CreateSubscriptionAsync(CreateSubscriptionDTO createSubscriptionDTO)
         {
-
+            long discountId = createSubscriptionDTO.DiscountId == 0 ? 1 : createSubscriptionDTO.DiscountId;
             var product = await _dbContext.Products.FindAsync(createSubscriptionDTO.ProductId);
-            var discount = await _dbContext.Discounts.FindAsync(createSubscriptionDTO.DiscountId);
+
+            
+            var discount = await _dbContext.Discounts.FindAsync(discountId);
             var tax = await _dbContext.Taxes.FindAsync(createSubscriptionDTO.TaxId);
 
             decimal discountAmount = 0;
             decimal priceAfterDiscount = 0;
 
-            if (discount.IsDiscountInPercentage)
+            if(discount != null)
             {
-                discountAmount = product.Price * discount.DiscountAmount / 100;
+                if (discount.IsDiscountInPercentage)
+                {
+                    discountAmount = product.Price * discount.DiscountAmount / 100;
+                }
+                else
+                {
+                    discountAmount = discount.DiscountAmount;
+                }
             }
-            else
-            {
-                 // decimal CreateDiscount =  reCalculatingDiscount(createSubscriptionDTO, discount, product);
-
-                discountAmount = discount.DiscountAmount;
-            }
-
-            if(discountAmount < product.Price)
+            if (discountAmount < product.Price)
             {
                 priceAfterDiscount = product.Price - discountAmount;
             }
@@ -89,7 +91,7 @@ namespace MembershipPortal.Repositories
                 ProductId = createSubscriptionDTO.ProductId,
                 ProductName = product.ProductName,
                 ProductPrice = product.Price,
-                DiscountId = createSubscriptionDTO.DiscountId,
+                DiscountId = discountId,
                 DiscountCode = discount.DiscountCode,
                 DiscountAmount = discountAmount,
                 StartDate = createSubscriptionDTO.StartDate,
@@ -104,6 +106,7 @@ namespace MembershipPortal.Repositories
             };
 
              await _dbContext.Subscriptions.AddAsync(subscription);
+            
             
             await _dbContext.SaveChangesAsync();
 
@@ -198,7 +201,7 @@ namespace MembershipPortal.Repositories
             if (discount.IsDiscountInPercentage)
             {
                 discountAmount = product.Price * discount.DiscountAmount / 100;
-             
+
             }
             else
             {

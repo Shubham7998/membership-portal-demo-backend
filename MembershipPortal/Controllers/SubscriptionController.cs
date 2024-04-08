@@ -80,8 +80,6 @@ namespace MembershipPortal.API.Controllers
 
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
-
-
         }
 
         // PUT api/<SubscriptionController>/5
