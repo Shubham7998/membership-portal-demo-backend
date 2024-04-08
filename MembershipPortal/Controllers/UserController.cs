@@ -55,7 +55,7 @@ namespace MembershipPortal.API.Controllers
                 var user = await _userService.GetUserAsync(id);
                 if (user == null)
                 {
-                    return StatusCode(204, $"Id not present in the table");
+                    return BadRequest($"Id not present in the table");
                 }
                 return Ok(user);
 

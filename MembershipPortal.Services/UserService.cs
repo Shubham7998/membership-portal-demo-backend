@@ -81,7 +81,9 @@ namespace MembershipPortal.Services
             {
 
                 var user = await userRepository.GetAsyncById(Id);
-                return new GetUserDTO(
+                if(user != null)
+                {
+                    return new GetUserDTO(
                          user.Id,
                          user.FirstName,
                          user.LastName,
@@ -89,8 +91,9 @@ namespace MembershipPortal.Services
                          user.ContactNumber,
                          user.Password
                          );
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 //Console.WriteLine(ex.Message);

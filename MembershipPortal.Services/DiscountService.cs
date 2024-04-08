@@ -64,13 +64,13 @@ namespace MembershipPortal.Services
                 {
                     return new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.IsDiscountInPercentage);
                 }
-                return null;
             }
             catch (Exception ex)
             {
                // Console.WriteLine($"Error occurred in GetDiscountByIdAsync: {ex.Message}");
                 throw;
             }
+                return null;
         }
 
         public async Task<IEnumerable<GetDiscountDTO>> GetDiscountsAsync()

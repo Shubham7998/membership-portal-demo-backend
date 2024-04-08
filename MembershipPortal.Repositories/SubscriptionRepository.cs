@@ -108,10 +108,10 @@ namespace MembershipPortal.Repositories
 
         public async Task<Subscription> UpdateSubscriptionAsync(long Id ,UpdateSubscriptionDTO updateSubscriptionDTO)
         {
-
+            var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
             var oldSubscription = await _dbContext.Subscriptions.FindAsync(Id);
             var product = await _dbContext.Products.FindAsync(updateSubscriptionDTO.ProductId);
-            var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
+            
 
             decimal discountAmount = 0;
             decimal priceAfterDiscount = 0;
@@ -126,44 +126,21 @@ namespace MembershipPortal.Repositories
                     oldSubscription.ProductId = updateSubscriptionDTO.ProductId;
                     oldSubscription.ProductName = product.ProductName;
                     oldSubscription.ProductPrice = product.Price;
+
+                    priceAfterDiscount = reCalculatingDiscount(oldSubscription, updateSubscriptionDTO, discount, product);
+                    taxAmount = reCalculatingTax(oldSubscription);
+
                 }
-
-
-                if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
+                else if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
                 {
-
-                    oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
-                    oldSubscription.DiscountCode = discount.DiscountCode;
-                    // oldSubscription.DiscountAmount = discount.DiscountAmount;
-                  
-
-                    if (discount.IsDiscountInPercentage)
-                    {
-                        discountAmount = product.Price * discount.DiscountAmount / 100;
-
-                    }
-                    else
-                    {
-                        discountAmount = discount.DiscountAmount;
-                    }
-
-                     oldSubscription.DiscountAmount = discountAmount;
-
-                     priceAfterDiscount = product.Price - discountAmount;
-
-                    oldSubscription.PriceAfterDiscount = priceAfterDiscount;
-
-                     taxAmount = priceAfterDiscount * oldSubscription.TotalTaxPercentage / 100;
-
-                    oldSubscription.TaxAmount = taxAmount;
-
-
-                     finalAmount = priceAfterDiscount + taxAmount;
-
-                    oldSubscription.FinalAmount = finalAmount;
-
-
+                    priceAfterDiscount = reCalculatingDiscount(oldSubscription, updateSubscriptionDTO, discount, product);
+                    taxAmount = reCalculatingTax(oldSubscription);
                 }
+
+                finalAmount = priceAfterDiscount + taxAmount;
+
+                oldSubscription.FinalAmount = finalAmount;
+
                 var result =  _dbContext.Subscriptions.Update(oldSubscription);
                 await _dbContext.SaveChangesAsync();
 
@@ -196,6 +173,50 @@ namespace MembershipPortal.Repositories
 
         }
 
+        private decimal reCalculatingDiscount(Subscription oldSubscription, UpdateSubscriptionDTO updateSubscriptionDTO,Discount discount, Product product)
+        {
+            
+            decimal discountAmount = 0;
+            decimal priceAfterDiscount = 0;
+            oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
+            oldSubscription.DiscountCode = discount.DiscountCode;
+            // oldSubscription.DiscountAmount = discount.DiscountAmount;
 
+
+            if (discount.IsDiscountInPercentage)
+            {
+                discountAmount = product.Price * discount.DiscountAmount / 100;
+
+            }
+            else
+            {
+                discountAmount = discount.DiscountAmount;
+            }
+            if (discountAmount >=  product.Price)
+            {
+                oldSubscription.DiscountAmount = 0;
+                oldSubscription.PriceAfterDiscount = 0;
+                return oldSubscription.PriceAfterDiscount;
+            }
+           
+
+            oldSubscription.DiscountAmount = discountAmount;
+
+            priceAfterDiscount = product.Price - discountAmount;
+
+            oldSubscription.PriceAfterDiscount = priceAfterDiscount;
+
+            return priceAfterDiscount;
+        }
+
+        private decimal reCalculatingTax(Subscription oldSubscription)
+        {
+            decimal taxAmount = 0;
+            taxAmount = oldSubscription.PriceAfterDiscount * oldSubscription.TotalTaxPercentage / 100;
+
+            oldSubscription.TaxAmount = taxAmount;
+            return taxAmount;
+
+        }
     }
 }

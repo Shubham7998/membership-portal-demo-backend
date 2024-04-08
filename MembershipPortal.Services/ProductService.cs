@@ -94,13 +94,16 @@ namespace MembershipPortal.Services
             try
             {
                 var product = await _productRepository.GetAsyncById(Id);
-
-                return new GetProductDTO(
+                if(product != null)
+                {
+                    return new GetProductDTO(
 
                         product.Id,
                         product.ProductName,
                         product.Price
                         );
+                }
+                
             }
             catch (Exception ex)
             {
@@ -108,7 +111,7 @@ namespace MembershipPortal.Services
                 throw;
                 
             }
-           
+            return null;
         }
 
 
