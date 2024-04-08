@@ -1,4 +1,7 @@
-﻿using MembershipPortal.IServices;
+﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.IServices;
+using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.ProductDTO;
 using static MembershipPortal.DTOs.UserDTO;
@@ -13,6 +16,8 @@ namespace MembershipPortal.API.Controllers
     {
 
         private readonly IProductService _productService;
+        private readonly string tableName = "Product";
+
 
         public ProductController (IProductService productService)
         {
@@ -27,15 +32,20 @@ namespace MembershipPortal.API.Controllers
             {
                 var product = await _productService.GetProductsAsync();
 
-                if(product == null) {
+                if (product.Count() != 0)
+                {
 
-                    return StatusCode(200, $"Table is Empty"+(product));
-
+                    return Ok(product);
                 }
-                return Ok(product);
+                else
+                {
+                    return NotFound(MyException.DataNotFound(tableName));
+                }
             }
-            catch (Exception ex) {
-                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -44,31 +54,42 @@ namespace MembershipPortal.API.Controllers
         public async Task<ActionResult<GetProductDTO>> Get(long id)
         {
 
-
             try
             {
                 var product = await _productService.GetProductAsync(id);
                 if (product == null)
                 {
-                    return StatusCode(500, "An error occurred while fetching the user info");
-
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
                 return Ok(product);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving user info: {ex.Message}");
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<GetProductDTO> Post([FromBody] CreateProductDTO createProductDTO)
+        public async Task<ActionResult<GetProductDTO>> Post([FromBody] CreateProductDTO createProductDTO)
         {
-            return await _productService.CreateProductAsync(createProductDTO);
+            try
+            {
+                var product = await _productService.CreateProductAsync(createProductDTO);
+               if(product ==null)
+                {
+                return StatusCode(500, $"Product is null");
 
+                }
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
         }
 
         // PUT api/<ProductController>/5
@@ -78,35 +99,81 @@ namespace MembershipPortal.API.Controllers
 
             if (id != updateProductDTO.Id)
             {
-                return BadRequest("ID in the URL does not match ID in the request body.");
+                return BadRequest(MyException.IdMismatch());
             }
             try
             {
+                var product = await _productService.UpdateProductAsync(id, updateProductDTO);
+                if (product != null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
 
-                var createuser = await _productService.UpdateProductAsync(id, updateProductDTO);
-                return Ok(createuser);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-              return StatusCode(500, $"An error occurred while updating  user info: {ex.Message}");
 
-                throw;
-            } }
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
 
-        // DELETE api/<ProductController>/5
-        [HttpDelete("{id}")]
+            // DELETE api/<ProductController>/5
+            [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(long id)
         {
             try
             {
                 var isDeleted = await _productService.DeleteProductAsync(id);
-                return Ok(isDeleted);
+                if (isDeleted)
+                {
+                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while deleting user info: {ex.Message}");
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> GetProductSearchAsync(string find)
+        {
+            try
+            {
+                var productInfo = await _productService.GetProductSearchAsync(find);
+                return Ok(productInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while searching product info : {ex.Message}");
+
+
+            }
+
+        }
+
+
+        [HttpPost("advancesearch")]
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO)
+        {
+            try
+            {
+                var filterData = await _productService.GetProductAdvanceSearchAsync(getProductDTO);
+                return Ok(filterData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
+
             }
         }
     }

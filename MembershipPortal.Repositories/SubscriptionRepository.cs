@@ -54,24 +54,32 @@ namespace MembershipPortal.Repositories
 
         public async Task<Subscription> CreateSubscriptionAsync(CreateSubscriptionDTO createSubscriptionDTO)
         {
-
+            long discountId = createSubscriptionDTO.DiscountId == 0 ? 1 : createSubscriptionDTO.DiscountId;
             var product = await _dbContext.Products.FindAsync(createSubscriptionDTO.ProductId);
-            var discount = await _dbContext.Discounts.FindAsync(createSubscriptionDTO.DiscountId);
+
+            
+            var discount = await _dbContext.Discounts.FindAsync(discountId);
             var tax = await _dbContext.Taxes.FindAsync(createSubscriptionDTO.TaxId);
 
             decimal discountAmount = 0;
+            decimal priceAfterDiscount = 0;
 
-            if (discount.IsDiscountInPercentage)
+            if(discount != null)
             {
-                discountAmount = product.Price * discount.DiscountAmount / 100;
+                if (discount.IsDiscountInPercentage)
+                {
+                    discountAmount = product.Price * discount.DiscountAmount / 100;
+                }
+                else
+                {
+                    discountAmount = discount.DiscountAmount;
+                }
             }
-            else
+            if (discountAmount < product.Price)
             {
-                discountAmount = discount.DiscountAmount;
+                priceAfterDiscount = product.Price - discountAmount;
             }
 
-
-            var priceAfterDiscount = product.Price - discountAmount;
 
             var taxAmount = priceAfterDiscount * tax.TotalTax / 100;
 
@@ -83,7 +91,7 @@ namespace MembershipPortal.Repositories
                 ProductId = createSubscriptionDTO.ProductId,
                 ProductName = product.ProductName,
                 ProductPrice = product.Price,
-                DiscountId = createSubscriptionDTO.DiscountId,
+                DiscountId = discountId,
                 DiscountCode = discount.DiscountCode,
                 DiscountAmount = discountAmount,
                 StartDate = createSubscriptionDTO.StartDate,
@@ -97,7 +105,9 @@ namespace MembershipPortal.Repositories
                 FinalAmount = finalAmount
             };
 
-            await _dbContext.AddAsync(subscription);
+             await _dbContext.Subscriptions.AddAsync(subscription);
+            
+            
             await _dbContext.SaveChangesAsync();
 
             return subscription;
@@ -108,10 +118,11 @@ namespace MembershipPortal.Repositories
 
         public async Task<Subscription> UpdateSubscriptionAsync(long Id ,UpdateSubscriptionDTO updateSubscriptionDTO)
         {
-
+            var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
             var oldSubscription = await _dbContext.Subscriptions.FindAsync(Id);
             var product = await _dbContext.Products.FindAsync(updateSubscriptionDTO.ProductId);
-            var discount = await _dbContext.Discounts.FindAsync(updateSubscriptionDTO.DiscountId);
+            
+
             decimal discountAmount = 0;
             decimal priceAfterDiscount = 0;
             decimal taxAmount = 0;
@@ -125,46 +136,23 @@ namespace MembershipPortal.Repositories
                     oldSubscription.ProductId = updateSubscriptionDTO.ProductId;
                     oldSubscription.ProductName = product.ProductName;
                     oldSubscription.ProductPrice = product.Price;
+
+                    priceAfterDiscount = reCalculatingDiscount(oldSubscription, updateSubscriptionDTO, discount, product);
+                    taxAmount = reCalculatingTax(oldSubscription);
                 }
-
-
-                if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
+                else if(oldSubscription.DiscountId != updateSubscriptionDTO.DiscountId)
                 {
-
-                    oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
-                    oldSubscription.DiscountCode = discount.DiscountCode;
-                    // oldSubscription.DiscountAmount = discount.DiscountAmount;
-                  
-
-                    if (discount.IsDiscountInPercentage)
-                    {
-                        discountAmount = product.Price * discount.DiscountAmount / 100;
-
-                    }
-                    else
-                    {
-                        discountAmount = discount.DiscountAmount;
-                    }
-
-                     oldSubscription.DiscountAmount = discountAmount;
-
-                     priceAfterDiscount = product.Price - discountAmount;
-
-                    oldSubscription.PriceAfterDiscount = priceAfterDiscount;
-
-                     taxAmount = priceAfterDiscount * oldSubscription.TotalTaxPercentage / 100;
-
-                    oldSubscription.TaxAmount = taxAmount;
-
-
-                     finalAmount = priceAfterDiscount + taxAmount;
-
-                    oldSubscription.FinalAmount = finalAmount;
-
-
+                    priceAfterDiscount = reCalculatingDiscount(oldSubscription, updateSubscriptionDTO, discount, product);
+                    taxAmount = reCalculatingTax(oldSubscription);
                 }
+
+                finalAmount = oldSubscription.PriceAfterDiscount + oldSubscription.TaxAmount;
+
+                oldSubscription.FinalAmount = finalAmount;
+
                 var result =  _dbContext.Subscriptions.Update(oldSubscription);
                 await _dbContext.SaveChangesAsync();
+
 
                 var subscription = new Subscription()
                 {   
@@ -187,14 +175,143 @@ namespace MembershipPortal.Repositories
                     FinalAmount = oldSubscription.FinalAmount
                 };
                 return subscription;
-
             }
 
             return null;
-         
-
         }
 
 
+
+        private decimal reCalculatingDiscount(Subscription oldSubscription, UpdateSubscriptionDTO updateSubscriptionDTO,Discount discount, Product product)
+        {
+            if (discount == null) {
+                oldSubscription.DiscountAmount = 0;
+                oldSubscription.DiscountCode = "";
+                oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
+                oldSubscription.PriceAfterDiscount = product.Price;
+                return product.Price;
+            }
+            decimal discountAmount = 0;
+            decimal priceAfterDiscount = 0;
+            oldSubscription.DiscountId = updateSubscriptionDTO.DiscountId;
+            oldSubscription.DiscountCode = discount.DiscountCode;
+            // oldSubscription.DiscountAmount = discount.DiscountAmount;
+
+
+            if (discount.IsDiscountInPercentage)
+            {
+                discountAmount = product.Price * discount.DiscountAmount / 100;
+
+            }
+            else
+            {
+                discountAmount = discount.DiscountAmount;
+            }
+            if (discountAmount >=  product.Price)
+            {
+                oldSubscription.DiscountAmount = 0;
+                oldSubscription.PriceAfterDiscount = 0;
+                return oldSubscription.PriceAfterDiscount;
+            }
+           
+
+            oldSubscription.DiscountAmount = discountAmount;
+
+            priceAfterDiscount = product.Price - discountAmount;
+
+            oldSubscription.PriceAfterDiscount = priceAfterDiscount;
+
+            return priceAfterDiscount;
+        }
+
+        private decimal reCalculatingTax(Subscription oldSubscription)
+        {
+            decimal taxAmount = 0;
+            taxAmount = oldSubscription.PriceAfterDiscount * oldSubscription.TotalTaxPercentage / 100;
+
+            oldSubscription.TaxAmount = taxAmount;
+            return taxAmount;
+
+        }
+
+        public async Task<IEnumerable<Subscription>> GetAllSearchSubscriptionsAsync(string filter)
+        {
+            string keyword = filter.ToLower();
+
+            var filterlist = await _dbContext.Subscriptions
+                .Include(entity => entity.SubscriberId)
+                .Include(entity => entity.TaxId)
+                .Include(entity => entity.DiscountId)
+                .ToListAsync();
+
+            filterlist = filterlist.Where(
+                                    m => m.CGST.ToString().Contains(keyword) ||
+                                    m.SGST.ToString().ToLower().Contains(keyword) ||
+                                    m.TotalTaxPercentage.ToString().Contains(keyword) ||
+                                    m.Subscriber.FirstName.ToLower().Contains(keyword) ||
+                                    m.Subscriber.LastName.ToLower().Contains(keyword) ||
+                                    m.Product.ProductName.ToLower().Contains(keyword) || 
+                                    m.Product.Price.ToString().Contains(keyword) ||
+                                    m.Discount.DiscountAmount.ToString().Contains(keyword) ||
+                                    m.DiscountCode.ToLower().Contains(keyword) ||
+                                    m.StartDate.ToString().ToLower().Contains(keyword) ||
+                                    m.ExpiryDate.ToString().ToLower().Contains(keyword) ||
+                                    m.PriceAfterDiscount.ToString().Contains(keyword) ||
+                                    m.FinalAmount.ToString().Contains(keyword) ||
+                                    m.DiscountAmount.ToString().Contains(keyword) ||
+                                    m.TaxAmount.ToString().Contains(keyword)
+                                    )
+                                    .ToList();
+
+            return filterlist;
+        }
+
+        public async Task<IEnumerable<Subscription>> GetAllAdvanceSearchSubscriptionsAsync(Subscription subscriptionObj)
+        {
+            var query = _dbContext.Subscriptions.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
+            {
+                query = query.Where(subscription => subscription.ProductName == subscriptionObj.ProductName);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductPrice.ToString()))
+            {
+                query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
+            {
+                query = query.Where(subscription => subscription.DiscountCode == subscriptionObj.DiscountCode);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountAmount.ToString()))
+            {
+                query = query.Where(subscription => subscription.DiscountAmount == subscriptionObj.DiscountAmount);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.StartDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ExpiryDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.TaxAmount.ToString()))
+            {
+                query = query.Where(subscription => subscription.TaxAmount == subscriptionObj.TaxAmount);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.SGST.ToString()))
+            {
+                query = query.Where(subscription => subscription.SGST == subscriptionObj.SGST);
+            } 
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.CGST.ToString()))
+            {
+                query = query.Where(subscription => subscription.CGST == subscriptionObj.CGST);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.TotalTaxPercentage.ToString()))
+            {
+                query = query.Where(subscription => subscription.TotalTaxPercentage == subscriptionObj.TotalTaxPercentage);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

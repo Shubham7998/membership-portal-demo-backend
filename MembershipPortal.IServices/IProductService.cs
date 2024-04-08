@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MembershipPortal.DTOs.ProductDTO;
+using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.IServices
 {
@@ -18,6 +19,10 @@ namespace MembershipPortal.IServices
         public Task<GetProductDTO> UpdateProductAsync(long Id, UpdateProductDTO updateProductDTO);
 
         public Task<bool> DeleteProductAsync(long Id);
+
+        public Task<IEnumerable<GetProductDTO>> GetProductSearchAsync(string find);
+
+        public Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO);
 
     }
 }

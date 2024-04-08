@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("connectionStringHemant2");
+var connectionString = configuration.GetConnectionString("connectionStringPooja");
 
 builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -31,6 +31,12 @@ builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
+builder.Services.AddScoped<ITaxRepository, TaxRepository>();
+builder.Services.AddScoped<ITaxService, TaxService>();
+
+builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
+
 
 builder.Services.AddControllers();
 
@@ -44,8 +50,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<ITaxRepository, TaxRepository>();
-builder.Services.AddScoped<ITaxService, TaxService>(); 
 
 var app = builder.Build();
 

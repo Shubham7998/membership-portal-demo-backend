@@ -18,6 +18,9 @@ namespace MembershipPortal.IServices
     
         public Task<bool> DeleteUserAsync(long Id);
 
+        public Task<IEnumerable<GetUserDTO>> GetUserSearchAsync(string find);
+
+        public Task<IEnumerable<GetUserDTO>> GetUserAdvanceSearchAsync(GetUserDTO getUserDTO);
 
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MembershipPortal.DTOs.ProductDTO;
+using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.Services
 {
@@ -38,9 +39,9 @@ namespace MembershipPortal.Services
                     product.Price
                     );
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
                 throw; ;
             }
 
@@ -59,9 +60,9 @@ namespace MembershipPortal.Services
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
                 throw;
             }
             return false;
@@ -81,10 +82,10 @@ namespace MembershipPortal.Services
                     ));
                 return productDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in GetProductsAsync: {ex.Message}");
                 throw;
             }
         }
@@ -94,21 +95,24 @@ namespace MembershipPortal.Services
             try
             {
                 var product = await _productRepository.GetAsyncById(Id);
-
-                return new GetProductDTO(
+                if(product != null)
+                {
+                    return new GetProductDTO(
 
                         product.Id,
                         product.ProductName,
                         product.Price
                         );
+                }
+                
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
-               
-                return null;
+                // Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
+                throw;
+                
             }
-           
+            return null;
         }
 
 
@@ -122,22 +126,76 @@ namespace MembershipPortal.Services
                     oldProduct.ProductName = updateProductDTO.ProductName;
                     oldProduct.Price = updateProductDTO.Price;
 
-                    return new GetProductDTO(
-
-                           oldProduct.Id,
-                           oldProduct.ProductName,
-                           oldProduct.Price
-                           );
+                    var result = await _productRepository.UpdateAsync(oldProduct);
+                    if (result != null)
+                    {
+                        return new GetProductDTO(
+                               oldProduct.Id,
+                               oldProduct.ProductName,
+                               oldProduct.Price
+                          );
+                    }
+                    
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
                 throw;
 
             }
+
         }
+
+
+
+        public async Task<IEnumerable<GetProductDTO>> GetProductSearchAsync(string find)
+        {
+            var productList = await _productRepository.GetProductSearchAsync(find);
+
+            var productdto = productList.Select(
+                product => new GetProductDTO(
+                    product.Id,
+                    product.ProductName,
+                    product.Price
+                   
+                ));
+
+            return productdto;
+        }
+
+        public async Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO)
+        {
+            try
+            {
+                var productList = await _productRepository.GetProductAdvanceSearchAsync(new Product()
+                {
+                    Id = getProductDTO.Id,
+                    ProductName = getProductDTO.ProductName,
+                    Price= getProductDTO.Price
+                  
+                });
+
+
+                var productdto = productList.Select(
+                    product => new GetProductDTO(
+                        product.Id,
+                        product.ProductName,
+                        product.Price
+                     
+                        ));
+                return productdto;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+
     }
 }

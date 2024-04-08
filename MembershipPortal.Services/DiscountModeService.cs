@@ -33,7 +33,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in CreateDiscountModeAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in CreateDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }
@@ -49,7 +49,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in DeleteDiscountModeAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in DeleteDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }
@@ -67,7 +67,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetDiscountModeByIdAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in GetDiscountModeByIdAsync: {ex.Message}");
                 throw;
             }
         }
@@ -86,7 +86,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetDiscountModesAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in GetDiscountModesAsync: {ex.Message}");
                 throw;
             }
         }
@@ -107,7 +107,7 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in UpdateDiscountModeAsync: {ex.Message}");
+               // Console.WriteLine($"Error occurred in UpdateDiscountModeAsync: {ex.Message}");
                 throw;
             }
         }

@@ -9,36 +9,37 @@ namespace MembershipPortal.DTOs
 {
     public  class UserDTO
     {
+        
         public record CreateUserDTO (
             [MaxLength(50)]
-            [Required(ErrorMessage = "FirstName is Requried")]
+            [Required(ErrorMessage = "FirstName is Required")]
             string FirstName,
             [MaxLength(50)]
-            [Required(ErrorMessage = "LastName is Requried")]
+            [Required(ErrorMessage = "LastName is Required")]
             string LastName,
             [MaxLength(100)]
-            [Required(ErrorMessage ="Email is Requried")]
+            [Required(ErrorMessage ="Email is Required")]
             string Email,
             [MaxLength(50)]
-            [Required(ErrorMessage = "Password is Requried")]
+            [Required(ErrorMessage = "Password is Required")]
             string Password,
             string ContactNumber
             );
 
         public record UpdateUserDTO(
-
+            
             long Id,
             [MaxLength(50)]
-            [Required(ErrorMessage = "FirstName is Requried")]
+            [Required(ErrorMessage = "FirstName is Required")]
             string FirstName,
             [MaxLength(50)]
-            [Required(ErrorMessage = "LastName is Requried")]
+            [Required(ErrorMessage = "LastName is Required")]
             string LastName,
             [MaxLength(100)]
-            [Required(ErrorMessage ="Email is Requried")]
+            [Required(ErrorMessage ="Email is Required")]
             string Email,
             [MaxLength(50)]
-            [Required(ErrorMessage = "Password is Requried")]
+            [Required(ErrorMessage = "Password is Required")]
             string Password,
             string ContactNumber
             );

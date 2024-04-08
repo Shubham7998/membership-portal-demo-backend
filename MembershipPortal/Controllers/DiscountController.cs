@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.API.ErrorHandling;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -10,6 +11,7 @@ namespace MembershipPortal.API.Controllers
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountService _discountService;
+        public string tableName = "Discount";
 
         public DiscountController(IDiscountService discountService)
         {
@@ -20,26 +22,42 @@ namespace MembershipPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetDiscountDTO>>> GetDiscountsAsyc()
         {
-            var discoutDTOList = await _discountService.GetDiscountsAsync();
-            if (discoutDTOList != null)
+            try
             {
-                return Ok(discoutDTOList);
+                var discoutDTOList = await _discountService.GetDiscountsAsync();
+                if (discoutDTOList != null)
+                {
+                    return Ok(discoutDTOList);
+                }
+                return NotFound(MyException.DataNotFound(tableName));
             }
-            return NoContent();
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
         }
 
         // GET: api/Discount/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetDiscountDTO>> GetDiscountByIdAsync(long id)
         {
-            var discountDTO = await _discountService.GetDiscountByIdAsync(id);
-
-            if (discountDTO == null)
+            try
             {
-                return NotFound(id);
-            }
+                var discountDTO = await _discountService.GetDiscountByIdAsync(id);
 
-            return Ok(discountDTO);
+                if (discountDTO == null)
+                {
+                    return NotFound(id);
+                }
+
+                return NotFound(MyException.DataWithIdNotPresent(id,tableName));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
         }
 
         // PUT: api/Discount/5
@@ -49,25 +67,26 @@ namespace MembershipPortal.API.Controllers
         {
             if (id != discountDTO.Id)
             {
-                return BadRequest("Id Mismatch");
+                return BadRequest(MyException.IdMismatch());
             }
-
+            
             try
             {
-                return await _discountService.UpdateDiscountAsync(id, discountDTO);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DiscountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                 return StatusCode(500, "An error occurred while processing PutDiscountAsync request." );
+                var oldDiscount = await _discountService.GetDiscountByIdAsync(id);
 
-                    throw;
+                if (oldDiscount == null)
+                {
+                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
                 }
+
+                var result =  await _discountService.UpdateDiscountAsync(id, discountDTO);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -77,12 +96,20 @@ namespace MembershipPortal.API.Controllers
         [HttpPost]
         public async Task<ActionResult<GetDiscountDTO>> PostDiscountAsync(CreateDiscountDTO discountDTO)
         {
-            var result = await _discountService.CreateDiscountAsync(discountDTO);
-            if (result == null)
+            try
             {
-                return BadRequest();
+                var result = await _discountService.CreateDiscountAsync(discountDTO);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(result);
             }
-            return Ok(result);
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
         }
 
         // DELETE: api/Discount/5
@@ -95,26 +122,16 @@ namespace MembershipPortal.API.Controllers
                 if (discountDTO != null)
                 {
                     var result = await _discountService.DeleteDiscountAsync(id);
-                    return Ok(result);
+                    return Ok(MyException.DataDeletedSuccessfully(tableName));
                 }
-                return Ok(false);
+                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing DeleteDiscountAsync request." + ex.Message);
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
-        private bool DiscountExists(long id)
-        {
-            var result = _discountService.GetDiscountByIdAsync(id);
-            if (result != null)
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

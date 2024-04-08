@@ -10,5 +10,9 @@ namespace MembershipPortal.IRepositories
    
     public interface IProductRepository : IRepository<Product>
     {
+
+        Task<IEnumerable<Product>> GetProductSearchAsync(String find);
+
+        Task<IEnumerable<Product>> GetProductAdvanceSearchAsync(Product productobj);
     }
 }

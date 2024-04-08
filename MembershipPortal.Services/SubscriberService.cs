@@ -39,7 +39,8 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in CreateSubscriberAsync: {ex.Message}");
+                // Console.WriteLine($"Error occurred in CreateSubscriberAsync: {ex.Message}");
+                throw;
 
             }
             return null;
@@ -58,7 +59,8 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in DeleteSubscriberAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in DeleteSubscriberAsync: {ex.Message}");
+                throw;
             }
             return false;
         }
@@ -78,12 +80,14 @@ namespace MembershipPortal.Services
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
                                                         subscriber.GenderId);
+                    return getSubscriber;
                 }
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetSubscriberAsync: {ex.Message}");
+                // Console.WriteLine($"Error occurred in GetSubscriberAsync: {ex.Message}");
+                throw;
             }
             return null;
         }
@@ -111,7 +115,8 @@ namespace MembershipPortal.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred in GetSubscribersAsync: {ex.Message}");
+                // Console.WriteLine($"Error occurred in GetSubscribersAsync: {ex.Message}");
+                throw;
             }
             return null;
         }
@@ -145,7 +150,8 @@ namespace MembershipPortal.Services
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"Error occurred in UpdateSubscriberAsync: {ex.Message}");
+                //Console.WriteLine($"Error occurred in UpdateSubscriberAsync: {ex.Message}");
+                throw;
             }
             return null;
                     
