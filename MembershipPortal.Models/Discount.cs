@@ -16,7 +16,7 @@ namespace MembershipPortal.Models
         public long Id { get; set; }
         [Required(ErrorMessage = "Discount Code is required")]
         [MaxLength(10, ErrorMessage = "Discount code cannot be greater than length 10")]
-        public string DiscountCode { get; set; }
+        public string DiscountCode { get; set; } = string.Empty;
         [Required(ErrorMessage = "Discount Amount is required")]
         
         public decimal DiscountAmount { get; set; }
