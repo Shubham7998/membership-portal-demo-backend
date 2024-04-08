@@ -137,5 +137,40 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
+
+
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelSearchAsync(string find)
+        {
+            try
+            {
+                var mobileInfo = await _userService.GetUserSearchAsync(find);
+                return Ok(mobileInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while searching user info : {ex.Message}");
+
+
+            }
+
+        }
+
+
+        [HttpPost("advancesearch")]
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelAdvanceSearchAsync(GetUserDTO userDtoObj)
+        {
+            try
+            {
+                var filterData = await _userService.GetUserAdvanceSearchAsync(userDtoObj);
+                return Ok(filterData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
+
+            }
+        }
     }
 }
