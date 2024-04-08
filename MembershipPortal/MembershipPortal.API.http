@@ -99,7 +99,6 @@ Content-Type: application/json
 {
   "SubscriberId" : 1,
   "ProductId" : 6,
-  "DiscountId" : 3,
   "TaxId" : 2
 }
 
@@ -156,6 +155,17 @@ Content-Type: application/json
   "productId": 6,
   "discountId": 3,
    "taxId": 2
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  "subscriberId": 1,
+  "productId": 6,
+  "taxId": 2
 }
 
 ###
