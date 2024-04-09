@@ -124,11 +124,13 @@ namespace MembershipPortal.API.Controllers
                 var userDeleted = await _userService.DeleteUserAsync(id);
                 if (userDeleted)
                 {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    //return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    return Ok(userDeleted);
                 }
                 else
                 {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    //return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    return Ok(userDeleted);
                 }
             }
             catch (Exception ex)
