@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MembershipPortal.Models;
 
 namespace MembershipPortal.Services
 {
@@ -138,7 +139,76 @@ namespace MembershipPortal.Services
             return null;
         }
 
-       
-       
+        public async Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionSearchAsync(string filter)
+        {
+            try
+            {
+                var subscriptionList = await _subscriptionRepository.GetAllSearchSubscriptionsAsync(filter);
+                if (subscriptionList != null)
+                {
+                    var subscriptionDTOList = subscriptionList.Select(obj =>
+                        new GetSubscriptionDTO(
+                                obj.Id, obj.SubscriberId, obj.ProductId, obj.ProductName, obj.ProductPrice,
+                                obj.DiscountId, obj.DiscountCode, obj.DiscountAmount, obj.StartDate, obj.ExpiryDate, obj.PriceAfterDiscount,
+                                obj.TaxId, obj.CGST, obj.SGST, obj.TotalTaxPercentage, obj.TaxAmount, obj.FinalAmount
+                            )
+                    );
+
+                    return subscriptionDTOList;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionAdvanceSearchAsync(GetSubscriptionDTO subscriptionDTO)
+        {
+            try
+            {
+                var subscriptionModel = new Subscription()
+                {
+                    Id = subscriptionDTO.Id,
+                    SubscriberId = subscriptionDTO.SubscriberId,
+                    ProductId = subscriptionDTO.ProductId,
+                    ProductName = subscriptionDTO.ProductName,
+                    ProductPrice = subscriptionDTO.ProductPrice,
+                    StartDate = subscriptionDTO.StartDate,
+                    ExpiryDate = subscriptionDTO.ExpiryDate,
+                    DiscountId = subscriptionDTO.DiscountId,
+                    DiscountCode = subscriptionDTO.DiscountCode,
+                    DiscountAmount = subscriptionDTO.DiscountAmount,
+                    PriceAfterDiscount = subscriptionDTO.PriceAfterDiscount,
+                    TaxId = subscriptionDTO.TaxId,
+                    CGST = subscriptionDTO.CGST,
+                    SGST = subscriptionDTO.SGST,
+                    TotalTaxPercentage = subscriptionDTO.TotalTaxPercentage,
+                    TaxAmount = subscriptionDTO.TaxAmount,
+                    FinalAmount = subscriptionDTO.FinalAmount,
+                };
+                var subscriptionList = await _subscriptionRepository.GetAllAdvanceSearchSubscriptionsAsync(subscriptionModel);
+
+                if (subscriptionList != null)
+                {
+                    var subscriptionDTOList = subscriptionList.Select(obj => new GetSubscriptionDTO(
+                            obj.Id, obj.SubscriberId, obj.ProductId, obj.ProductName,
+                            obj.ProductPrice, obj.DiscountId, obj.DiscountCode, obj.DiscountAmount,
+                            obj.StartDate, obj.ExpiryDate, obj.PriceAfterDiscount, obj.TaxId,
+                            obj.CGST, obj.SGST, obj.TotalTaxPercentage, obj.TaxAmount, obj.FinalAmount
+                        ));
+
+                    return subscriptionDTOList;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return null;
+        }
     }
 }

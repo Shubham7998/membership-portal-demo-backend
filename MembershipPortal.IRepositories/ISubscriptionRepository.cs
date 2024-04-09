@@ -14,5 +14,8 @@ namespace MembershipPortal.IRepositories
         Task<Subscription> CreateSubscriptionAsync(CreateSubscriptionDTO subscriptionDTO);
 
         Task<Subscription> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);
+
+        Task<IEnumerable<Subscription>> GetAllSearchSubscriptionsAsync(string filter);
+        Task<IEnumerable<Subscription>> GetAllAdvanceSearchSubscriptionsAsync(Subscription subscriptionObj);
     }
 }

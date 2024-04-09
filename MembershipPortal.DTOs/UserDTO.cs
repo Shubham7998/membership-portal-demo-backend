@@ -50,6 +50,7 @@ namespace MembershipPortal.DTOs
             string LastName,
             string Email,
             string Password,
+
             string ContactNumber
 
             );
