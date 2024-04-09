@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MembershipPortal.Repositories
 {
-    public class UserRepository :Repository<User>,IUserRepository
+    public class UserRepository :Repository<User>, IUserRepository
     {
 
         private readonly MembershipPortalDbContext _dbContext;
@@ -38,8 +38,6 @@ namespace MembershipPortal.Repositories
         public async Task<IEnumerable<User>> GetUserAdvanceSearchAsync(User userobj)
         {
             var query = _dbContext.Users.AsQueryable();
-
-           
 
             if (!string.IsNullOrWhiteSpace(userobj.FirstName))
             {

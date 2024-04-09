@@ -10,7 +10,7 @@ namespace MembershipPortal.Services
     public class GenderService : IGenderService
     {
         private readonly IGenderRepository _genderRepository;
-        private readonly MembershipPortalDbContext _dbContext;
+        
         public GenderService(IGenderRepository genderRepository)
         {
             _genderRepository = genderRepository;

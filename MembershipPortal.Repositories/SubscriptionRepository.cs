@@ -180,6 +180,8 @@ namespace MembershipPortal.Repositories
             return null;
         }
 
+
+
         private decimal reCalculatingDiscount(Subscription oldSubscription, UpdateSubscriptionDTO updateSubscriptionDTO,Discount discount, Product product)
         {
             if (discount == null) {
@@ -230,6 +232,86 @@ namespace MembershipPortal.Repositories
             oldSubscription.TaxAmount = taxAmount;
             return taxAmount;
 
+        }
+
+        public async Task<IEnumerable<Subscription>> GetAllSearchSubscriptionsAsync(string filter)
+        {
+            string keyword = filter.ToLower();
+
+            var filterlist = await _dbContext.Subscriptions
+                .Include(entity => entity.SubscriberId)
+                .Include(entity => entity.TaxId)
+                .Include(entity => entity.DiscountId)
+                .ToListAsync();
+
+            filterlist = filterlist.Where(
+                                    m => m.CGST.ToString().Contains(keyword) ||
+                                    m.SGST.ToString().ToLower().Contains(keyword) ||
+                                    m.TotalTaxPercentage.ToString().Contains(keyword) ||
+                                    m.Subscriber.FirstName.ToLower().Contains(keyword) ||
+                                    m.Subscriber.LastName.ToLower().Contains(keyword) ||
+                                    m.Product.ProductName.ToLower().Contains(keyword) || 
+                                    m.Product.Price.ToString().Contains(keyword) ||
+                                    m.Discount.DiscountAmount.ToString().Contains(keyword) ||
+                                    m.DiscountCode.ToLower().Contains(keyword) ||
+                                    m.StartDate.ToString().ToLower().Contains(keyword) ||
+                                    m.ExpiryDate.ToString().ToLower().Contains(keyword) ||
+                                    m.PriceAfterDiscount.ToString().Contains(keyword) ||
+                                    m.FinalAmount.ToString().Contains(keyword) ||
+                                    m.DiscountAmount.ToString().Contains(keyword) ||
+                                    m.TaxAmount.ToString().Contains(keyword)
+                                    )
+                                    .ToList();
+
+            return filterlist;
+        }
+
+        public async Task<IEnumerable<Subscription>> GetAllAdvanceSearchSubscriptionsAsync(Subscription subscriptionObj)
+        {
+            var query = _dbContext.Subscriptions.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
+            {
+                query = query.Where(subscription => subscription.ProductName == subscriptionObj.ProductName);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductPrice.ToString()))
+            {
+                query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
+            {
+                query = query.Where(subscription => subscription.DiscountCode == subscriptionObj.DiscountCode);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountAmount.ToString()))
+            {
+                query = query.Where(subscription => subscription.DiscountAmount == subscriptionObj.DiscountAmount);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.StartDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ExpiryDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.TaxAmount.ToString()))
+            {
+                query = query.Where(subscription => subscription.TaxAmount == subscriptionObj.TaxAmount);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.SGST.ToString()))
+            {
+                query = query.Where(subscription => subscription.SGST == subscriptionObj.SGST);
+            } 
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.CGST.ToString()))
+            {
+                query = query.Where(subscription => subscription.CGST == subscriptionObj.CGST);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.TotalTaxPercentage.ToString()))
+            {
+                query = query.Where(subscription => subscription.TotalTaxPercentage == subscriptionObj.TotalTaxPercentage);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }
