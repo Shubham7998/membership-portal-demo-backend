@@ -138,8 +138,6 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-
-
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelSearchAsync(string find)
         {
@@ -150,13 +148,11 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while searching user info : {ex.Message}");
 
-
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
-
 
         [HttpPost("advancesearch")]
         public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelAdvanceSearchAsync(GetUserDTO userDtoObj)
@@ -168,8 +164,8 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
 
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
     }

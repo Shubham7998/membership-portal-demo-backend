@@ -245,3 +245,95 @@ Content-Type: application/json
 
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user/search?find=123459
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+Content-Type: application/json
+
+{
+    "firstName": "Pooja",
+    "lastName": "Bhise",
+    "email": "pooja123@gmail.com",
+    "password": "pooja123@gmail.com",
+    "contactNumber": ""
+}
+###
+"firstName": "Pooja",
+    "lastName": "Bhise",
+    "email": "123459",
+    "password": "pooja123@gmail.com",
+    "contactNumber": "pooja@123"
+    {GetUserDTO { Id = 0, FirstName = Pooja, LastName = Bhise, 
+    Email = pooja123@gmail.com, Password = pooja123@gmail.com, 
+    ContactNumber = p }}
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+Content-Type: application/json
+
+{
+  
+}
+
+###
+ string FirstName,
+            [MaxLength(50)]
+            [Required(ErrorMessage = "LastName is Required")]
+            string LastName,
+            [MaxLength(100)]
+            [Required(ErrorMessage ="Email is Required")]
+            string Email,
+            [MaxLength(50)]
+            [Required(ErrorMessage = "Password is Required")]
+            string Password,
+            string ContactNumber
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/search?find=Lap
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/Laptop
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user/search?find=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/search?find=Lap
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/gender/search?search=Lap
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/search?search=female
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/tax
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user
+
+###
