@@ -54,6 +54,7 @@ namespace MembershipPortal.DTOs
             string Email,
             
             string Password,
+
             string ContactNumber
 
             );

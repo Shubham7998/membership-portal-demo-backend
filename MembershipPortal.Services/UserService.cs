@@ -39,8 +39,8 @@ namespace MembershipPortal.Services
                     user.FirstName,
                     user.LastName,
                     user.Email,
-                    user.ContactNumber,
-                    user.Password
+                    user.Password,
+                    user.ContactNumber
                     );
             }
             catch (Exception ex)
@@ -89,8 +89,8 @@ namespace MembershipPortal.Services
                          user.FirstName,
                          user.LastName,
                          user.Email,
-                         user.ContactNumber,
-                         user.Password
+                         user.Password,
+                         user.ContactNumber
                          );
                 }
             }
@@ -114,8 +114,8 @@ namespace MembershipPortal.Services
                              user.FirstName,
                              user.LastName,
                              user.Email,
-                             user.ContactNumber,
-                             user.Password
+                             user.Password,
+                             user.ContactNumber
                              ));
                 return userDto;
             }
@@ -150,8 +150,9 @@ namespace MembershipPortal.Services
                                  oldUser.FirstName,
                                  oldUser.LastName,
                                  oldUser.Email,
-                                 oldUser.ContactNumber,
-                                 oldUser.Password);
+                                 oldUser.Password,
+                                 oldUser.ContactNumber
+                                 );
 
                 }
                 return null;
@@ -171,9 +172,9 @@ namespace MembershipPortal.Services
                     user.Id,
                     user.FirstName,
                     user.LastName,
-                    user.ContactNumber,
                     user.Email,
-                    user.Password
+                    user.Password,
+                    user.ContactNumber
                 ));
 
             return userDto;
@@ -201,9 +202,9 @@ namespace MembershipPortal.Services
                         user.Id,
                         user.FirstName,
                         user.LastName,
-                        user.ContactNumber,
                         user.Email,
-                        user.Password
+                        user.Password,
+                        user.ContactNumber
                         ));
                 return userDto;
             }
