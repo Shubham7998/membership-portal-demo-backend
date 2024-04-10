@@ -28,16 +28,20 @@ namespace MembershipPortal.API.Controllers
         {
             try{
                 var genders = await _genderService.GetGendersAsync();
-
-                if(genders.Count() != 0)
+                if(genders != null)
                 {
+                    return Ok(genders);
+                }
+                return NotFound();
+                //if(genders.Count() != 0)
+                //{
                   
-                     return Ok(genders);
-                }
-                else
-                {
-                    return NotFound(MyException.DataNotFound(tableName));
-                }
+                //     return Ok(genders);
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataNotFound(tableName));
+                //}
 
             }
             catch (Exception ex)
@@ -124,15 +128,15 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var genderDeleted = await _genderService.DeleteGenderAsync(id);
-
-                if (genderDeleted)
-                {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
-                }
-                else
-                {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
-                }
+                return Ok(genderDeleted);
+                //if (genderDeleted)
+                //{
+                //    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                //}
             }
             catch (Exception ex)
             {
