@@ -30,16 +30,14 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var users = await _userService.GetUsersAsync();
-                if (users.Count() != 0)
+                if(users != null)
                 {
-
                     return Ok(users);
                 }
                 else
                 {
-                    return NotFound(MyException.DataNotFound(tableName));
+                    return NoContent();
                 }
-
 
             }
             catch (Exception ex)
