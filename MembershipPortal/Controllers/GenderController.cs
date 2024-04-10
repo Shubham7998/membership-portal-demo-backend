@@ -50,6 +50,30 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string search)
+        {
+            try
+            {
+                var genders = await _genderService.SearchGendersAsync(search);
+
+                if (genders.Count() != 0)
+                {
+
+                    return Ok(genders);
+                }
+                else
+                {
+                    return NotFound(MyException.DataNotFound(tableName));
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
 
         // GET api/<GenderController>/5
         [HttpGet("{id}")]
