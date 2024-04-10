@@ -30,16 +30,14 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var users = await _userService.GetUsersAsync();
-                if (users.Count() != 0)
+                if(users != null)
                 {
-
                     return Ok(users);
                 }
                 else
                 {
-                    return NotFound(MyException.DataNotFound(tableName));
+                    return NoContent();
                 }
-
 
             }
             catch (Exception ex)
@@ -124,11 +122,13 @@ namespace MembershipPortal.API.Controllers
                 var userDeleted = await _userService.DeleteUserAsync(id);
                 if (userDeleted)
                 {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    //return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    return Ok(userDeleted);
                 }
                 else
                 {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    //return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    return Ok(userDeleted);
                 }
             }
             catch (Exception ex)
