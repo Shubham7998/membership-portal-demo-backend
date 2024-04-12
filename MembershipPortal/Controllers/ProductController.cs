@@ -49,6 +49,18 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
+        [HttpGet("paginated")]
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize)
+        {
+            var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize);
+            var result = new Paginated<GetProductDTO>()
+            {
+                dataArray = paginatedProductDTOAndTotalPages.Item1,
+                totalPages = paginatedProductDTOAndTotalPages.Item2
+            };
+            return Ok(result);
+        }
+
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProductDTO>> Get(long id)
@@ -177,5 +189,7 @@ namespace MembershipPortal.API.Controllers
 
             }
         }
+
+        
     }
 }

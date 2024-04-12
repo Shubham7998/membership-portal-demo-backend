@@ -52,6 +52,14 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
 
         }
-    
+
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        {
+            var productsList = await _dbContext.Products.ToListAsync();
+            int totalCount = productsList.Count;
+            int totalPages = (int)(Math.Ceiling((decimal) totalCount / pageSize));
+            productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return (productsList, totalPages);
+        }
     }
 }

@@ -5,6 +5,7 @@ using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static MembershipPortal.DTOs.ProductDTO;
@@ -196,6 +197,19 @@ namespace MembershipPortal.Services
             return null;
         }
 
+        public async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        {
+            var productListAndTotalPages = await _productRepository.GetAllPaginatedProductAsync(page, pageSize);
+            var productDTOList = productListAndTotalPages.Item1.Select(product =>
 
+                    new GetProductDTO(
+                            product.Id,
+                            product.ProductName,
+                            product.Price
+                        )
+                ).ToList();
+            return (productDTOList, productListAndTotalPages.Item2);
+
+        }
     }
 }
