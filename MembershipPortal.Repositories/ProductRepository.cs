@@ -59,7 +59,7 @@ namespace MembershipPortal.Repositories
             int totalCount = productsList.Count;
             int totalPages = (int)(Math.Ceiling((decimal) totalCount / pageSize));
             productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            return (productsList, totalPages);
+            return (productsList, totalCount);
         }
     }
 }

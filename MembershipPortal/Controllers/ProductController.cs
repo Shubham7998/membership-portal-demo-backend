@@ -188,8 +188,20 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
 
             }
-        }
+        }[HttpPost("paginatedadvancesearch")]
+        public async Task<ActionResult<Paginated<IEnumerable<GetProductDTO>>>> GetPaginatedProductAdvanceSearchAsync(GetProductDTO getProductDTO)
+        {
+            try
+            {
+                var filterData = await _productService.GetProductAdvanceSearchAsync(getProductDTO);
+                return Ok(filterData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving  advance search mobile info : {ex.Message}");
 
+            }
+        }
         
     }
 }

@@ -337,3 +337,17 @@ GET {{MembershipPortal.API_HostAddress}}/api/tax
 GET {{MembershipPortal.API_HostAddress}}/api/user
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product/search?find=trainer
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/advancesearch
+Content-Type: application/json
+
+{
+  "productName": "Trainer 1month",
+    "price": 1000.00
+}
+
+###
