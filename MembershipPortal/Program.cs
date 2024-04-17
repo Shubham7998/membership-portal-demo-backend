@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("connectionStringShubham2");
 
-builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("MembershipPortal.API")));
 
 builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IGenderRepository, GenderRepository>();

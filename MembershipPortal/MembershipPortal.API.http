@@ -351,3 +351,27 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "genderName" : "Female"
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/discount
+Content-Type: application/json
+
+{
+  "discountCode" : "DIS#20",
+  "discountAmount" : 20,
+  "isDiscountInPercentage" : false
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/discount
+
+###

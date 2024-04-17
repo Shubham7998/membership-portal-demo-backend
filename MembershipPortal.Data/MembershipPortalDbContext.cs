@@ -16,7 +16,7 @@ namespace MembershipPortal.Data
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
-        public DbSet<DiscountMode> DiscountModes { get; set; }
+      //  public DbSet<DiscountMode> DiscountModes { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
     }
 }

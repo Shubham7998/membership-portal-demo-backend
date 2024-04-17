@@ -4,19 +4,16 @@ using MembershipPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MembershipPortal.Data.Migrations
+namespace MembershipPortal.API.Migrations
 {
     [DbContext(typeof(MembershipPortalDbContext))]
-    [Migration("20240404055516_EditedTaxModelAndAddedTotalTax")]
-    partial class EditedTaxModelAndAddedTotalTax
+    partial class MembershipPortalDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,32 +38,12 @@ namespace MembershipPortal.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<long>("DiscountModeId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsDiscountInPercentage")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiscountModeId");
-
                     b.ToTable("Discounts");
-                });
-
-            modelBuilder.Entity("MembershipPortal.Models.DiscountMode", b =>
-                {
-                    b.Property<long>("DiscountModeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("DiscountModeId"));
-
-                    b.Property<string>("DiscountModeType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("DiscountModeId");
-
-                    b.ToTable("DiscountModes");
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Gender", b =>
@@ -166,8 +143,8 @@ namespace MembershipPortal.Data.Migrations
                     b.Property<long>("DiscountId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("FinalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -188,8 +165,8 @@ namespace MembershipPortal.Data.Migrations
                     b.Property<decimal>("SGST")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<long>("SubscriberId")
                         .HasColumnType("bigint");
@@ -273,17 +250,6 @@ namespace MembershipPortal.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MembershipPortal.Models.Discount", b =>
-                {
-                    b.HasOne("MembershipPortal.Models.DiscountMode", "DiscountMode")
-                        .WithMany()
-                        .HasForeignKey("DiscountModeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DiscountMode");
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Subscriber", b =>

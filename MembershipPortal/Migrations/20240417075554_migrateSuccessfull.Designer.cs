@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MembershipPortal.Data.Migrations
+namespace MembershipPortal.API.Migrations
 {
     [DbContext(typeof(MembershipPortalDbContext))]
-    [Migration("20240404091532_EditedDiscountTableAndRemovedDiscountMode")]
-    partial class EditedDiscountTableAndRemovedDiscountMode
+    [Migration("20240417075554_migrateSuccessfull")]
+    partial class migrateSuccessfull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,22 +47,6 @@ namespace MembershipPortal.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
-                });
-
-            modelBuilder.Entity("MembershipPortal.Models.DiscountMode", b =>
-                {
-                    b.Property<long>("DiscountModeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("DiscountModeId"));
-
-                    b.Property<bool>("IsDiscountInPercentage")
-                        .HasColumnType("bit");
-
-                    b.HasKey("DiscountModeId");
-
-                    b.ToTable("DiscountModes");
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Gender", b =>
@@ -162,8 +146,8 @@ namespace MembershipPortal.Data.Migrations
                     b.Property<long>("DiscountId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("FinalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -184,8 +168,8 @@ namespace MembershipPortal.Data.Migrations
                     b.Property<decimal>("SGST")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<long>("SubscriberId")
                         .HasColumnType("bigint");

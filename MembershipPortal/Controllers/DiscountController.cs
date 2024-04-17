@@ -46,9 +46,9 @@ namespace MembershipPortal.API.Controllers
             {
                 var discountDTO = await _discountService.GetDiscountByIdAsync(id);
 
-                if (discountDTO == null)
+                if (discountDTO != null)
                 {
-                    return NotFound(id);
+                    return Ok(discountDTO);
                 }
 
                 return NotFound(MyException.DataWithIdNotPresent(id,tableName));
