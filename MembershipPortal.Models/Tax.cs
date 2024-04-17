@@ -10,6 +10,10 @@ namespace MembershipPortal.Models
         [Required(ErrorMessage = "Tax Id is required")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+
+        [Required(ErrorMessage = "State Name is required")]
+        public string StateName { get; set; }   
+
         [Required(ErrorMessage = "SGST is required")]
         public decimal SGST { get; set; }
         [Required(ErrorMessage = "CGST is required")]
