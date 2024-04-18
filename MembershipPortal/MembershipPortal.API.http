@@ -412,3 +412,27 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "genderName" : "Other"
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/paginated?page=1&pageSize=3
+Content-Type: application/json
+
+{
+    "id": 0,
+    "productName": "Cardio ",
+    "price": 0
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product
+
+###

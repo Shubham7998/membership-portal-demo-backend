@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MembershipPortal.API.Migrations
 {
     /// <inheritdoc />
-    public partial class migrateSuccessfull : Migration
+    public partial class migrationAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,6 +59,7 @@ namespace MembershipPortal.API.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StateName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SGST = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CGST = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalTax = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -73,7 +74,7 @@ namespace MembershipPortal.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
