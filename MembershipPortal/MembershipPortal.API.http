@@ -503,12 +503,57 @@ DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
 GET {{MembershipPortal.API_HostAddress}}/api/subscriber/sorting?sortColumn=mobileNumber&sortOrder=asc
 ###
 
-POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=0&pageSize=0
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=1&pageSize=0
 Content-Type: application/json
 
 {
-  //GetSubscriberDTO
+  "id": 2,
+    "firstName": "Elon",
+    "lastName": "Musk",
+    "contactNumber": "9988999000",
+    "email": "elon@gmail.com",
+    "genderId": 1
 }
 
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=1&pageSize=10&sortColumn=firstName&sortOrder=asc
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=1&pageSize=10&sortColumn=firstName&sortOrder=desc
+Content-Type: application/json
+
+{
+    "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "contactNumber": "",
+    "email": "",
+    "genderId": 0
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+    "id": 0,
+    "firstName": "",
+    "lastName": "Bhse",
+    "contactNumber": "9988999000",
+    "email": "email",
+    "genderId": 10
+}
 
 ###
