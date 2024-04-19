@@ -474,3 +474,7 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber
+
+###

@@ -12,7 +12,7 @@ namespace MembershipPortal.IServices
     {
         Task<GetSubscriberDTO> GetSubscriberAsync(long id);
 
-        Task<IEnumerable<GetSubscriberDTO>> GetSubscribersAsync();
+        Task<IEnumerable<GetForeginSubscriberDTO>> GetSubscribersAsync();
 
         Task<GetSubscriberDTO> UpdateSubscriberAsync(long id, UpdateSubscriberDTO subscriberDTO);
 
@@ -22,7 +22,7 @@ namespace MembershipPortal.IServices
 
         Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
 
-        Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
+        Task<(IEnumerable<GetForeginSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
 
         Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
     }

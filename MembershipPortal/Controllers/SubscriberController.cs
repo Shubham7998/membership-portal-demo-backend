@@ -26,7 +26,7 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriberController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<GetForeginSubscriberDTO>>> Get()
         {
             try
             {
@@ -47,11 +47,11 @@ namespace MembershipPortal.API.Controllers
             }
         }
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Search(string search)
+        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Search(string find)
         {
             try
             {
-                var subscriberDto = await _subscriberService.SearchAsyncAll(search);
+                var subscriberDto = await _subscriberService.SearchAsyncAll(find);
 
                 if (subscriberDto.Count() != 0)
                 {
@@ -158,7 +158,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetSubscriberDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
+        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
         {
             try
             {
@@ -168,9 +168,10 @@ namespace MembershipPortal.API.Controllers
                     LastName = subscriber.LastName,
                     ContactNumber = subscriber.ContactNumber,
                     Email = subscriber.Email,
-                    GenderId = subscriber.GenderId
+                    GenderId = subscriber.GenderId,
+                    
                 }); ;
-                var result = new Paginated<GetSubscriberDTO>
+                var result = new Paginated<GetForeginSubscriberDTO>
                 {
                     dataArray = paginatedSubscriberDTOAndTotalPages.Item1,
                     totalPages = paginatedSubscriberDTOAndTotalPages.Item2

@@ -129,11 +129,11 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> SubscriptionSearchAsync(string filter)
+        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> SubscriptionSearchAsync(string find)
         {
             try
             {
-                var subscriptionInfo = await _subscriptionService.GetAllSubscriptionSearchAsync(filter);
+                var subscriptionInfo = await _subscriptionService.GetAllSubscriptionSearchAsync(find);
                 return Ok(subscriptionInfo);
             }
             catch (Exception ex)

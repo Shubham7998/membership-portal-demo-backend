@@ -52,11 +52,11 @@ namespace MembershipPortal.API.Controllers
             }
         }
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string search)
+        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string find)
         {
             try
             {
-                var genders = await _genderService.SearchGendersAsync(search);
+                var genders = await _genderService.SearchGendersAsync(find);
 
                 if (genders.Count() != 0)
                 {

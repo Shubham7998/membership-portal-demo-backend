@@ -93,23 +93,25 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<IEnumerable<GetSubscriberDTO>> GetSubscribersAsync()
+        public async Task<IEnumerable<GetForeginSubscriberDTO>> GetSubscribersAsync()
         {
             try
             {
-                var subscribers = await _subscriberRepository.GetAsyncAll();
+                var subscribers = await _subscriberRepository.GetAllForeginSubscribers();
 
                 if(subscribers != null)
                 {
                     var subscribersDto = subscribers.Select(
                                                          subscriber =>
-                                                         new GetSubscriberDTO
+                                                         new GetForeginSubscriberDTO
                                                                                 (subscriber.Id,
                                                                                 subscriber.FirstName,
                                                                                 subscriber.LastName,
                                                                                 subscriber.ContactNumber,
                                                                                 subscriber.Email,
-                                                                                subscriber.GenderId));
+                                                                                subscriber.GenderId,
+                                                                                subscriber.Gender.GenderName
+                                                                                ));
                     return subscribersDto;
                 }
 
@@ -185,7 +187,7 @@ namespace MembershipPortal.Services
                     
         }
 
-        public async Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber)
+        public async Task<(IEnumerable<GetForeginSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber)
         {
 
 
@@ -193,13 +195,14 @@ namespace MembershipPortal.Services
 
             var subscriberDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
 
-                    new GetSubscriberDTO(
+                    new GetForeginSubscriberDTO(
                           subscriber.Id,
                            subscriber.FirstName,
                            subscriber.LastName,
                            subscriber.ContactNumber,
                            subscriber.Email,
-                           subscriber.GenderId
+                           subscriber.GenderId,
+                           subscriber.Gender.GenderName
                         )
                 ).ToList();
             return (subscriberDTOList, subscriberListAndTotalPages.Item2);

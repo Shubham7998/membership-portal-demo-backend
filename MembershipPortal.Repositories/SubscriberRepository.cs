@@ -37,11 +37,7 @@ namespace MembershipPortal.Repositories
         }
 
 
-        public Task<IEnumerable<Subscriber>> GetAllForeginSubscribers(string? sortColumn, string? sortOrder)
-        {
-            throw new NotImplementedException();
-        }
-
+       
        
         public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriberObj)
         {
@@ -65,6 +61,8 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscriber => subscriber.ContactNumber.Contains(subscriber.ContactNumber));
             }
+
+            query = query.Include(gender=>gender.Gender);
 
             int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
@@ -108,6 +106,11 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
-        
+        public async Task<IEnumerable<Subscriber>> GetAllForeginSubscribers()
+        {
+            var result = await _dbContext.Subscribers.Include(gender => gender.Gender).ToListAsync();
+            return result;
+        }
+
     }
 }
