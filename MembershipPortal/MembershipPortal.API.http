@@ -495,3 +495,7 @@ GET {{MembershipPortal.API_HostAddress}}/api/product
 
 
 ###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
+
+###
