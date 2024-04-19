@@ -5,6 +5,7 @@ using MembershipPortal.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
+using static MembershipPortal.DTOs.ProductDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -169,6 +170,28 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetGenderDTO gender)
+        {
+            try
+            {
+                var paginatedGenderDTOAndTotalPages = await _genderService.GetAllPaginatedGenderAsync(page, pageSize, new Gender()
+                {
+                    GenderName = gender.GenderName
+                }); ; ;
+                var result = new Paginated<GetGenderDTO>
+                {
+                    dataArray = paginatedGenderDTOAndTotalPages.Item1,
+                    totalPages = paginatedGenderDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
 
     }

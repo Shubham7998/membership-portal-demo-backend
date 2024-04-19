@@ -143,7 +143,40 @@ namespace MembershipPortal.Services
             }
             return null;
         }
-        
 
+        public async Task<(IEnumerable<GetGenderDTO>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender)
+        {
+            var genderListAndTotalPages = await _genderRepository.GetAllPaginatedGenderAsync(page, pageSize, gender);
+            var genderDTOList = genderListAndTotalPages.Item1.Select(gender =>
+
+                    new GetGenderDTO(
+                            gender.Id,
+                            gender.GenderName
+
+                        )
+                ).ToList();
+            return (genderDTOList, genderListAndTotalPages.Item2);
+        }
+
+
+        public async Task<IEnumerable<GetGenderDTO>> GetAllSortedGender(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedGendersList = await _genderRepository.GetAllSortedGender(sortColumn, sortOrder);
+                if (sortedGendersList != null)
+                {
+                    var sortedGendersDTOList = sortedGendersList
+                        .Select(gender => new GetGenderDTO(gender.Id, gender.GenderName)
+                    ).ToList();
+                    return sortedGendersDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

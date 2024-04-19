@@ -30,7 +30,17 @@ namespace MembershipPortal.DTOs
                                         string ContactNumber,
                                         string Email,
                                         long GenderId
+                                       
         );
+
+    public record GetForeginSubscriberDTO(long Id,
+                                       string FirstName,
+                                       string LastName,
+                                       string ContactNumber,
+                                       string Email,
+                                       long GenderId,
+                                       string GenderName
+       );
 
 }
 

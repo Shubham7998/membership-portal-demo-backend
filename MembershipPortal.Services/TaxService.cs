@@ -114,5 +114,26 @@ namespace MembershipPortal.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedTaxesList = await _taxRepository.GetAllSortedTax(sortColumn, sortOrder);
+                if (sortedTaxesList != null)
+                {
+                    var sortedTaxesDTOList = sortedTaxesList
+                        .Select(tax => new GetTaxDTO(tax.Id,tax.StateName, tax.CGST, tax.SGST, tax.TotalTax)
+                    ).ToList();
+                    return sortedTaxesDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

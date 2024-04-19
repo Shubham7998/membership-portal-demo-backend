@@ -1,4 +1,5 @@
 ﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,10 @@ namespace MembershipPortal.IServices
         Task<bool> DeleteGenderAsync(long id);
 
         Task<IEnumerable<GetGenderDTO>> SearchGendersAsync(string search);
+
+        Task<(IEnumerable<GetGenderDTO>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender);
+
+        Task<IEnumerable<GetGenderDTO>> GetAllSortedGender(string? sortColumn, string? sortOrder);
+
     }
 }

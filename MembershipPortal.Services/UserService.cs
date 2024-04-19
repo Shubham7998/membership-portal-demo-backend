@@ -215,6 +215,44 @@ namespace MembershipPortal.Services
             return null;
         }
 
+        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user)
+        {
+            var UserListAndTotalPages = await userRepository.GetAllPaginatedUserAsync(page, pageSize, user);
+            var userDTOList = UserListAndTotalPages.Item1.Select(user =>
+
+                    new GetUserDTO(
+                            user.Id,
+                            user.FirstName,
+                            user.LastName,
+                            user.Email,
+                            user.Password,
+                            user.ContactNumber
+                        )
+                ).ToList();
+            return (userDTOList, UserListAndTotalPages.Item2);
+
+        }
+
+        public async Task<IEnumerable<GetUserDTO>> GetAllSortedUsers(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedUsersList = await userRepository.GetAllSortedUser(sortColumn, sortOrder);
+                if (sortedUsersList != null)
+                {
+                    var sortedUsersDTOList = sortedUsersList.Select(user => new GetUserDTO(
+                            user.Id, user.FirstName, user.LastName, user.Email, user.Password, user.ContactNumber
+                        )).ToList();
+                    return sortedUsersDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }

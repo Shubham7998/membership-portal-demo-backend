@@ -58,5 +58,71 @@ namespace MembershipPortal.Repositories
 
             return await query.ToListAsync();
         }
+
+
+        public async Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User userobj)
+        {
+            var query = _dbContext.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(userobj.FirstName))
+            {
+                query = query.Where(user => userobj.FirstName == user.FirstName);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.LastName))
+            {
+                query = query.Where(user => userobj.LastName == user.LastName);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.ContactNumber))
+            {
+                query = query.Where(user => userobj.ContactNumber == user.ContactNumber);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.Email))
+            {
+                query = query.Where(user => userobj.Email == user.Email);
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages); ;
+        }
+
+        public async Task<IEnumerable<User>> GetAllSortedUser(string? sortColumn, string? sortOrder)
+        {
+            IQueryable<User> query = _dbContext.Users;
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "firstname":
+                        query = isAscending ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
+                        break;
+                    case "lastname":
+                        query = isAscending ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
+                        break;
+                    case "email":
+                        query = isAscending ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
+                        break;
+                    case "password":
+                        query = isAscending ? query.OrderBy(s => s.Password) : query.OrderByDescending(s => s.Password);
+                        break;
+                    case "contactnumber":
+                        query = isAscending ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+
+            }
+
+            return await query.ToListAsync();
+
+        }
+
+
     }
 }

@@ -226,5 +226,27 @@ namespace MembershipPortal.Services
             return (productDTOList, productListAndTotalPages.Item2);
 
         }
+
+
+        public async Task<IEnumerable<GetProductDTO>> GetAllSortedProducts(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedProductsList = await _productRepository.GetAllSortedProducts(sortColumn, sortOrder);
+                if (sortedProductsList != null)
+                {
+                    var sortedProductsDTOList = sortedProductsList
+                        .Select(product => new GetProductDTO(product.Id, product.ProductName, product.Price)
+                    ).ToList();
+                    return sortedProductsDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

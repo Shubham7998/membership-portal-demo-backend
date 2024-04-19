@@ -9,6 +9,6 @@ namespace MembershipPortal.IRepositories
 {
     public interface ITaxRepository : IRepository<Tax>
     {
-
+        Task<IEnumerable<Tax>> GetAllSortedTax(string? sortColumn, string? sortOrder);
     }
 }

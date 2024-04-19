@@ -433,6 +433,44 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/product
+GET {{MembershipPortal.API_HostAddress}}/api/USER
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+   "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "password": "",
+    "contactNumber": ""
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=2&pageSize=1
+Content-Type: application/json
+
+{
+   "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "contactNumber": "",
+    "email": "",
+    "genderId": 0
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+  "id":0,
+  "genderName":""
+}
 
 ###

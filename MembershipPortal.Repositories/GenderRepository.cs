@@ -29,5 +29,45 @@ namespace MembershipPortal.IRepositories
 
             return filterlist;
         }
+
+        public async Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender genderObj)
+        {
+            var query = _dbContext.Genders.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(genderObj.GenderName))
+            {
+                query = query.Where(gender => gender.GenderName == genderObj.GenderName);
+            }
+
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+
+
+        }
+
+        public async Task<IEnumerable<Gender>> GetAllSortedGender(string? sortColumn, string? sortOrder)
+        {
+            IQueryable<Gender> query = _dbContext.Genders;
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "gendername":
+                        query = isAscending ? query.OrderBy(s => s.GenderName) : query.OrderByDescending(s => s.GenderName);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+            }
+            return await query.ToListAsync();
+        }
+
     }
 }

@@ -18,5 +18,7 @@ namespace MembershipPortal.IRepositories
 
         Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize);
         Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj);
+
+        Task<IEnumerable<Product>> GetAllSortedProducts(string? sortColumn, string? sortOrder);
     }
 }

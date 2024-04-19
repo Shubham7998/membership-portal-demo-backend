@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.Models;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -132,6 +133,31 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
+
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetDiscountDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetDiscountDTO discount)
+        {
+            try
+            {
+                var paginatedDiscountDTOAndTotalPages = await _discountService.GetAllPaginatedDiscountAsync(page, pageSize, new Discount()
+                {
+                    DiscountCode = discount.DiscountCode,
+                    DiscountAmount = discount.DiscountAmount,
+                    IsDiscountInPercentage = discount.IsDiscountInPercentage,
+                });
+                var result = new Paginated<GetDiscountDTO>
+                {
+                    dataArray = paginatedDiscountDTOAndTotalPages.Item1,
+                    totalPages = paginatedDiscountDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
     }
 }

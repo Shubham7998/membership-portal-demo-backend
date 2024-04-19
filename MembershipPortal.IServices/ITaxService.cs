@@ -14,5 +14,8 @@ namespace MembershipPortal.IServices
         Task<GetTaxDTO> CreateTaxAsync(CreateTaxDTO taxDTO);
         Task<GetTaxDTO> UpdateTaxAsync(long Id, UpdateTaxDTO taxDTO);
         Task<bool> DeleteTaxAsync(long Id);
+
+        Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder);
+
     }
 }
