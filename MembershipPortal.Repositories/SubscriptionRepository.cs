@@ -316,6 +316,8 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
+
+
         public async Task<IEnumerable<Subscription>> GetAllSortedSubscriptions(string? sortColumn, string? sortOrder)
         {
             IQueryable<Subscription> query = _dbContext.Subscriptions;
@@ -371,5 +373,9 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
+        public Task<(IEnumerable<Subscription>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Subscription subscriptionobj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

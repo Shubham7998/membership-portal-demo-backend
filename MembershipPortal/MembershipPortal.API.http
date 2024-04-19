@@ -491,7 +491,19 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/product
+GET {{MembershipPortal.API_HostAddress}}/api/discount
 
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/discount/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+  "Id",0,
+ "discountCode": "",
+    "discountAmount":0,
+    "isDiscountInPercentage": false
+}
 
 ###
