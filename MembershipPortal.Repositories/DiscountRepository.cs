@@ -36,7 +36,7 @@ namespace MembershipPortal.Repositories
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
-            return (await query.ToListAsync(), totalPages);
+            return (await query.ToListAsync(), totalCount);
         }
 
         public async Task<IEnumerable<Discount>> GetAllSortedDiscount(string? sortColumn, string? sortOrder)

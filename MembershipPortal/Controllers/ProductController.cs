@@ -85,6 +85,7 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
+
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProductDTO>> Get(long id)
