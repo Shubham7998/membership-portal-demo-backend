@@ -207,6 +207,10 @@ namespace MembershipPortal.API.Migrations
                     b.Property<decimal>("SGST")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("TotalTax")
                         .HasColumnType("decimal(18,2)");
 

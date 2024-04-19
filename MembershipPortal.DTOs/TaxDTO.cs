@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace MembershipPortal.DTOs
 {
     public record CreateTaxDTO(
-
+            [Required(ErrorMessage = "State Name is required")]
+            string StateName,
             [Required(ErrorMessage = "SGST is required")]
             [Range(0.01, double.MaxValue, ErrorMessage = "SGST must be greater than zero")]
             decimal SGST,
@@ -19,6 +20,8 @@ namespace MembershipPortal.DTOs
 
     public record UpdateTaxDTO(
 
+        [Required(ErrorMessage = "State Name is required")]
+            string StateName,
             [Required(ErrorMessage = "Tax Id is required")] long Id,
             [Required(ErrorMessage = "SGST is required")]
             [Range(0.01, double.MaxValue, ErrorMessage = "SGST must be greater than zero")]
@@ -32,6 +35,7 @@ namespace MembershipPortal.DTOs
 
     public record GetTaxDTO(
             long Id,
+            string StateName,
             decimal SGST,
             decimal CGST,
             decimal TotalTax

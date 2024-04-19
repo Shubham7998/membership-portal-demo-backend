@@ -25,12 +25,13 @@ namespace MembershipPortal.Services
                 if (taxDTO == null) throw new ArgumentNullException(nameof(taxDTO));
                 var tax = new Tax()
                 {
+                    StateName = taxDTO.StateName,
                     SGST = taxDTO.SGST,
                     CGST = taxDTO.CGST,
                     TotalTax = taxDTO.CGST + taxDTO.SGST,
                 };
                 var result = await _taxRepository.CreateAsync(tax);
-                var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST, result.TotalTax);
+                var newTaxDTO = new GetTaxDTO(result.Id, result.StateName,result.CGST, result.SGST, result.TotalTax);
                 return newTaxDTO;
             }
             catch (Exception ex)
@@ -62,7 +63,7 @@ namespace MembershipPortal.Services
                 var tax = await _taxRepository.GetAsyncById(id);
                 if (tax != null)
                 {
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
+                    return new GetTaxDTO(tax.Id, tax.StateName, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }
@@ -80,7 +81,7 @@ namespace MembershipPortal.Services
                 var taxList = await _taxRepository.GetAsyncAll();
                 if (taxList != null)
                 {
-                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax));
+                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.StateName, tax.SGST, tax.CGST, tax.TotalTax));
                     return taxDTOList;
                 }
                 return null;
@@ -103,7 +104,7 @@ namespace MembershipPortal.Services
                     oldTax.CGST = taxDTO.CGST;
                     oldTax.TotalTax = taxDTO.SGST + taxDTO.CGST;
                     var tax = await _taxRepository.UpdateAsync(oldTax);
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
+                    return new GetTaxDTO(tax.Id, tax.StateName, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }

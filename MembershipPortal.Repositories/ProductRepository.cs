@@ -1,12 +1,8 @@
 ﻿using MembershipPortal.Data;
+using MembershipPortal.DTOs;
 using MembershipPortal.IRepositories;
 using MembershipPortal.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MembershipPortal.Repositories
 {
@@ -38,7 +34,7 @@ namespace MembershipPortal.Repositories
         {
             var query = _dbContext.Products.AsQueryable();
 
-        
+
 
             if (!string.IsNullOrWhiteSpace(productobj.ProductName))
             {
@@ -57,9 +53,33 @@ namespace MembershipPortal.Repositories
         {
             var productsList = await _dbContext.Products.ToListAsync();
             int totalCount = productsList.Count;
-            int totalPages = (int)(Math.Ceiling((decimal) totalCount / pageSize));
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
             productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return (productsList, totalCount);
         }
+
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj)
+        {
+
+            var query = _dbContext.Products.AsQueryable();
+
+
+
+            if (!string.IsNullOrWhiteSpace(productObj.ProductName))
+            {
+                query = query.Where(product => product.ProductName.Contains(productObj.ProductName));
+            }
+            if (productObj.Price > 0)
+            {
+                query = query.Where(product => product.Price == productObj.Price);
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalCount);
+        }
+
     }
 }

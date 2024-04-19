@@ -245,7 +245,9 @@ namespace MembershipPortal.Repositories
                 .ToListAsync();
 
             filterlist = filterlist.Where(
-                                    m => m.CGST.ToString().Contains(keyword) ||
+                                    m => 
+                                   
+                                    m.CGST.ToString().Contains(keyword) ||
                                     m.SGST.ToString().ToLower().Contains(keyword) ||
                                     m.TotalTaxPercentage.ToString().Contains(keyword) ||
                                     m.Subscriber.FirstName.ToLower().Contains(keyword) ||

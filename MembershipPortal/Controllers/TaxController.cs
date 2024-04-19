@@ -39,12 +39,6 @@ namespace MembershipPortal.API.Controllers
                     return Ok(taxDTOList);
                 }
                 return null;
-                //if (taxDTOList.Count() != 0)
-                //{
-                //    return Ok(taxDTOList);
-
-                //}
-                //return NotFound(MyException.DataNotFound(tableName));
             }
             catch (Exception ex)
             {

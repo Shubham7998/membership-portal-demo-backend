@@ -375,3 +375,64 @@ Content-Type: application/json
 GET {{MembershipPortal.API_HostAddress}}/api/discount
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/tax
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/tax/1
+Content-Type: application/json
+
+{
+    "id" : 1,
+    "stateName": "Maharashtra",
+    "sgst": 10.00,
+    "cgst": 10.00,
+    "totalTax": 20.00
+}
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/tax/0
+
+###
+
+DELETE {{MembershipPortal.API_HostAddress}}/api/tax/1
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/tax
+Content-Type: application/json
+
+{
+  "stateName": "Rajasthan",
+    "sgst": 12.00,
+    "cgst": 10.00,
+    "totalTax": 20.00
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "genderName" : "Other"
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/paginated?page=1&pageSize=3
+Content-Type: application/json
+
+{
+    "id": 0,
+    "productName": "Cardio ",
+    "price": 0
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product
+
+###

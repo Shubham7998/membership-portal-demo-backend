@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MembershipPortal.API.Migrations
 {
     [DbContext(typeof(MembershipPortalDbContext))]
-    [Migration("20240417075554_migrateSuccessfull")]
-    partial class migrateSuccessfull
+    [Migration("20240418042143_migrationAdded")]
+    partial class migrationAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,6 +209,10 @@ namespace MembershipPortal.API.Migrations
 
                     b.Property<decimal>("SGST")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalTax")
                         .HasColumnType("decimal(18,2)");
