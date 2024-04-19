@@ -499,3 +499,16 @@ GET {{MembershipPortal.API_HostAddress}}/api/product
 DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/sorting?sortColumn=mobileNumber&sortOrder=asc
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=0&pageSize=0
+Content-Type: application/json
+
+{
+  //GetSubscriberDTO
+}
+
+
+###

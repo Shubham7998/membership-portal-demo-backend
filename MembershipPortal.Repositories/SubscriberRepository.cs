@@ -93,7 +93,7 @@ namespace MembershipPortal.Repositories
                     case "contactnumber":
                         query = isAscending ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
                         break;
-                    case "gendername":
+                    case "genderid":
                         query = isAscending ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                         break;
                     default:
