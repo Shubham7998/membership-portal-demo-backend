@@ -210,6 +210,50 @@ namespace MembershipPortal.Services
 
         }
 
+        public async Task<(IEnumerable<GetForeginSubscriberDTO>, int)> GetAllPaginatedAndSortedSubscriberAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscriber subscriberObj)
+        {
+            var subscriberListAndTotalPages = await _subscriberRepository.GetAllPaginatedAndSortedSubscribersAsync(page, pageSize, sortColumn, sortOrder, subscriberObj);
+
+            var subscriberDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
+
+                    new GetForeginSubscriberDTO(
+                          subscriber.Id,
+                           subscriber.FirstName,
+                           subscriber.LastName,
+                           subscriber.ContactNumber,
+                           subscriber.Email,
+                           subscriber.GenderId,
+                           subscriber.Gender.GenderName
+                        )
+                ).ToList();
+            return (subscriberDTOList, subscriberListAndTotalPages.Item2);
+        }
+
+        
+
+        //public async Task<(IEnumerable<GetForeginSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber)
+        //{
+
+
+        //    var subscriberListAndTotalPages = await _subscriberRepository.GetAllPaginatedSubscriberAsync(page, pageSize, subscriber);
+
+        //    var subscriberDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
+
+        //            new GetForeginSubscriberDTO(
+        //                  subscriber.Id,
+        //                   subscriber.FirstName,
+        //                   subscriber.LastName,
+        //                   subscriber.ContactNumber,
+        //                   subscriber.Email,
+        //                   subscriber.GenderId,
+        //                   subscriber.Gender.GenderName
+        //                )
+        //        ).ToList();
+        //    return (subscriberDTOList, subscriberListAndTotalPages.Item2);
+
+
+        //}
+
 
         public async Task<IEnumerable<GetForeginSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
         {

@@ -158,6 +158,34 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetDiscountDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetDiscountDTO discount)
+        {
 
+            try
+            {
+                var paginatedDiscountDTOAndTotalPages = await _discountService.GetAllPaginatedAndSortedDiscountAsync(page, pageSize, sortColumn, sortOrder, new Discount()
+                {
+                    Id = discount.Id,
+                    DiscountCode = discount.DiscountCode,
+                    DiscountAmount = discount.DiscountAmount,
+                    IsDiscountInPercentage= discount.IsDiscountInPercentage,
+
+                });
+
+                var result = new Paginated<GetDiscountDTO>
+                {
+                    dataArray = paginatedDiscountDTOAndTotalPages.Item1,
+                    totalPages = paginatedDiscountDTOAndTotalPages.Item2
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
     }
 }

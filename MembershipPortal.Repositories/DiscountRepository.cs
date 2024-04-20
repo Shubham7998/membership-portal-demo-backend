@@ -63,5 +63,58 @@ namespace MembershipPortal.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<(IEnumerable<Discount>, int)> GetAllPaginatedAndSortedDiscountsAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Discount discountObj)
+        {
+            var query = _dbContext.Discounts.AsQueryable();
+
+            // Filter based on search criteria
+            if (!string.IsNullOrWhiteSpace(discountObj.DiscountCode))
+            {
+                query = query.Where(discount => discount.DiscountCode.Contains(discountObj.DiscountCode));
+            }
+            
+            if (discountObj.DiscountAmount > 0)
+            {
+                query = query.Where(discount => discount.DiscountAmount == discountObj.DiscountAmount);
+
+            }
+            if(sortColumn != "id")
+            {
+                query = query.Where(discount => discount.IsDiscountInPercentage == discountObj.IsDiscountInPercentage);
+
+            }
+
+            int totalCount = await query.CountAsync();
+
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+            // Apply sorting if provided
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                switch (sortColumn.ToLower())
+                {
+                    case "discountamount":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.DiscountAmount) : query.OrderByDescending(s => s.DiscountAmount);
+                        break;
+                    case "isdiscountinpercentage":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.IsDiscountInPercentage) : query.OrderByDescending(s => s.IsDiscountInPercentage);
+                        break;
+                    case "discountcode":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.DiscountCode) : query.OrderByDescending(s => s.DiscountCode);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+            }
+
+            // Execute query and return paginated and sorted results along with total count
+            return (await query.ToListAsync(), totalCount);
+        }
+
     }
 }

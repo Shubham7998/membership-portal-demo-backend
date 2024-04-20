@@ -152,7 +152,21 @@ namespace MembershipPortal.Services
             }
         }
 
+        public async Task<(IEnumerable<GetDiscountDTO>, int)> GetAllPaginatedAndSortedDiscountAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Discount discountObj)
+        {
+            var discountListAndTotalPages = await _discountRepository.GetAllPaginatedAndSortedDiscountsAsync(page, pageSize, sortColumn, sortOrder, discountObj);
 
+            var discountDTOList = discountListAndTotalPages.Item1.Select
+                (
+                    discount => new GetDiscountDTO(
+                        discount.Id,
+                        discount.DiscountCode,
+                        discount.DiscountAmount,
+                        discount.IsDiscountInPercentage
+                        )
+                ).ToList();
 
+            return (discountDTOList, discountListAndTotalPages.Item2);
+        }
     }
 }

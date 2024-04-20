@@ -106,6 +106,72 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedAndSortedSubscribersAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscriber subscriberObj)
+        {
+            var query = _dbContext.Subscribers.AsQueryable();
+
+            // Filter based on search criteria
+            if (!string.IsNullOrWhiteSpace(subscriberObj.FirstName))
+            {
+                query = query.Where(subscriber => subscriber.FirstName.Contains(subscriberObj.FirstName));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.LastName))
+            {
+                query = query.Where(subscriber => subscriber.LastName.Contains(subscriberObj.LastName));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.Email))
+            {
+                query = query.Where(subscriber => subscriber.Email.Contains(subscriberObj.Email));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.ContactNumber))
+            {
+                query = query.Where(subscriber => subscriber.ContactNumber.Contains(subscriberObj.ContactNumber));
+            }
+            if(subscriberObj.GenderId >  0)
+            {
+                query = query.Where(subscriber => subscriber.GenderId == subscriberObj.GenderId);
+
+            }
+            query = query.Include(subscriber => subscriber.Gender);
+
+            int totalCount = await query.CountAsync();
+
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+            
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+            // Apply sorting if provided
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                switch (sortColumn.ToLower())
+                {
+                    case "firstname":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
+                        break;
+                    case "lastname":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
+                        break;
+                    case "email":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
+                        break;
+                    case "contactnumber":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+                        break;
+                    case "genderid":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+            }
+
+            // Execute query and return paginated and sorted results along with total count
+            return (await query.ToListAsync(), totalCount);
+        }
+
+
         public async Task<IEnumerable<Subscriber>> GetAllForeginSubscribers()
         {
             var result = await _dbContext.Subscribers.Include(gender => gender.Gender).ToListAsync();

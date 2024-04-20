@@ -5,6 +5,8 @@ using MembershipPortal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Drawing.Printing;
 using static MembershipPortal.DTOs.ProductDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -159,7 +161,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetPaginatedSubscriberData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
+        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetPaginatedSubscriberData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber, string? sortColumn, string? sortOrder)
         {
             try
             {
@@ -185,14 +187,31 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
-        [HttpGet("sorting")]
-        public async Task<ActionResult<GetForeginSubscriberDTO>> GetSortedPaginatedData(string? sortColumn, string? sortOrder)
+        
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetSortedPaginatedData(int page, int pageSize,string? sortColumn, string? sortOrder, GetSubscriberDTO subscriber)
         {
+            
             try
             {
-                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllSortedSubscribers(sortColumn, sortOrder);
-                
-                return Ok(paginatedSubscriberDTOAndTotalPages);
+                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllPaginatedAndSortedSubscriberAsync(page,pageSize,sortColumn, sortOrder, new Subscriber()
+                {
+                    FirstName = subscriber.FirstName,
+                    LastName = subscriber.LastName,
+                    ContactNumber = subscriber.ContactNumber,
+                    Email = subscriber.Email,
+                    GenderId = subscriber.GenderId,
+                    
+                }); 
+
+                var result = new Paginated<GetForeginSubscriberDTO>
+                {
+                    dataArray = paginatedSubscriberDTOAndTotalPages.Item1,
+                    totalPages = paginatedSubscriberDTOAndTotalPages.Item2
+                };
+
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

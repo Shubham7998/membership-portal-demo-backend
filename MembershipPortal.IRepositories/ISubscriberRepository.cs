@@ -16,8 +16,10 @@ namespace MembershipPortal.IRepositories
 
         Task<IEnumerable<Subscriber>> GetAllForeginSubscribers();
 
+        Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedAndSortedSubscribersAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscriber subscriberObj);
+
         //Task<IEnumerable<Subscriber>> GetAsyncByIdForeginSubscribers(string? sortColumn, string? sortOrder);
-      
+
 
     }
 }

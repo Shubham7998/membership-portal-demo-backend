@@ -491,41 +491,69 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/user
+GET {{MembershipPortal.API_HostAddress}}/api/product
 
 
 ###
 
-<<<<<<< HEAD
-POST {{MembershipPortal.API_HostAddress}}/api/discount/paginated?page=1&pageSize=1
-Content-Type: application/json
-
-{
-  "Id",0,
- "discountCode": "",
-    "discountAmount":0,
-    "isDiscountInPercentage": false
-}
-=======
 DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
->>>>>>> 1636cdd7bcd88bd333e427d4d8667354806aa52f
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/user/search?find=string
-
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/sorting?sortColumn=mobileNumber&sortOrder=asc
 ###
 
-POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=1&pageSize=0
 Content-Type: application/json
 
 {
- "id": 0,
+  "id": 2,
+    "firstName": "Elon",
+    "lastName": "Musk",
+    "contactNumber": "9988999000",
+    "email": "elon@gmail.com",
+    "genderId": 1
+}
+
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=1&pageSize=10&sortColumn=firstName&sortOrder=asc
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=1&pageSize=10&sortColumn=firstName&sortOrder=desc
+Content-Type: application/json
+
+{
+    "id": 0,
     "firstName": "",
     "lastName": "",
+    "contactNumber": "",
     "email": "",
-    "password": "",
-    "contactNumber": "9999999999"
+    "genderId": 0
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+    "id": 0,
+    "firstName": "",
+    "lastName": "Bhse",
+    "contactNumber": "9988999000",
+    "email": "email",
+    "genderId": 10
 }
 
 ###
