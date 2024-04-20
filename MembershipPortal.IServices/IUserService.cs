@@ -1,4 +1,5 @@
-﻿using MembershipPortal.Models;
+﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace MembershipPortal.IServices
 
         public Task<IEnumerable<GetUserDTO>> GetUserAdvanceSearchAsync(GetUserDTO getUserDTO);
 
-        public Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user);
+       
 
-        public Task<IEnumerable<GetUserDTO>> GetAllSortedUsers(string? sortColumn, string? sortOrder);
+        Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedAndSortedUserAsync(int page, int pageSize, string? sortColumn, string? sortOrder, User userObj);
+
 
     }
 }

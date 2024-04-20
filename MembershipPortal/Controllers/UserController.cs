@@ -1,6 +1,8 @@
 ﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using static MembershipPortal.DTOs.UserDTO;
@@ -170,32 +172,35 @@ namespace MembershipPortal.API.Controllers
         }
 
 
-        [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetUserDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetUserDTO user)
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetUserDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetUserDTO user)
         {
+
             try
             {
-                var paginatedUserDTOAndTotalPages = await _userService.GetAllPaginatedUserAsync(page, pageSize, new User()
+                var paginatedUserDTOAndTotalPages = await _userService.GetAllPaginatedAndSortedUserAsync(page, pageSize, sortColumn, sortOrder, new User()
                 {
-
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
                     Password = user.Password,
-                    ContactNumber = user.ContactNumber
-
+                    ContactNumber = user.ContactNumber 
+                   
                 });
+
                 var result = new Paginated<GetUserDTO>
                 {
                     dataArray = paginatedUserDTOAndTotalPages.Item1,
                     totalPages = paginatedUserDTOAndTotalPages.Item2
                 };
+
+
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 

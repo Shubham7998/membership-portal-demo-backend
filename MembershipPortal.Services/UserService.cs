@@ -215,44 +215,27 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user)
+        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedAndSortedUserAsync(int page, int pageSize, string? sortColumn, string? sortOrder, User userObj)
         {
-            var UserListAndTotalPages = await userRepository.GetAllPaginatedUserAsync(page, pageSize, user);
-            var userDTOList = UserListAndTotalPages.Item1.Select(user =>
+            
+                var UserListAndTotalPages = await userRepository.GetAllPaginatedAndSortedUserAsync(page, pageSize, sortColumn, sortOrder, userObj);
 
-                    new GetUserDTO(
-                            user.Id,
-                            user.FirstName,
-                            user.LastName,
-                            user.Email,
-                            user.Password,
-                            user.ContactNumber
-                        )
-                ).ToList();
-            return (userDTOList, UserListAndTotalPages.Item2);
+                var UserDTOList = UserListAndTotalPages.Item1.Select(user =>
 
-        }
+                        new GetUserDTO(
+                              user.Id,
+                               user.FirstName,
+                               user.LastName,
+                               user.Email,
+                               user.Password,
+                               user.ContactNumber
 
-        public async Task<IEnumerable<GetUserDTO>> GetAllSortedUsers(string? sortColumn, string? sortOrder)
-        {
-            try
-            {
-                var sortedUsersList = await userRepository.GetAllSortedUser(sortColumn, sortOrder);
-                if (sortedUsersList != null)
-                {
-                    var sortedUsersDTOList = sortedUsersList.Select(user => new GetUserDTO(
-                            user.Id, user.FirstName, user.LastName, user.Email, user.Password, user.ContactNumber
-                        )).ToList();
-                    return sortedUsersDTOList;
-                }
-                return null;
+
+                            )
+                    ).ToList();
+                return (UserDTOList, UserListAndTotalPages.Item2);
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
-        }
-
+        
     }
 }

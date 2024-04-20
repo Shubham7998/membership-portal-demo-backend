@@ -69,5 +69,8 @@ namespace MembershipPortal.IRepositories
             return await query.ToListAsync();
         }
 
+
+
+
     }
 }

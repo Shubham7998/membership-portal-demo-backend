@@ -14,8 +14,9 @@ namespace MembershipPortal.IRepositories
 
         Task<IEnumerable<User>> GetUserAdvanceSearchAsync(User userobj);
 
-        Task<IEnumerable<User>> GetAllSortedUser(string? sortColumn, string? sortOrder);
-        Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user);
+       
+        Task<(IEnumerable<User>, int)> GetAllPaginatedAndSortedUserAsync(int page, int pageSize, string? sortColumn, string? sortOrder, User userObj);
+
 
     }
 }

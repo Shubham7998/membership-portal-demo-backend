@@ -15,5 +15,8 @@ namespace MembershipPortal.IRepositories
         Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender);
 
         Task<IEnumerable<Gender>> GetAllSortedGender(string? sortColumn, string? sortOrder);
+
+       // Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedAndSortedSubscribersAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscriber subscriberObj);
+
     }
 }
