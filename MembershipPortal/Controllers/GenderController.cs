@@ -178,7 +178,7 @@ namespace MembershipPortal.API.Controllers
                 var paginatedGenderDTOAndTotalPages = await _genderService.GetAllPaginatedGenderAsync(page, pageSize, new Gender()
                 {
                     GenderName = gender.GenderName
-                }); ; ;
+                });  
                 var result = new Paginated<GetGenderDTO>
                 {
                     dataArray = paginatedGenderDTOAndTotalPages.Item1,

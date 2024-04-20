@@ -20,5 +20,7 @@ namespace MembershipPortal.IRepositories
 
         Task<IEnumerable<Subscription>> GetAllSortedSubscriptions(string? sortName, string? sortOrder);
 
+        Task<(IEnumerable<Subscription>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Subscription subscriptionobj );
+
     }
 }
