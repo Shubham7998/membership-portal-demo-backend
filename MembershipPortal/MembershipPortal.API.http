@@ -491,11 +491,12 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/discount
+GET {{MembershipPortal.API_HostAddress}}/api/user
 
 
 ###
 
+<<<<<<< HEAD
 POST {{MembershipPortal.API_HostAddress}}/api/discount/paginated?page=1&pageSize=1
 Content-Type: application/json
 
@@ -504,6 +505,27 @@ Content-Type: application/json
  "discountCode": "",
     "discountAmount":0,
     "isDiscountInPercentage": false
+}
+=======
+DELETE {{MembershipPortal.API_HostAddress}}/api/subscription/3
+>>>>>>> 1636cdd7bcd88bd333e427d4d8667354806aa52f
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/user/search?find=string
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/advancesearch
+Content-Type: application/json
+
+{
+ "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "password": "",
+    "contactNumber": "9999999999"
 }
 
 ###
