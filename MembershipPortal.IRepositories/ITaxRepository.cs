@@ -9,9 +9,10 @@ namespace MembershipPortal.IRepositories
 {
     public interface ITaxRepository : IRepository<Tax>
     {
-        Task<IEnumerable<Tax>> GetAllSortedTax(string? sortColumn, string? sortOrder);
+       
 
-        Task<(IEnumerable<Tax>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Tax taxObj);
+        Task<(IEnumerable<Tax>, int)> GetAllPaginatedAndSortedTaxAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Tax taxObj);
+
 
     }
 }

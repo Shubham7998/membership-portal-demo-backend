@@ -1,4 +1,5 @@
 ﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,11 @@ namespace MembershipPortal.IServices
         Task<GetTaxDTO> UpdateTaxAsync(long Id, UpdateTaxDTO taxDTO);
         Task<bool> DeleteTaxAsync(long Id);
 
-        Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder);
+        
+
+
+        public Task<(IEnumerable<GetTaxDTO>, int)> GetAllPaginatedAndSortedTaxAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Tax taxObj);
+
 
     }
 }

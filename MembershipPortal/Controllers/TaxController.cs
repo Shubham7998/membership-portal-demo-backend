@@ -11,6 +11,7 @@ using MembershipPortal.IServices;
 using MembershipPortal.DTOs;
 using MembershipPortal.API.ErrorHandling;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MembershipPortal.Services;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -133,6 +134,38 @@ namespace MembershipPortal.API.Controllers
                     return Ok(result);
                 }
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+
+
+
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetTaxDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetTaxDTO tax)
+        {
+
+            try
+            {
+                var paginatedTaxDTOAndTotalPages = await _taxService.GetAllPaginatedAndSortedTaxAsync(page, pageSize, sortColumn, sortOrder, new Tax()
+                {
+                    Id = tax.Id,
+                    StateName=tax.StateName,
+                    SGST=tax.SGST,
+                    CGST=tax.CGST,
+                    TotalTax=tax.TotalTax
+                });
+
+                var result = new Paginated<GetTaxDTO>
+                {
+                    dataArray = paginatedTaxDTOAndTotalPages.Item1,
+                    totalPages = paginatedTaxDTOAndTotalPages.Item2
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

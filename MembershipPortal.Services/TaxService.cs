@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -115,25 +116,22 @@ namespace MembershipPortal.Services
             }
         }
 
-        public async Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder)
-        {
-            try
-            {
-                var sortedTaxesList = await _taxRepository.GetAllSortedTax(sortColumn, sortOrder);
-                if (sortedTaxesList != null)
-                {
-                    var sortedTaxesDTOList = sortedTaxesList
-                        .Select(tax => new GetTaxDTO(tax.Id,tax.StateName, tax.CGST, tax.SGST, tax.TotalTax)
-                    ).ToList();
-                    return sortedTaxesDTOList;
-                }
-                return null;
-            }
-            catch (Exception)
-            {
+    
 
-                throw;
-            }
+        public  async Task<(IEnumerable<GetTaxDTO>, int)> GetAllPaginatedAndSortedTaxAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Tax taxObj)
+        {
+            var taxListAndTotalPages = await _taxRepository.GetAllPaginatedAndSortedTaxAsync(page, pageSize, sortColumn, sortOrder, taxObj);
+
+            var taxDTOList = taxListAndTotalPages.Item1.Select(
+                tax => new GetTaxDTO(
+                    tax.Id,
+                    tax.StateName,
+                    tax.SGST,
+                    tax.CGST,
+                    tax.TotalTax
+                    ) ).ToList();
+
+            return (taxDTOList, taxListAndTotalPages.Item2);
         }
     }
 }

@@ -18,10 +18,65 @@ namespace MembershipPortal.Repositories
             this._dbContext = dbContext;
         }
 
-        public Task<(IEnumerable<Tax>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Tax taxObj)
+        public async Task<(IEnumerable<Tax>, int)> GetAllPaginatedAndSortedTaxAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Tax taxObj)
         {
-            throw new NotImplementedException();
-        }
+            
+                var query = _dbContext.Taxes.AsQueryable();
+
+                // Filter based on search criteria
+               
+
+                if (taxObj.CGST > 0)
+                {
+                    query = query.Where(tax => tax.CGST == taxObj.CGST);
+
+                }
+
+                    if (taxObj.SGST > 0)
+                    {
+                        query = query.Where(tax => tax.SGST == taxObj.SGST);
+
+                    }
+                    if (taxObj.TotalTax > 0)
+                    {
+                        query = query.Where(tax => tax.TotalTax == taxObj.TotalTax);
+
+                    }
+
+            int totalCount = await query.CountAsync();
+
+                int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+                // Apply sorting if provided
+                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+                {
+                    switch (sortColumn.ToLower())
+                    {
+                        case "cgst":
+                            query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.CGST) : query.OrderByDescending(s => s.CGST);
+                            break;
+                        case "sgst":
+                            query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.SGST) : query.OrderByDescending(s => s.SGST);
+                            break;
+                        case "totaltax":
+                            query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.TotalTax) : query.OrderByDescending(s => s.TotalTax);
+                            break;
+                        default:
+                            query = query.OrderBy(s => s.Id);
+                            break;
+                    }
+                }
+
+                // Execute query and return paginated and sorted results along with total count
+                return (await query.ToListAsync(), totalCount);
+            }
+
+        
+
+
 
         public async Task<IEnumerable<Tax>> GetAllSortedTax(string? sortColumn, string? sortOrder)
         {
