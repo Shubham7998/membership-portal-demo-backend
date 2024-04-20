@@ -90,7 +90,10 @@ namespace MembershipPortal.Repositories
             int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
 
-            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            if(sortColumn == "id" && (discountObj.DiscountAmount == 0 && string.IsNullOrWhiteSpace(discountObj.DiscountCode) ))
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
 
             // Apply sorting if provided
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
