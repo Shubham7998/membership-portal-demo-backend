@@ -132,16 +132,13 @@ namespace MembershipPortal.Repositories
                 query = query.Where(subscriber => subscriber.GenderId == subscriberObj.GenderId);
 
             }
-            // Include related entities
             query = query.Include(subscriber => subscriber.Gender);
 
-            // Calculate total count for pagination
             int totalCount = await query.CountAsync();
 
-            // Determine total pages for pagination
             int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
-            // Apply pagination
+            
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             // Apply sorting if provided
@@ -174,39 +171,6 @@ namespace MembershipPortal.Repositories
             return (await query.ToListAsync(), totalCount);
         }
 
-        //public async Task<IEnumerable<Subscriber>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
-        //{
-        //    IQueryable<Subscriber> query = _dbContext.Subscribers.Include(s => s.Gender);
-        //    if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
-        //    {
-        //        // Determine the sort order based on sortOrder parameter
-        //        bool isAscending = sortOrder.ToLower() == "asc";
-        //        switch (sortColumn.ToLower())
-        //        {
-        //            case "firstname":
-        //                query = isAscending ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
-        //                break;
-        //            case "lastname":
-        //                query = isAscending ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
-        //                break;
-        //            case "email":
-        //                query = isAscending ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
-        //                break;
-        //            case "contactnumber":
-        //                query = isAscending ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
-        //                break;
-        //            case "genderid":
-        //                query = isAscending ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
-        //                break;
-        //            default:
-        //                query = query.OrderBy(s => s.Id);
-        //                break;
-        //        }
-
-        //    }
-
-        //    return await query.ToListAsync();
-        //}
 
         public async Task<IEnumerable<Subscriber>> GetAllForeginSubscribers()
         {
