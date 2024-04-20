@@ -130,35 +130,6 @@ namespace MembershipPortal.API.Controllers
 
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> SubscriptionSearchAsync(string find)
-        {
-            try
-            {
-                var subscriptionInfo = await _subscriptionService.GetAllSubscriptionSearchAsync(find);
-                return Ok(subscriptionInfo);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while retrieving Subscription info : {ex.Message}");
-
-            }
-
-        }
-
-        [HttpPost("advancesearch")]
-        public async Task<ActionResult<IEnumerable<GetUserDTO>>> SubscriptionAdvanceSearchAsync(GetSubscriptionDTO subscriptionDTO)
-        {
-            try
-            {
-                var filterData = await _subscriptionService.GetAllSubscriptionAdvanceSearchAsync(subscriptionDTO);
-                return Ok(filterData);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while retrieving Advance search Subscription info : {ex.Message}");
-
-            }
-        }
+      
     }
 }
