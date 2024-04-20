@@ -211,15 +211,15 @@ namespace MembershipPortal.Services
         }
 
 
-        public async Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
+        public async Task<IEnumerable<GetForeginSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
         {
             try
             {
                 var sortedSubscribersList = await _subscriberRepository.GetAllSortedSubscribers(sortColumn, sortOrder);
                 if (sortedSubscribersList != null)
                 {
-                    var sortedSubscribersDTOList = sortedSubscribersList.Select(subscribers => new GetSubscriberDTO(
-                            subscribers.Id, subscribers.FirstName, subscribers.LastName, subscribers.ContactNumber, subscribers.Email, subscribers.GenderId
+                    var sortedSubscribersDTOList = sortedSubscribersList.Select(subscribers => new GetForeginSubscriberDTO(
+                            subscribers.Id, subscribers.FirstName, subscribers.LastName, subscribers.ContactNumber, subscribers.Email, subscribers.GenderId, subscribers.Gender.GenderName
                         ))
                         .ToList();
                     return sortedSubscribersDTOList;
@@ -232,7 +232,5 @@ namespace MembershipPortal.Services
                 throw;
             }
         }
-
-
     }
 }

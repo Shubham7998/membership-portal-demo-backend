@@ -3,6 +3,7 @@ using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static MembershipPortal.DTOs.ProductDTO;
 
@@ -158,7 +159,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
+        public async Task<ActionResult<Paginated<GetForeginSubscriberDTO>>> GetPaginatedSubscriberData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
         {
             try
             {
@@ -178,10 +179,25 @@ namespace MembershipPortal.API.Controllers
                 };
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+        [HttpGet("sorting")]
+        public async Task<ActionResult<GetForeginSubscriberDTO>> GetSortedPaginatedData(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllSortedSubscribers(sortColumn, sortOrder);
+                
+                return Ok(paginatedSubscriberDTOAndTotalPages);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 

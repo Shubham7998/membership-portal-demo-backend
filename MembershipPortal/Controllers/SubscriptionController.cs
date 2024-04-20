@@ -50,10 +50,12 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var result = await _subscriptionService.GetSubscriptionByIdAsync(id);
+               
+                return Ok(result);
                 if(result != null) {
                     return Ok(result);
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                //return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
             catch (Exception ex)
             {
