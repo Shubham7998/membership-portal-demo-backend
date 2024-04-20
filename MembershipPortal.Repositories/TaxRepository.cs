@@ -18,6 +18,11 @@ namespace MembershipPortal.Repositories
             this._dbContext = dbContext;
         }
 
+        public Task<(IEnumerable<Tax>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Tax taxObj)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Tax>> GetAllSortedTax(string? sortColumn, string? sortOrder)
         {
             IQueryable<Tax> query = _dbContext.Taxes;
