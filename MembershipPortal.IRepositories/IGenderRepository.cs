@@ -10,13 +10,8 @@ namespace MembershipPortal.IRepositories
 {
     public interface IGenderRepository : IRepository<Gender>
     {
-        Task<IEnumerable<Gender>> SearchAsyncAll(string search);
-
-        Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender);
-
-        Task<IEnumerable<Gender>> GetAllSortedGender(string? sortColumn, string? sortOrder);
-
-       // Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedAndSortedSubscribersAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscriber subscriberObj);
+        
+        Task<(IEnumerable<Gender>, int)> GetAllPaginatedAndSortedGenderAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Gender genderObj);
 
     }
 }

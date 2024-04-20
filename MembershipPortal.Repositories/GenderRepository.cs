@@ -20,57 +20,43 @@ namespace MembershipPortal.IRepositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Gender>> SearchAsyncAll(string search)
-        {
-            var keyword = search.ToLower();
+      
 
-            var filterlist = await _dbContext.Genders
-                            .Where(gender => gender.GenderName.ToLower().Contains(keyword)).ToListAsync();
-
-            return filterlist;
-        }
-
-        public async Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender genderObj)
+        public async Task<(IEnumerable<Gender>, int)> GetAllPaginatedAndSortedGenderAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Gender genderObj)
         {
             var query = _dbContext.Genders.AsQueryable();
 
+            // Filter based on search criteria
             if (!string.IsNullOrWhiteSpace(genderObj.GenderName))
             {
-                query = query.Where(gender => gender.GenderName == genderObj.GenderName);
+                query = query.Where(gender => gender.GenderName.Contains(genderObj.GenderName));
             }
+            int totalCount = await query.CountAsync();
 
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
-            int totalCount = query.Count();
-            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
-            return (await query.ToListAsync(), totalCount);
 
-
-        }
-
-        public async Task<IEnumerable<Gender>> GetAllSortedGender(string? sortColumn, string? sortOrder)
-        {
-            IQueryable<Gender> query = _dbContext.Genders;
+            // Apply sorting if provided
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
             {
-                // Determine the sort order based on sortOrder parameter
-                bool isAscending = sortOrder.ToLower() == "asc";
                 switch (sortColumn.ToLower())
                 {
                     case "gendername":
-                        query = isAscending ? query.OrderBy(s => s.GenderName) : query.OrderByDescending(s => s.GenderName);
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.GenderName) : query.OrderByDescending(s => s.GenderName);
                         break;
+
                     default:
                         query = query.OrderBy(s => s.Id);
                         break;
                 }
             }
-            return await query.ToListAsync();
+
+            // Execute query and return paginated and sorted results along with total count
+            return (await query.ToListAsync(), totalCount);
         }
 
-
-
-
+       
     }
 }

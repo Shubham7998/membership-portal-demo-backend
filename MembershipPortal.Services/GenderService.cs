@@ -5,6 +5,7 @@ using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using NuGet.Protocol.Plugins;
 using System.Reflection;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -54,6 +55,8 @@ namespace MembershipPortal.Services
             return false;
         }
 
+    
+
         public async Task<GetGenderDTO> GetGenderAsync(long id)
         {
             try
@@ -97,30 +100,7 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<IEnumerable<GetGenderDTO>> SearchGendersAsync(string search)
-        {
-            try
-            {
-                var genders = await _genderRepository.SearchAsyncAll(search);
-
-                if(genders != null)
-                {
-                    var genderDto = genders.Select(gender => new GetGenderDTO(
-
-                                gender.Id,
-                                gender.GenderName
-                    ));
-
-                    return genderDto;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return null;
-        }
+       
 
         public async Task<GetGenderDTO> UpdateGenderAsync(long id, UpdateGenderDTO genderDTO)
         {
@@ -144,39 +124,20 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetGenderDTO>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender)
+        public async Task<(IEnumerable<GetGenderDTO>, int)> GetAllPaginatedAndSortedGenderAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Gender genderObj)
         {
-            var genderListAndTotalPages = await _genderRepository.GetAllPaginatedGenderAsync(page, pageSize, gender);
-            var genderDTOList = genderListAndTotalPages.Item1.Select(gender =>
+            var genderListAndTotalPages = await _genderRepository.GetAllPaginatedAndSortedGenderAsync(page, pageSize, sortColumn, sortOrder, genderObj);
 
-                    new GetGenderDTO(
-                            gender.Id,
-                            gender.GenderName
+            var genderDTOList = genderListAndTotalPages.Item1.Select
+                (
+                    gender => new GetGenderDTO(
+                        gender.Id,
+                        gender.GenderName
 
                         )
                 ).ToList();
+
             return (genderDTOList, genderListAndTotalPages.Item2);
-        }
-
-
-        public async Task<IEnumerable<GetGenderDTO>> GetAllSortedGender(string? sortColumn, string? sortOrder)
-        {
-            try
-            {
-                var sortedGendersList = await _genderRepository.GetAllSortedGender(sortColumn, sortOrder);
-                if (sortedGendersList != null)
-                {
-                    var sortedGendersDTOList = sortedGendersList
-                        .Select(gender => new GetGenderDTO(gender.Id, gender.GenderName)
-                    ).ToList();
-                    return sortedGendersDTOList;
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
@@ -51,30 +52,7 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string find)
-        {
-            try
-            {
-                var genders = await _genderService.SearchGendersAsync(find);
-
-                if (genders.Count() != 0)
-                {
-
-                    return Ok(genders);
-                }
-                else
-                {
-                    return NotFound(MyException.DataNotFound(tableName));
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
-            }
-        }
+     
 
         // GET api/<GenderController>/5
         [HttpGet("{id}")]
@@ -170,28 +148,36 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-        [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetGenderDTO gender)
+
+
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetGenderDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetGenderDTO gender)
         {
+
             try
             {
-                var paginatedGenderDTOAndTotalPages = await _genderService.GetAllPaginatedGenderAsync(page, pageSize, new Gender()
+                var paginatedGenderDTOAndTotalPages = await _genderService.GetAllPaginatedAndSortedGenderAsync(page, pageSize, sortColumn, sortOrder, new Gender()
                 {
-                    GenderName = gender.GenderName
-                });  
+                   Id = gender.Id,
+                   GenderName= gender.GenderName
+
+                });
+
                 var result = new Paginated<GetGenderDTO>
                 {
                     dataArray = paginatedGenderDTOAndTotalPages.Item1,
                     totalPages = paginatedGenderDTOAndTotalPages.Item2
                 };
+
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
+
 
 
     }

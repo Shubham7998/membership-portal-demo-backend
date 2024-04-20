@@ -76,7 +76,7 @@ namespace MembershipPortal.Repositories
                 {
                     switch (sortColumn.ToLower())
                     {
-                        case "productName":
+                        case "productname":
                             query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
                             break;
 
