@@ -373,9 +373,67 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
-        public Task<(IEnumerable<Subscription>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Subscription subscriptionobj)
-        {
-            throw new NotImplementedException();
-        }
+        //public async  Task<(IEnumerable<Subscription>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Subscription subscriptionobj)
+        //{
+            
+        //        var query = _dbContext.Subscriptions.AsQueryable();
+
+              
+        //        if (subscriptionobj.SubscriberId > 0)
+        //        {
+        //            query = query.Where(subcription => subcription.SubscriberId == subscriptionobj.SubscriberId);
+
+        //        }
+        //        if (subscriptionobj.ProductId > 0)
+        //        {
+        //            query = query.Where(subcription => subcription.ProductId == subscriptionobj.ProductId);
+
+        //        }
+        //        if (subscriptionobj.TaxId > 0)
+        //        {
+        //            query = query.Where(subcription => subcription.TaxId == subscriptionobj.TaxId);
+
+        //        }
+                
+        //    query = query.Include(subscriber => subscriber.Gender);
+
+        //        int totalCount = await query.CountAsync();
+
+        //        int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+
+        //        query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+        //        // Apply sorting if provided
+        //        if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+        //        {
+        //            switch (sortColumn.ToLower())
+        //            {
+        //                case "firstname":
+        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
+        //                    break;
+        //                case "lastname":
+        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
+        //                    break;
+        //                case "email":
+        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
+        //                    break;
+        //                case "contactnumber":
+        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+        //                    break;
+        //                case "genderid":
+        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
+        //                    break;
+        //                default:
+        //                    query = query.OrderBy(s => s.Id);
+        //                    break;
+        //            }
+        //        }
+
+        //        // Execute query and return paginated and sorted results along with total count
+        //        return (await query.ToListAsync(), totalCount);
+        //    }
+
+        
     }
 }
