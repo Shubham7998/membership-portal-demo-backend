@@ -49,64 +49,50 @@ namespace MembershipPortal.Repositories
 
         }
 
-        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedAndSortedProductAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Product productObj)
         {
-            var productsList = await _dbContext.Products.ToListAsync();
-            int totalCount = productsList.Count;
-            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
-            productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            return (productsList, totalCount);
-        }
+            
+                var query = _dbContext.Products.AsQueryable();
 
-        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj)
-        {
-
-            var query = _dbContext.Products.AsQueryable();
-
-
-
-            if (!string.IsNullOrWhiteSpace(productObj.ProductName))
-            {
-                query = query.Where(product => product.ProductName.Contains(productObj.ProductName));
-            }
-            if (productObj.Price > 0)
-            {
-                query = query.Where(product => product.Price == productObj.Price);
-            }
-
-            int totalCount = query.Count();
-            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
-
-            query = query.Skip((page - 1) * pageSize).Take(pageSize);
-            return (await query.ToListAsync(), totalCount);
-        }
-
-
-
-        public async Task<IEnumerable<Product>> GetAllSortedProducts(string? sortColumn, string? sortOrder)
-        {
-            IQueryable<Product> query = _dbContext.Products;
-            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
-            {
-                // Determine the sort order based on sortOrder parameter
-                bool isAscending = sortOrder.ToLower() == "asc";
-                switch (sortColumn.ToLower())
+                // Filter based on search criteria
+                if (!string.IsNullOrWhiteSpace(productObj.ProductName))
                 {
-                    case "productname":
-                        query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
-                        break;
+                    query = query.Where(product => product.ProductName.Contains(productObj.ProductName));
+                }
+                if (productObj.Price > 0)
+                {
+                    query = query.Where(product => product.Price.Equals(productObj.Price));
+                }
+                
+                int totalCount = await query.CountAsync();
+
+                int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+                // Apply sorting if provided
+                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+                {
+                    switch (sortColumn.ToLower())
+                    {
+                        case "productName":
+                            query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
+                            break;
+
                     case "price":
-                        query = isAscending ? query.OrderBy(s => s.Price) : query.OrderByDescending(s => s.Price);
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Price) : query.OrderByDescending(s => s.Price);
                         break;
                     default:
-                        query = query.OrderBy(s => s.Id);
-                        break;
+                            query = query.OrderBy(s => s.Id);
+                            break;
+                    }
                 }
 
+                // Execute query and return paginated and sorted results along with total count
+                return (await query.ToListAsync(), totalCount);
             }
 
-            return await query.ToListAsync();
-        }
-
+        
     }
 }

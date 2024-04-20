@@ -1,4 +1,5 @@
 ﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using MembershipPortal.Services;
@@ -49,42 +50,9 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-        //[HttpGet("paginated")]
-        //public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize)
-        //{
-        //    var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize);
-        //    var result = new Paginated<GetProductDTO>()
-        //    {
-        //        dataArray = paginatedProductDTOAndTotalPages.Item1,
-        //        totalPages = paginatedProductDTOAndTotalPages.Item2
-        //    };
-        //    return Ok(result);
-        //}
+    
 
-        [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetProductDTO product)
-        {
-            try
-            {
-                var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize, new Product()
-                {
-                    ProductName = product.ProductName,
-                    Price = product.Price
-                });
-                var result = new Paginated<GetProductDTO>
-                {
-                    dataArray = paginatedProductDTOAndTotalPages.Item1,
-                    totalPages = paginatedProductDTOAndTotalPages.Item2
-                };
-                return Ok(result);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
+       
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
@@ -214,6 +182,35 @@ namespace MembershipPortal.API.Controllers
 
             }
         }
-        
+
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetProductDTO product)
+        {
+
+            try
+            {
+                var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedAndSortedProductAsync(page, pageSize, sortColumn, sortOrder, new Product()
+                {
+                  Id = product.Id,
+                  ProductName=product.ProductName,
+                  Price = product.Price
+
+                });
+
+                var result = new Paginated<GetProductDTO>
+                {
+                    dataArray = paginatedProductDTOAndTotalPages.Item1,
+                    totalPages = paginatedProductDTOAndTotalPages.Item2
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+
     }
 }

@@ -197,56 +197,23 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        public  async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedAndSortedProductAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Product productObj)
         {
-            var productListAndTotalPages = await _productRepository.GetAllPaginatedProductAsync(page, pageSize);
-            var productDTOList = productListAndTotalPages.Item1.Select(product =>
+           
+                var productListAndTotalPages = await _productRepository.GetAllPaginatedAndSortedProductAsync(page, pageSize, sortColumn, sortOrder, productObj);
 
-                    new GetProductDTO(
+                var ProductDTOList = productListAndTotalPages.Item1.Select
+                    (
+                        product => new GetProductDTO(
                             product.Id,
                             product.ProductName,
                             product.Price
-                        )
-                ).ToList();
-            return (productDTOList, productListAndTotalPages.Item2);
-
-        }
-
-        public async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product product)
-        {
-            var productListAndTotalPages = await _productRepository.GetAllPaginatedProductAsync(page, pageSize, product);
-            var productDTOList = productListAndTotalPages.Item1.Select(product =>
-
-                    new GetProductDTO(
-                            product.Id,
-                            product.ProductName,
-                            product.Price
-                        )
-                ).ToList();
-            return (productDTOList, productListAndTotalPages.Item2);
-
-        }
-
-
-        public async Task<IEnumerable<GetProductDTO>> GetAllSortedProducts(string? sortColumn, string? sortOrder)
-        {
-            try
-            {
-                var sortedProductsList = await _productRepository.GetAllSortedProducts(sortColumn, sortOrder);
-                if (sortedProductsList != null)
-                {
-                    var sortedProductsDTOList = sortedProductsList
-                        .Select(product => new GetProductDTO(product.Id, product.ProductName, product.Price)
+                          
+                            )
                     ).ToList();
-                    return sortedProductsDTOList;
-                }
-                return null;
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
+                return (ProductDTOList, productListAndTotalPages.Item2);
+            
         }
     }
 }

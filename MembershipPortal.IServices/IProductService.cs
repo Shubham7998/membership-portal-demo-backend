@@ -1,4 +1,5 @@
-﻿using MembershipPortal.Models;
+﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,10 @@ namespace MembershipPortal.IServices
 
         public Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO);
 
-        public Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj);
+      
 
-        public Task<IEnumerable<GetProductDTO>> GetAllSortedProducts(string? sortColumn, string? sortOrder);
+       public Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedAndSortedProductAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Product productObj);
+
 
 
     }
