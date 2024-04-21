@@ -19,6 +19,8 @@ namespace MembershipPortal.Models
         [ForeignKey(nameof(Subscriber))]
         [Required (ErrorMessage = "Please enter valid subscriber Id")]
         public long SubscriberId { get; set; } 
+
+        public  string SubscriberName { get; set; }
         public virtual Subscriber Subscriber { get; set; }
 
         [ForeignKey(nameof(Product))]
@@ -55,6 +57,8 @@ namespace MembershipPortal.Models
         public decimal TaxAmount { get; set; }
 
         public decimal FinalAmount { get; set; }
+
+       
 
     }
 }

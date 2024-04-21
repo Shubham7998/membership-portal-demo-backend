@@ -132,7 +132,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginatedsorting")]
-        public async Task<ActionResult<Paginated<GetSubscriptionDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetSubscriptionDTO subscriptionDTO)
+        public async Task<ActionResult<Paginated<GetSubscriptionDTOName>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetSubscriptionDTO subscriptionDTO)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace MembershipPortal.API.Controllers
 
                 });
 
-                var result = new Paginated<GetSubscriptionDTO>
+                var result = new Paginated<GetSubscriptionDTOName>
                 {
                     dataArray = paginatedSubscriptionDTOAndTotalPages.Item1,
                     totalPages = paginatedSubscriptionDTOAndTotalPages.Item2

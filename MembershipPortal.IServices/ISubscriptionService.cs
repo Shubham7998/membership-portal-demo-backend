@@ -18,7 +18,7 @@ namespace MembershipPortal.IServices
 
         public Task<GetSubscriptionDTO> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);
 
-         Task<(IEnumerable<GetSubscriptionDTO>, int)> GetAllPaginatedAndSortedSubscriptionAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj);
+         Task<(IEnumerable<GetSubscriptionDTOName>, int)> GetAllPaginatedAndSortedSubscriptionAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj);
 
 
     }

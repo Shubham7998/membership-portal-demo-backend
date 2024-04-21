@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,9 @@ using System.Threading.Tasks;
 namespace MembershipPortal.Models
 {
     [Table("Subscribers")]
+
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(ContactNumber), IsUnique = true)]
     public class Subscriber
     {
         [Key]
@@ -24,10 +28,12 @@ namespace MembershipPortal.Models
 
 
         [Required(ErrorMessage = "Please enter Customer number")]
+      
         public string ContactNumber { get; set; }
 
         [MaxLength(50)]
         [Required(ErrorMessage = "Please enter Customer Email")]
+        
         public string Email { get; set; }
 
         [ForeignKey("Gender")]

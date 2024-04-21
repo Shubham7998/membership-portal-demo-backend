@@ -15,6 +15,7 @@ namespace MembershipPortal.DTOs
     public record CreateSubscriptionDTO(
         
             [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
+          
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
             long TaxId,
@@ -41,6 +42,18 @@ namespace MembershipPortal.DTOs
             DateOnly? StartDate, DateOnly? ExpiryDate,
             decimal PriceAfterDiscount,long TaxId,
             decimal CGST, decimal SGST, 
+            decimal TotalTaxPercentage, decimal TaxAmount,
+            decimal FinalAmount
+        );
+
+    public record GetSubscriptionDTOName(
+            long Id, long SubscriberId,string SubscriberName ,
+            long ProductId, string ProductName,
+            decimal ProductPrice, long DiscountId,
+            string DiscountCode, decimal DiscountAmount,
+            DateOnly? StartDate, DateOnly? ExpiryDate,
+            decimal PriceAfterDiscount, long TaxId,
+            decimal CGST, decimal SGST,
             decimal TotalTaxPercentage, decimal TaxAmount,
             decimal FinalAmount
         );

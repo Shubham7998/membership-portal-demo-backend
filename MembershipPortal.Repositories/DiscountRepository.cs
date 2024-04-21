@@ -79,11 +79,14 @@ namespace MembershipPortal.Repositories
                 query = query.Where(discount => discount.DiscountAmount == discountObj.DiscountAmount);
 
             }
-            if(sortColumn != "id")
+            if(!sortColumn.Equals("id"))
             {
                 query = query.Where(discount => discount.IsDiscountInPercentage == discountObj.IsDiscountInPercentage);
 
             }
+
+           
+
 
             int totalCount = await query.CountAsync();
 

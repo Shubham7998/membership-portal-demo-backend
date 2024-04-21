@@ -376,7 +376,19 @@ namespace MembershipPortal.Repositories
 
         public async Task<(IEnumerable<Subscription>, int)> GetAllPaginatedAndSortedSubscriptionsAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj)
         {
+
+            var result = await _dbContext.Subscriptions.Include(subscriber => subscriber.Subscriber).ToListAsync();
+
+
             var query = _dbContext.Subscriptions.AsQueryable();
+
+
+         
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.SubscriberName))
+            {
+                query = query.Where(subscription => subscription.SubscriberName == subscriptionObj.SubscriberName);
+            }
+
 
             if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
             {
@@ -432,7 +444,12 @@ namespace MembershipPortal.Repositories
                 bool isAscending = sortOrder.ToLower() == "asc";
                 switch (sortColumn.ToLower())
                 {
-                    case "productname":
+
+                    
+                     case "subscribername":
+                    query = isAscending ? query.OrderBy(s => s.SubscriberName) : query.OrderByDescending(s => s.SubscriberName);
+                    break;
+                case "productname":
                         query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
                         break;
                     case "productprice":

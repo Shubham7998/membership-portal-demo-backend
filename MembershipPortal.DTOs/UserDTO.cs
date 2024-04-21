@@ -23,6 +23,8 @@ namespace MembershipPortal.DTOs
             [MaxLength(50)]
             [Required(ErrorMessage = "Password is Required")]
             string Password,
+            [Required(ErrorMessage = "ContactNumber is Required")]
+
             string ContactNumber
             );
 
@@ -41,6 +43,8 @@ namespace MembershipPortal.DTOs
             [MaxLength(50)]
             [Required(ErrorMessage = "Password is Required")]
             string Password,
+            [Required(ErrorMessage = "ContactNumber is Required")]
+
             string ContactNumber
             );
 

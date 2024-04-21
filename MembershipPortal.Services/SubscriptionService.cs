@@ -139,14 +139,17 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetSubscriptionDTO>, int)> GetAllPaginatedAndSortedSubscriptionAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj)
+        public async Task<(IEnumerable<GetSubscriptionDTOName>, int)> GetAllPaginatedAndSortedSubscriptionAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj)
         {
             var subscriptionListAndTotalPages = await _subscriptionRepository.GetAllPaginatedAndSortedSubscriptionsAsync(page, pageSize, sortColumn, sortOrder, subscriptionObj);
 
+         
+
             var subscriptionDTOList = subscriptionListAndTotalPages.Item1.Select(subscription =>
-                    new GetSubscriptionDTO(
+                    new GetSubscriptionDTOName(
                             subscription.Id,
                             subscription.SubscriberId,
+                            subscription.Subscriber.FirstName + " " + subscription.Subscriber.LastName,
                             subscription.ProductId,
                             subscription.ProductName,
                             subscription.ProductPrice,
