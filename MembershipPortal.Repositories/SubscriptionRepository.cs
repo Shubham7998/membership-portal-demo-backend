@@ -130,7 +130,8 @@ namespace MembershipPortal.Repositories
 
             if (oldSubscription != null)
             {
-
+                oldSubscription.StartDate = updateSubscriptionDTO.StartDate;
+                oldSubscription.ExpiryDate = updateSubscriptionDTO.ExpiryDate;
                 if(oldSubscription.ProductId != updateSubscriptionDTO.ProductId)
                 {
                     oldSubscription.ProductId = updateSubscriptionDTO.ProductId;
