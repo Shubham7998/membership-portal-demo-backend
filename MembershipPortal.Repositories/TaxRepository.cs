@@ -23,14 +23,19 @@ namespace MembershipPortal.Repositories
             
                 var query = _dbContext.Taxes.AsQueryable();
 
-                // Filter based on search criteria
-               
+            // Filter based on search criteria
 
-                if (taxObj.CGST > 0)
-                {
-                    query = query.Where(tax => tax.CGST == taxObj.CGST);
+            if (!string.IsNullOrWhiteSpace(taxObj.StateName))
+            {
+                query = query.Where(tax => tax.StateName.Contains(taxObj.StateName));
+            }
 
-                }
+
+            if (taxObj.CGST > 0)
+                    {
+                        query = query.Where(tax => tax.CGST == taxObj.CGST);
+
+                    }
 
                     if (taxObj.SGST > 0)
                     {
@@ -55,7 +60,11 @@ namespace MembershipPortal.Repositories
                 {
                     switch (sortColumn.ToLower())
                     {
-                        case "cgst":
+
+                    case "stateName":
+                        query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.StateName) : query.OrderByDescending(s => s.StateName);
+                        break;
+                    case "cgst":
                             query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.CGST) : query.OrderByDescending(s => s.CGST);
                             break;
                         case "sgst":

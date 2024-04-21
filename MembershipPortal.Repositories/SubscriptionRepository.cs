@@ -393,11 +393,11 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.DiscountAmount == subscriptionObj.DiscountAmount);
             }
-            if (subscriptionObj.StartDate.ToString() != "01-01-2001")
+            if (subscriptionObj.StartDate.ToString() != "1/1/0001")
             {
                 query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
             }
-            if (subscriptionObj.ExpiryDate.ToString() != "01-01-2001")
+            if (subscriptionObj.ExpiryDate.ToString() != "1/1/0001")
             {
                 query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
             }

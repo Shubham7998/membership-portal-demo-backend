@@ -590,3 +590,37 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=1&pageSize=1&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  "id": 0,
+    "subscriberId": 0,
+    "productId": 0,
+    "productName": "",
+    "productPrice": 0,
+    "discountId": 0,
+    "discountCode": "",
+    "discountAmount": 0,
+    "startDate": "2001-01-01",
+    "expiryDate": "2001-01-01",
+    "priceAfterDiscount": 0,
+    "taxId": 0,
+    "cgst": 0,
+    "sgst": 0,
+    "totalTaxPercentage": 0,
+    "taxAmount": 0,
+    "finalAmount": 0
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetSubscriptionDTO
+}
+
+###
