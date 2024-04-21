@@ -382,6 +382,10 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.ProductName == subscriptionObj.ProductName);
             }
+            if(subscriptionObj.SubscriberId > 0)
+            {
+                query = query.Where(subscription => subscription.SubscriberId == subscriptionObj.SubscriberId);
+            }
             if (subscriptionObj.ProductPrice > 0)
             {
                 query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
@@ -400,8 +404,9 @@ namespace MembershipPortal.Repositories
             }
             if (subscriptionObj.ExpiryDate.ToString() != "01-01-0001")
             {
-                query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
+                query = query.Where(subscription => subscription.StartDate == subscriptionObj.ExpiryDate || subscription.ExpiryDate == subscriptionObj.ExpiryDate);
             }
+
             if (subscriptionObj.TaxAmount > 0)
             {
                 query = query.Where(subscription => subscription.TaxAmount == subscriptionObj.TaxAmount);
