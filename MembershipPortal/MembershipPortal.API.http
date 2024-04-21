@@ -559,13 +559,13 @@ Content-Type: application/json
 ###
 
 GET {{MembershipPortal.API_HostAddress}}/api/discount
-
+ttp://localhost:5224
 ###
 
 GET {{MembershipPortal.API_HostAddress}}/api/subscription
 
 ###
-
+                            h/api/subscription/paginatedsorting?page=1&pageSize=2&sortColumn=id&sortOrder=asc
 POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=1&pageSize=10&sortColumn=taxAmount&sortOrder=asc
 Content-Type: application/json
 
@@ -588,5 +588,29 @@ Content-Type: application/json
     "taxAmount": 0,
     "finalAmount": 0
 }
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+
+  {
+  "id": 0,
+  "subscriberId": 0,
+  "productId": 0,
+  "discountId": 0,
+  "startDate": "21-04-2024",
+  "expiryDate": "31-12-2024",
+  "priceAfterDiscount": 0,
+  "taxId": 0,
+  "cgst": 0,
+  "sgst": 0,
+  "totalTaxPercent": 0,
+  "taxAmount": 0,
+  "finalAmount": 0
+}
+
+
 
 ###
