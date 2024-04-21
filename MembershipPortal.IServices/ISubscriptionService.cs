@@ -1,5 +1,6 @@
 ﻿using MembershipPortal.DTOs;
 using MembershipPortal.IRepositories;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace MembershipPortal.IServices
         public Task<GetSubscriptionDTO> CreateSubscriptionAsync(CreateSubscriptionDTO createSubscriptionDTO);
 
         public Task<GetSubscriptionDTO> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);
-      
+
+         Task<(IEnumerable<GetSubscriptionDTO>, int)> GetAllPaginatedAndSortedSubscriptionAsync(int page, int pageSize, string? sortColumn, string? sortOrder, Subscription subscriptionObj);
 
 
     }

@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.API.ErrorHandling;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.UserDTO;
@@ -130,6 +131,53 @@ namespace MembershipPortal.API.Controllers
 
         }
 
-      
+        [HttpPost("paginatedsorting")]
+        public async Task<ActionResult<Paginated<GetSubscriptionDTO>>> GetSortedPaginatedData(int page, int pageSize, string? sortColumn, string? sortOrder, GetSubscriptionDTO subscriptionDTO)
+        {
+            try
+            {
+                
+                var paginatedSubscriptionDTOAndTotalPages = await _subscriptionService.GetAllPaginatedAndSortedSubscriptionAsync(page, pageSize, sortColumn, sortOrder, new Subscription()
+                {
+                    Id = subscriptionDTO.Id,
+                    SubscriberId = subscriptionDTO.SubscriberId,
+                    ProductId = subscriptionDTO.ProductId,
+                    ProductName = subscriptionDTO.ProductName,
+                    ProductPrice = subscriptionDTO.ProductPrice,
+                    DiscountId = subscriptionDTO.DiscountId,
+                    DiscountCode = subscriptionDTO.DiscountCode,
+                    DiscountAmount = subscriptionDTO.DiscountAmount,
+
+                    StartDate = String.IsNullOrEmpty(subscriptionDTO.StartDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscriptionDTO.StartDate,
+                    ExpiryDate = String.IsNullOrEmpty(subscriptionDTO.ExpiryDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscriptionDTO.ExpiryDate,
+
+                    PriceAfterDiscount = subscriptionDTO.PriceAfterDiscount,
+                    TaxId = subscriptionDTO.TaxId,
+                    CGST = subscriptionDTO.CGST,
+                    SGST = subscriptionDTO.SGST,
+                    TotalTaxPercentage = subscriptionDTO.TotalTaxPercentage,
+                    TaxAmount = subscriptionDTO.TaxAmount,
+                    FinalAmount = subscriptionDTO.FinalAmount
+
+                });
+
+                var result = new Paginated<GetSubscriptionDTO>
+                {
+                    dataArray = paginatedSubscriptionDTOAndTotalPages.Item1,
+                    totalPages = paginatedSubscriptionDTOAndTotalPages.Item2
+                };
+
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+
+
+
     }
 }

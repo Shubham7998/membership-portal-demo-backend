@@ -561,3 +561,32 @@ Content-Type: application/json
 GET {{MembershipPortal.API_HostAddress}}/api/discount
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=1&pageSize=10&sortColumn=taxAmount&sortOrder=asc
+Content-Type: application/json
+
+{
+  "id": 0,
+    "subscriberId": 0,
+    "productId": 0,
+    "productName": "",
+    "productPrice": 0,
+    "discountId": 0,
+    "discountCode": "",
+    "discountAmount": 0,
+    "startDate": "2001-01-01",
+    "expiryDate": "2001-01-01",
+    "priceAfterDiscount": 0,
+    "taxId": 0,
+    "cgst": 0,
+    "sgst": 0,
+    "totalTaxPercentage": 0,
+    "taxAmount": 0,
+    "finalAmount": 0
+}
+
+###

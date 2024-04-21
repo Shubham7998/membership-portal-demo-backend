@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("connectionStringShubham2");
+var connectionString = configuration.GetConnectionString("connectionStringShubham");
 
 builder.Services.AddDbContext<MembershipPortalDbContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("MembershipPortal.API")));
 
@@ -20,13 +20,11 @@ builder.Services.AddScoped<IGenderRepository, GenderRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
-
 
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
