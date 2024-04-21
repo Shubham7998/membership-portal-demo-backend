@@ -61,7 +61,7 @@ namespace MembershipPortal.Repositories
                     switch (sortColumn.ToLower())
                     {
 
-                    case "stateName":
+                    case "statename":
                         query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.StateName) : query.OrderByDescending(s => s.StateName);
                         break;
                     case "cgst":

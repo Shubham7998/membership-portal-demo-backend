@@ -624,3 +624,12 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginatedsorting?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetSubscriptionDTO
+}
+
+###
