@@ -245,14 +245,12 @@ namespace MembershipPortal.Repositories
                 .ToListAsync();
 
             filterlist = filterlist.Where(
-                                    m => 
-                                   
-                                    m.CGST.ToString().Contains(keyword) ||
+                                    m => m.CGST.ToString().Contains(keyword) ||
                                     m.SGST.ToString().ToLower().Contains(keyword) ||
                                     m.TotalTaxPercentage.ToString().Contains(keyword) ||
                                     m.Subscriber.FirstName.ToLower().Contains(keyword) ||
                                     m.Subscriber.LastName.ToLower().Contains(keyword) ||
-                                    m.Product.ProductName.ToLower().Contains(keyword) || 
+                                    m.Product.ProductName.ToLower().Contains(keyword) ||
                                     m.Product.Price.ToString().Contains(keyword) ||
                                     m.Discount.DiscountAmount.ToString().Contains(keyword) ||
                                     m.DiscountCode.ToLower().Contains(keyword) ||
@@ -303,7 +301,7 @@ namespace MembershipPortal.Repositories
             if (!string.IsNullOrWhiteSpace(subscriptionObj.SGST.ToString()))
             {
                 query = query.Where(subscription => subscription.SGST == subscriptionObj.SGST);
-            } 
+            }
             if (!string.IsNullOrWhiteSpace(subscriptionObj.CGST.ToString()))
             {
                 query = query.Where(subscription => subscription.CGST == subscriptionObj.CGST);
@@ -315,8 +313,6 @@ namespace MembershipPortal.Repositories
 
             return await query.ToListAsync();
         }
-
-
 
         public async Task<IEnumerable<Subscription>> GetAllSortedSubscriptions(string? sortColumn, string? sortOrder)
         {
@@ -373,67 +369,77 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
-        //public async  Task<(IEnumerable<Subscription>, int)> GetAllPaginatedTaxAsync(int page, int pageSize, Subscription subscriptionobj)
-        //{
-            
-        //        var query = _dbContext.Subscriptions.AsQueryable();
+        public async Task<(IEnumerable<Subscription>, int)> GetAllPaginatedSubscriptionsAsync(int page, int pageSize, Subscription subscriptionObj)
+        {
+            var query = _dbContext.Subscriptions.AsQueryable();
 
-              
-        //        if (subscriptionobj.SubscriberId > 0)
-        //        {
-        //            query = query.Where(subcription => subcription.SubscriberId == subscriptionobj.SubscriberId);
+            if (subscriptionObj.SubscriberId > 0)
+            {
+                query = query.Where(s => s.SubscriberId == subscriptionObj.SubscriberId);
+            }
+            if (subscriptionObj.ProductId > 0)
+            {
+                query = query.Where(s => s.ProductId == subscriptionObj.ProductId);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
+            {
+                query = query.Where(subscription => subscription.ProductName.Contains(subscriptionObj.ProductName));
+            }
+            if (subscriptionObj.ProductPrice > 0)
+            {
+                query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
+            }
+            if (subscriptionObj.DiscountId > 0)
+            {
+                query = query.Where(s => s.DiscountId == subscriptionObj.DiscountId);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
+            {
+                query = query.Where(subscription => subscription.DiscountCode.Contains(subscriptionObj.DiscountCode));
+            }
+            if (subscriptionObj.DiscountAmount > 0)
+            {
+                query = query.Where(subscription => subscription.DiscountAmount == subscriptionObj.DiscountAmount);
+            }
+            if (subscriptionObj.CGST > 0)
+            {
+                query = query.Where(subscription => subscription.CGST == subscriptionObj.CGST);
+            }
+            if (subscriptionObj.SGST > 0)
+            {
+                query = query.Where(subscription => subscription.SGST == subscriptionObj.SGST);
+            }
+            if (subscriptionObj.TotalTaxPercentage > 0)
+            {
+                query = query.Where(subscription => subscription.TotalTaxPercentage == subscriptionObj.TotalTaxPercentage);
+            }
+            if (subscriptionObj.PriceAfterDiscount > 0)
+            {
+                query = query.Where(subscription => subscription.PriceAfterDiscount == subscriptionObj.PriceAfterDiscount);
+            }
+            if (subscriptionObj.TaxAmount > 0)
+            {
+                query = query.Where(subscription => subscription.TaxAmount == subscriptionObj.TaxAmount);
+            }
+            if (subscriptionObj.FinalAmount > 0)
+            {
+                query = query.Where(subscription => subscription.FinalAmount == subscriptionObj.FinalAmount);
+            }
+            if (!string.IsNullOrEmpty(subscriptionObj.StartDate.ToString()) && subscriptionObj.StartDate != DateOnly.MinValue)
+            {
+                query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
+            }
+            if (!string.IsNullOrEmpty(subscriptionObj.ExpiryDate.ToString()) && subscriptionObj.ExpiryDate != DateOnly.MinValue)
+            {
+                query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
+            }
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
-        //        }
-        //        if (subscriptionobj.ProductId > 0)
-        //        {
-        //            query = query.Where(subcription => subcription.ProductId == subscriptionobj.ProductId);
-
-        //        }
-        //        if (subscriptionobj.TaxId > 0)
-        //        {
-        //            query = query.Where(subcription => subcription.TaxId == subscriptionobj.TaxId);
-
-        //        }
-                
-        //    query = query.Include(subscriber => subscriber.Gender);
-
-        //        int totalCount = await query.CountAsync();
-
-        //        int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+        }
 
 
-        //        query = query.Skip((page - 1) * pageSize).Take(pageSize);
-
-        //        // Apply sorting if provided
-        //        if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
-        //        {
-        //            switch (sortColumn.ToLower())
-        //            {
-        //                case "firstname":
-        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
-        //                    break;
-        //                case "lastname":
-        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
-        //                    break;
-        //                case "email":
-        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
-        //                    break;
-        //                case "contactnumber":
-        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
-        //                    break;
-        //                case "genderid":
-        //                    query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
-        //                    break;
-        //                default:
-        //                    query = query.OrderBy(s => s.Id);
-        //                    break;
-        //            }
-        //        }
-
-        //        // Execute query and return paginated and sorted results along with total count
-        //        return (await query.ToListAsync(), totalCount);
-        //    }
-
-        
     }
 }
