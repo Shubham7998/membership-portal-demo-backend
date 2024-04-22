@@ -130,6 +130,8 @@ namespace MembershipPortal.Repositories
 
             if (oldSubscription != null)
             {
+                oldSubscription.StartDate = updateSubscriptionDTO.StartDate;
+                oldSubscription.ExpiryDate = updateSubscriptionDTO.ExpiryDate;
 
                 if(oldSubscription.ProductId != updateSubscriptionDTO.ProductId)
                 {
@@ -385,6 +387,10 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
             }
+            if (subscriptionObj.SubscriberId > 0)
+            {
+                query = query.Where(subscription => subscription.SubscriberId == subscriptionObj.SubscriberId);
+            }
             if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
             {
                 query = query.Where(subscription => subscription.DiscountCode == subscriptionObj.DiscountCode);
@@ -431,6 +437,10 @@ namespace MembershipPortal.Repositories
                 bool isAscending = sortOrder.ToLower() == "asc";
                 switch (sortColumn.ToLower())
                 {
+
+                    case "subscriberid":
+                        query = isAscending ? query.OrderBy(s => s.Subscriber.FirstName) : query.OrderByDescending(s => s.Subscriber.FirstName);
+                        break;
                     case "productname":
                         query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
                         break;
