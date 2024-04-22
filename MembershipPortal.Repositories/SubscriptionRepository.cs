@@ -424,12 +424,7 @@ namespace MembershipPortal.Repositories
                 query = query.Where(subscription => subscription.TotalTaxPercentage == subscriptionObj.TotalTaxPercentage);
             }
 
-            int totalCount = await query.CountAsync();
-
-            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
-
-
-            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            
 
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
             {
@@ -441,7 +436,7 @@ namespace MembershipPortal.Repositories
                         query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
                         break;
                     case "subscriberid":
-                        query = isAscending ? query.OrderBy(s => s.SubscriberId) : query.OrderByDescending(s => s.SubscriberId);
+                        query = isAscending ? query.OrderBy(s => s.Subscriber.FirstName) : query.OrderByDescending(s => s.Subscriber.FirstName);
                         break;
                     case "productprice":
                         query = isAscending ? query.OrderBy(s => s.ProductPrice) : query.OrderByDescending(s => s.ProductPrice);
@@ -482,6 +477,12 @@ namespace MembershipPortal.Repositories
                 }
 
             }
+            int totalCount = await query.CountAsync();
+
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             return (await query.ToListAsync(), totalCount);
         }

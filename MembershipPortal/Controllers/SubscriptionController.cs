@@ -139,6 +139,7 @@ namespace MembershipPortal.API.Controllers
                 
                 var paginatedSubscriptionDTOAndTotalPages = await _subscriptionService.GetAllPaginatedAndSortedSubscriptionAsync(page, pageSize, sortColumn, sortOrder, new Subscription()
                 {
+
                     Id = subscriptionDTO.Id,
                     SubscriberId = subscriptionDTO.SubscriberId,
                     ProductId = subscriptionDTO.ProductId,
@@ -147,10 +148,8 @@ namespace MembershipPortal.API.Controllers
                     DiscountId = subscriptionDTO.DiscountId,
                     DiscountCode = subscriptionDTO.DiscountCode,
                     DiscountAmount = subscriptionDTO.DiscountAmount,
-
                     StartDate = String.IsNullOrEmpty(subscriptionDTO.StartDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscriptionDTO.StartDate,
                     ExpiryDate = String.IsNullOrEmpty(subscriptionDTO.ExpiryDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscriptionDTO.ExpiryDate,
-
                     PriceAfterDiscount = subscriptionDTO.PriceAfterDiscount,
                     TaxId = subscriptionDTO.TaxId,
                     CGST = subscriptionDTO.CGST,
