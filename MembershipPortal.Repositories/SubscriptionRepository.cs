@@ -440,6 +440,9 @@ namespace MembershipPortal.Repositories
                     case "productname":
                         query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
                         break;
+                    case "subscriberid":
+                        query = isAscending ? query.OrderBy(s => s.SubscriberId) : query.OrderByDescending(s => s.SubscriberId);
+                        break;
                     case "productprice":
                         query = isAscending ? query.OrderBy(s => s.ProductPrice) : query.OrderByDescending(s => s.ProductPrice);
                         break;
